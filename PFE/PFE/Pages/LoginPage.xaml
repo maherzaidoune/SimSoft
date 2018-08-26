@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.LoginPage"
+             xmlns:controls="clr-namespace:PFE.Rendereres"
+             xmlns:local="clr-namespace:PFE">
+
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" >
+            <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <Label Text="Groupe  "  VerticalOptions="Center"/>
+                <controls:CustomPicker HorizontalOptions="EndAndExpand"
+                     HeightRequest="40" 
+                     WidthRequest="200"
+                     ItemsSource="{Binding _role}"
+                     ItemDisplayBinding="{Binding INTITULEGRP}"
+                     SelectedItem="{Binding selectedrole}"
+                     Image="down"
+                     Title="Administrateur">
+                </controls:CustomPicker>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" >
+                <Label Text="Utiisateur  " VerticalOptions="Center"/>
+                <controls:CustomPicker HorizontalOptions="EndAndExpand"
+                     HeightRequest="40" 
+                     WidthRequest="200"
+                     Image="down"
+                     ItemsSource="{Binding _user}"
+                     ItemDisplayBinding="{Binding USRLOGIN}"
+                     SelectedItem="{Binding selecteduser}"
+                                       IsEnabled="{Binding isEnabled}"
+                     Title="Admin">
+                </controls:CustomPicker>
+            </StackLayout>
+            <StackLayout IsVisible="{Binding isEnabled}" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <Label Text="Mot de Passe  " VerticalOptions="Center"/>
+                <Entry Placeholder="  Mot de passe" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+            </StackLayout>
+        </StackLayout>
+        <ActivityIndicator Color="Red" Grid.Row="2" Grid.ColumnSpan="2" IsVisible="{Binding loading }" IsRunning="{Binding loading }" ></ActivityIndicator>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" IsVisible="{Binding isEnabled}" IsEnabled="{Binding isEnabled}" Text="Connecter"  Command="{Binding validate}" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" IsVisible="{Binding isEnabled}" IsEnabled="{Binding isEnabled}" Text="Quitter"  Command="{Binding quit}" ></Button>
+    </Grid>
+</ContentPage>

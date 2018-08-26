@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.GroupManPage">
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+            <Label Text="Group  " VerticalOptions="Center"/>
+            <Entry Placeholder="Group" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding group , Mode=TwoWay}"  />
+        </StackLayout>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Ajouter"  Command="{Binding validate}" ></Button>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#283593" Text="Modifier"  Command="{Binding modifier}" ></Button>
+        <ListView
+            Grid.Row="2" Grid.ColumnSpan="2"
+                ItemsSource="{Binding groupeList}"
+                RowHeight="30"
+                SelectedItem="{Binding selectedGroup}"
+                SeparatorColor="LightGray"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                RefreshCommand="{Binding refresh}"
+                IsRefreshing="{Binding refreshing,Mode=TwoWay}"
+                HasUnevenRows="True" >
+            <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#fcfcfc" Margin="1" CompressedLayout.IsHeadless="True">
+                            <Label Text="{Binding INTITULEGRP}" FontSize="18" TextColor="Black" Margin="5" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Row="3" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Valider"  Command="{Binding save}" ></Button>
+        <Button Grid.Row="3" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Supprimer"  Command="{Binding delete}" ></Button>
+    </Grid>
+</ContentPage>

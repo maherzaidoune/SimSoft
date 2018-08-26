@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:PFE.Rendereres"
+             x:Class="PFE.Pages.UserPage">
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2">
+            <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <Label Text="Nom d'utilisateur  " VerticalOptions="Center"/>
+                <Entry Placeholder="Nom d'utilisateur" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding username , Mode=TwoWay}"  />
+            </StackLayout>
+            <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <Label Text="Login  " VerticalOptions="Center"/>
+                <Entry Placeholder="Login" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding login , Mode=TwoWay}"  />
+            </StackLayout>
+            <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <Label Text="Password  " VerticalOptions="Center"/>
+                <Entry Placeholder="Password" WidthRequest="195" PlaceholderColor="Gray" IsPassword="True" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding pass , Mode=TwoWay}"  />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" >
+                <Label Text="Groupe  " VerticalOptions="Center"/>
+                <controls:CustomPicker HorizontalOptions="EndAndExpand"
+                     HeightRequest="40" 
+                     WidthRequest="200"
+                     Image="down"
+                     ItemsSource="{Binding _role}"
+                     ItemDisplayBinding="{Binding INTITULEGRP}"
+                     SelectedItem="{Binding selectedrole}"
+                     Title="Group">
+                </controls:CustomPicker>
+            </StackLayout>
+        </StackLayout>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Ajouter"  Command="{Binding validate}" ></Button>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#283593" Text="Modifier"  Command="{Binding modifier}" ></Button>
+        <ListView
+            Grid.Row="2" Grid.ColumnSpan="2"
+            ItemsSource="{Binding userList}"
+            RowHeight="30"
+            SelectedItem="{Binding selectedUser, Mode=TwoWay}"
+            SeparatorColor="LightGray"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            HasUnevenRows="True" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#fcfcfc" Margin="1" CompressedLayout.IsHeadless="True">
+                            <Label Text="{Binding USRLOGIN}" FontSize="18" TextColor="Black" Margin="5" HorizontalOptions="Start" VerticalOptions="Center"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Row="3" TextColor="White" Grid.Column="0" IsVisible="{Binding enabled}" IsEnabled="{Binding enabled}" BackgroundColor="#33691e" Text="Valider"  Command="{Binding save}" ></Button>
+        <Button Grid.Row="3" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Supprimer"  IsVisible="{Binding enabled}" IsEnabled="{Binding enabled}"  Command="{Binding delete}" ></Button>
+    </Grid>
+</ContentPage>

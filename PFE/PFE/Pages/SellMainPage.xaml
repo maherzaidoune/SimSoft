@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.SellMainPage">
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Row="0" TextColor="White" Grid.Column="0" BackgroundColor="#283593" Text="saisie d'un devis" Command="{Binding devis}" ></Button>
+        <Button Grid.Row="0" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="bon de command" Command="{Binding bondecommand}" ></Button>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#ffb300" Text="bon de livraison" Command="{Binding bondelivr}" ></Button>
+        <Button Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#5d4037" Text="bon de retour" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="facture de vente" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#ab47bc" Text="facture de retour" ></Button>
+        <Button Grid.Row="3" TextColor="White" Grid.ColumnSpan="2" BackgroundColor="#b71c1c" Text="Quitter" ></Button>
+    </Grid>
+</ContentPage>

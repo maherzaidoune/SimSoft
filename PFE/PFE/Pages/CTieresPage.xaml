@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.CTieresPage">
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" HeightRequest="40" >
+            <Label Text="Recherche " VerticalOptions="Center"/>
+            <Entry Placeholder="Recherche.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding search , Mode=OneWayToSource}"  />
+            <Button  TextColor="White"  BackgroundColor="#283593"  Text="F"  Command="{Binding find}" ></Button>
+        </StackLayout>
+        <ListView
+            Grid.Row="1" Grid.ColumnSpan="2"
+                ItemsSource="{Binding tiersList,Mode=TwoWay}"
+                RowHeight="30"
+                SeparatorColor="LightGray"
+        SelectedItem="{Binding tiers,Mode=TwoWay}"
+                VerticalOptions="Fill"
+                HorizontalOptions="Fill"
+                HasUnevenRows="True" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout HeightRequest="30" Orientation="Horizontal"  HorizontalOptions="Fill" BackgroundColor="#fcfcfc" Margin="1" >
+                            <Label Text="{Binding TIRID}" HorizontalOptions="Start" />
+                            <Label Text="||" HorizontalOptions="Start" />
+                            <Label Text="{Binding TIRCODE}" HorizontalOptions="Start" />
+                            <Label Text="||" HorizontalOptions="Start" />
+                            <Label Text="{Binding TIRSOCIETE}" HorizontalOptions="Start" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e"  Text="Valider"  Command="{Binding validate}" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Annuler"  Command="{Binding back}" ></Button>
+    </Grid>
+</ContentPage>

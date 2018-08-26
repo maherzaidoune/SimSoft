@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.ConfiPage">
+    <Grid RowSpacing="0" ColumnSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" >
+            <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
+        </StackLayout>
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="2" >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                <Label Text="IP server" VerticalOptions="Center"/>
+                <Entry Placeholder="127.0.0.1" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding ipServer , Mode=OneWayToSource}"  />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                <Label Text="Nom de base de donne" VerticalOptions="Center"/>
+                <Entry Placeholder="database" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding db , Mode=OneWayToSource}"  />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                <Label Text="Utilisateur" VerticalOptions="Center"/>
+                <Entry Placeholder="user" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding user , Mode=OneWayToSource}"  />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                <Label Text="Mot de passe" VerticalOptions="Center"/>
+                <Entry Placeholder="password" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" IsPassword="True"  Text="{Binding passord , Mode=OneWayToSource}"  />
+            </StackLayout>
+        </StackLayout>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Valider" Command="{Binding valider}" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="Tester" Command="{Binding tester}" ></Button>
+    </Grid>
+</ContentPage>
