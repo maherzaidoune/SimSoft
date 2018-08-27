@@ -31,5 +31,16 @@ namespace PFE.Helper
                 App.Current.MainPage = tabs;
             });
         }
+        public static void initTabsBuyBC()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<BuyBCEntPageModel>("Entete", "add.png");
+            tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
+            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage = tabs;
+            });
+        }
     }
 }
