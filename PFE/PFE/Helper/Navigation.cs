@@ -31,6 +31,43 @@ namespace PFE.Helper
                 App.Current.MainPage = tabs;
             });
         }
+
+        public static void initTabsSellBR()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<SellBREntPageModel>("Entete", "add.png");
+            tabs.AddTab<SellLignePageModel>("Ligne", "details.png");
+            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage = tabs;
+            });
+        }
+
+        public static void initTabsSellFV()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<SellFVEntPageModel>("Entete", "add.png");
+            tabs.AddTab<SellLignePageModel>("Ligne", "details.png");
+            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage = tabs;
+            });
+        }
+
+        public static void initTabsSellFR()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<SellFREntPageModel>("Entete", "add.png");
+            tabs.AddTab<SellLignePageModel>("Ligne", "details.png");
+            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage = tabs;
+            });
+        }
+
         public static void initTabsBuyBC()
         {
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };

@@ -61,4 +61,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Pages\SellBREntPage.cs" />
+  </ItemGroup>
 </Project>

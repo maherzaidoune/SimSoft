@@ -115,7 +115,7 @@ namespace PFE.Services
             return null;
         }
 
-        public Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null)
+        public Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null, bool like = false)
         {
             Constant c = new Constant("http://192.168.43.174:3000");
             try
@@ -123,8 +123,12 @@ namespace PFE.Services
                 if(string.IsNullOrEmpty(PINLIBELLE) && string.IsNullOrEmpty(PINSENSSTOCK)) 
                     return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE).GetJsonAsync<IList<PIECE_NATURE>>();
                 if (string.IsNullOrEmpty(PINLIBELLE))
-                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][(PINSENSSTOCK]=" + PINSENSSTOCK).GetJsonAsync<IList<PIECE_NATURE>>();
-                //return (c.piece_nature_uri + "?filter[where][AND][0][PICCODE ]=" + PICCODE + "&filter[where][AND][1][PITCODE ]=" + PITCODE + "&filter[where][AND][1][(PINSENSSTOCK]=" + PINSENSSTOCK).GetJsonAsync<IList<PIECE_NATURE>>();
+                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINSENSSTOCK]=" + PINSENSSTOCK).GetJsonAsync<IList<PIECE_NATURE>>();
+
+                if(like){
+                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE +  "&filter[where][and][2][PINLIBELLE][like]=" + PINLIBELLE).GetJsonAsync<IList<PIECE_NATURE>>();
+                }
+                return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINLIBELLE][nlike]=" + PINLIBELLE).GetJsonAsync<IList<PIECE_NATURE>>();
             }
             catch (FlurlHttpException e)
             {

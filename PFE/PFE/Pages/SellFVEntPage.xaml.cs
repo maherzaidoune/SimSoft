@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace PFE.Pages
 {
-    public partial class BuyBCLigPage : ContentPage
+    public partial class SellFVEntPage : ContentPage
     {
-        public BuyBCLigPage()
+        public SellFVEntPage()
         {
             InitializeComponent();
             if (Device.RuntimePlatform == Device.Android)

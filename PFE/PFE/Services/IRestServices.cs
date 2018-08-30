@@ -27,6 +27,6 @@ namespace PFE.Services
         ARTDEPOT GetARTDEPOTbyDepArtid(string ARTID);
         TVA GetTVAbyTVACODE(string VACODE);
         Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null);
-        Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null);
+        Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null , bool like = false);
     }
 }

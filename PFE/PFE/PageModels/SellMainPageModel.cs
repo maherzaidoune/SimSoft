@@ -14,6 +14,24 @@ namespace PFE.PageModels
         public ICommand devis => new Command(_devis);
         public ICommand bondecommand => new Command(_bondecommand);
         public ICommand bondelivr => new Command(_bondelivr);
+        public ICommand bonderetout => new Command(_bonderetout);
+        public ICommand facturev => new Command(_facturev);
+        public ICommand facturer => new Command(_facturer);
+
+        private void _facturer(object obj)
+        {
+            Navigation.initTabsSellFR();
+        }
+
+        private void _facturev(object obj)
+        {
+            Navigation.initTabsSellFV();
+        }
+
+        private void _bonderetout(object obj)
+        {
+            Navigation.initTabsSellBR();
+        }
 
         private void _bondelivr(object obj)
         {
