@@ -115,7 +115,7 @@ namespace PFE.Services
             return null;
         }
 
-        public Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null, bool like = false)
+        public Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null, bool like = false )
         {
             Constant c = new Constant("http://192.168.43.174:3000");
             try
@@ -142,6 +142,27 @@ namespace PFE.Services
             }
             return null;
         }
+
+        public Task<IList<PIECE_NATURE>> GetPieceNaturebyPINID(String PINID)
+        {
+            Constant c = new Constant("http://192.168.43.174:3000");
+            try
+            {
+                return (c.piece_nature_uri + "?filter[where][PINID]=" + PINID ).GetJsonAsync<IList<PIECE_NATURE>>();
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
 
         public Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null)
         {

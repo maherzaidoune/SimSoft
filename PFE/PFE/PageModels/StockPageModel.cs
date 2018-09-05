@@ -21,22 +21,26 @@ namespace PFE.PageModels
         {
             try
             {
+
                 stock = new List<stockElement>(){
-                    new stockElement(){label="ARTID" , info =  depot.ARTID.ToString()},
-                    new stockElement(){label="DEPID" , info = depot.DEPID.ToString()},
-                    new stockElement(){label="ARDEMPLACEMENT" , info = depot.ARDEMPLACEMENT?? " "},
-                    new stockElement(){label="ARDSEUILMIN" , info = depot.ARDSEUILMIN.ToString()},
-                    new stockElement(){label="ARDSEUILMAX" , info = depot.ARDSEUILMAX.ToString()},
+                  //  new stockElement(){label="ARTID" , info =  depot.ARTID.ToString()},
+                   // new stockElement(){label="DEPID" , info = depot.DEPID.ToString()},
+                   // new stockElement(){label="ARDEMPLACEMENT" , info = depot.ARDEMPLACEMENT?? " "},
+                   // new stockElement(){label="ARDSEUILMIN" , info = depot.ARDSEUILMIN.ToString()},
+                  //  new stockElement(){label="ARDSEUILMAX" , info = depot.ARDSEUILMAX.ToString()},
                     new stockElement(){label="ARDSTOCKREEL" , info = depot.ARDSTOCKREEL.ToString()},
                     new stockElement(){label="ARDSTOCKCDE" , info = depot.ARDSTOCKCDE.ToString()},
                     new stockElement(){label="ARDSTOCKRSV" , info = depot.ARDSTOCKRSV.ToString()},
+                    new stockElement() {label="terme" , info = (depot.ARDSTOCKREEL + depot.ARDSTOCKCDE - depot.ARDSTOCKRSV).ToString()}
+                   /*
                     new stockElement(){label="ARDLASTDATEIN" , info = depot.ARDLASTDATEIN.ToString()},
                     new stockElement(){label="ARDLASTDATEOUT" , info = depot.ARDLASTDATEOUT.ToString()},
                     new stockElement(){label="ARDSTOCKFAB" , info = depot.ARDSTOCKFAB.ToString()},
                     new stockElement(){label="ARDSTOCKSAV" , info = depot.ARDSTOCKSAV.ToString()},
                     new stockElement(){label="ARDSTOCKCTM" , info = depot.ARDSTOCKCTM.ToString()},
-                    new stockElement(){label="ARDISBLOQUE" , info = depot.ARDISBLOQUE?? " "},
+                    new stockElement(){label="ARDISBLOQUE" , info = depot.ARDISBLOQUE?? " "}, */
                 };
+
             }
             catch (Exception e)
             {

@@ -1,3 +1,4 @@
+using Akavache;
 using FreshMvvm;
 using PFE.Services;
 using System;
@@ -12,6 +13,8 @@ namespace PFE
 		public App ()
 		{
 		    InitializeComponent();
+            BlobCache.ApplicationName = "simsoft";
+            BlobCache.EnsureInitialized();
             SetUpIOC();
             var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);

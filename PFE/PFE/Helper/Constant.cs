@@ -133,6 +133,33 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTDEPOTs";
             }
         }
+        public string PIECEDIVERs_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEDIVERs";
+            }
+        }
+        public string OPERATIONSTOCKs_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/OPERATIONSTOCKs";
+            }
+        }
+        public string IDENTIFIANTTABLEs_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/IDENTIFIANTTABLEs";
+            }
+        }
 
     }
 }

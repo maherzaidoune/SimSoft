@@ -18,13 +18,13 @@ namespace PFE.Services
                     toastConfig.SetDuration(1500);
                     if (error)
                     {
-                        toastConfig.SetBackgroundColor(System.Drawing.Color.Red);
+                        toastConfig.SetBackgroundColor(Color.Red);
                     }
                     else
                     {
-                        toastConfig.SetBackgroundColor(System.Drawing.Color.LimeGreen);
+                        toastConfig.SetBackgroundColor(Color.LimeGreen);
                     }
-                    toastConfig.MessageTextColor = System.Drawing.Color.White;
+                    toastConfig.MessageTextColor = Color.White;
                     toastConfig.SetPosition(ToastPosition.Bottom);
                     UserDialogs.Instance.Toast(toastConfig);
                 }
@@ -32,8 +32,8 @@ namespace PFE.Services
                 {
                     var toastConfig = new ToastConfig("ERROR " + e.Message);
                     toastConfig.SetDuration(1000);
-                    toastConfig.SetBackgroundColor(System.Drawing.Color.Red);
-                    toastConfig.MessageTextColor = System.Drawing.Color.White;
+                    toastConfig.SetBackgroundColor(Color.Red);
+                    toastConfig.MessageTextColor = Color.White;
                     toastConfig.SetPosition(ToastPosition.Bottom);
                     UserDialogs.Instance.Toast(toastConfig);
                 }
