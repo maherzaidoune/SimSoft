@@ -10,7 +10,7 @@ using Xamarin.Forms;
 namespace PFE.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    public class StockMEPageModel : FreshMvvm.FreshBasePageModel
+    public class StockMTPageModel : FreshMvvm.FreshBasePageModel
     {
 
         private PIECE_NATURE _selectednature
@@ -53,17 +53,32 @@ namespace PFE.PageModels
         public string numeroPiece { get; set; }
 
         public IList<depot> depo { get; set; }
-        private depot _selectedDepo;
-        public depot selectedDepot
+        private depot _selectedDepoin;
+        public depot selectedDepotin
         {
             get
             {
-                return _selectedDepo;
+                return _selectedDepoin;
             }
             set
             {
-                _selectedDepo = value;
-                //depin no need to know the quatitity
+                _selectedDepoin = value;
+            }
+        }
+        private depot _selectedDepotout;
+        public depot selectedDepotout
+        {
+            get
+            {
+                return _selectedDepotout;
+            }
+            set
+            {
+                _selectedDepotout = value;
+                Task.Run(() =>
+                {
+                    Quantity = _restService.GetARTDEPOTbyDepid(value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                });
             }
         }
 
@@ -93,7 +108,7 @@ namespace PFE.PageModels
             get;
             set;
         }
-         
+
 
         public ARTFAMILLES_CPT artfamilles_cpt
         {
@@ -106,9 +121,9 @@ namespace PFE.PageModels
             set;
         }
 
-        public string Quantity { get; set;}
+        public string Quantity { get; set; }
 
-        private string _pht ;
+        private string _pht;
         public string pht
         {
             get
@@ -126,7 +141,8 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            if(int.Parse(Quantity) < 0){
+            if (int.Parse(Quantity) < 0)
+            {
                 _dialogService.ShowMessage("Error : Quantity can't be null ", true);
                 return;
             }
@@ -135,16 +151,15 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("Error : Price can't be null ", true);
                 return;
             }
-
             StockLigne stockLigne = new StockLigne
             {
                 code = code,
                 designation = designation,
                 quantite = Quantity,
                 prix = pht,
-                depin = selectedDepot,
-                depout = null,
-                sense = 1,
+                depin = selectedDepotin,
+                depout = selectedDepotout,
+                sense = 0,
                 article = article,
                 artfamilles_cpt = artfamilles_cpt,
                 artarifligne = artarifligne,
@@ -154,9 +169,10 @@ namespace PFE.PageModels
             };
             Task.Run(async () =>
             {
-                if (await _dataServices.addStockLigneMEAsync(stockLigne)){
+                if (await _dataServices.addStockLigneMTAsync(stockLigne))
+                {
                     _dialogService.ShowMessage("article " + code + " added to ligne list", false);
-                    MessagingCenter.Send(this, "ME");
+                    MessagingCenter.Send(this, "MT");
                 }
                 else
                     _dialogService.ShowMessage("error", true);
@@ -197,9 +213,7 @@ namespace PFE.PageModels
             }
 
         }
-
-
-        public StockMEPageModel(IRestServices _restService , IDataServices _dataServices , IDialogService _dialogService)
+        public StockMTPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
         {
             this._restService = _restService;
             this._dataServices = _dataServices;
@@ -210,7 +224,7 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
-                nature = await _restService.GetPieceNaturebyPINID("19");
+                nature = await _restService.GetPieceNaturebyPINID("18");
                 depo = await _restService.GetDepot("o");
             });
         }

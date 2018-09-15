@@ -6,7 +6,7 @@ namespace PFE.Models
     public partial class OPERATIONSTOCK
     {
         
-        public int OPEID { get; set; }
+        public int? OPEID { get; set; }
 
         public DateTime? DATECREATE { get; set; }
 
@@ -17,20 +17,20 @@ namespace PFE.Models
 
         public DateTime OPEDATE { get; set; }
 
-        public int PCID { get; set; }
+        public int? PCID { get; set; }
 
-        public int PLID { get; set; }
+        public int? PLID { get; set; }
 
      
         public string OPEREFPIECE { get; set; }
 
         public string PICCODE { get; set; }
 
-        public int PINID { get; set; }
+        public int? PINID { get; set; }
 
-        public int ARTID { get; set; }
+        public int? ARTID { get; set; }
 
-        public int DEPID { get; set; }
+        public int? DEPID { get; set; }
 
         public int? PROID { get; set; }
 
@@ -72,7 +72,7 @@ namespace PFE.Models
     
         public string OPEINTITULE { get; set; }
 
-        public int SOCID { get; set; }
+        public int? SOCID { get; set; }
 
         public DateTime? OPEFEFOFABRICATION { get; set; }
 
@@ -90,7 +90,7 @@ namespace PFE.Models
       
         public string OPEISMAJPA { get; set; }
 
-        public int CTMID { get; set; }
+        public int? CTMID { get; set; }
 
   
         public decimal OPEFRAIS { get; set; }

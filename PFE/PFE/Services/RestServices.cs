@@ -237,8 +237,8 @@ namespace PFE.Services
             try
             {
                 Constant c = new Constant("http://192.168.43.174:3000");
-                IList<PIECE_PREF> prefs = (c.pieceprefs_url  + "?filter[where][PINID]=" +nature).GetJsonAsync<IList<PIECE_PREF>>().Result;
-                var numauto =  (c.numauto_url + "?filter[where][NUMID]=" + prefs[0].NUMID ).GetJsonAsync<IList<NUMAUTO>>().Result;
+                PIECE_PREF  prefs = GetPIECE_PREF(nature);
+                var numauto =  (c.numauto_url + "?filter[where][NUMID]=" + prefs.NUMID ).GetJsonAsync<IList<NUMAUTO>>().Result;
                 return numauto[0];
             }
             catch (FlurlHttpException e)
@@ -458,6 +458,425 @@ namespace PFE.Services
             }
             return null;
         }
+
+        public bool PostToStock(IList<StockLigne> stocks)
+        {
+            try{
+                foreach(StockLigne s in stocks){
+                    if(PostStockElement(s, stocks.Count))
+                        Console.WriteLine(s.designation + "post succefully ");
+                }
+                return true;
+            }catch(Exception ex){
+                Console.WriteLine(ex.StackTrace);
+                return false;
+            }
+        }
+
+        public bool PostStockElement(StockLigne obj, int num)
+        {
+            try{
+                    MEMOS m = new MEMOS
+                    {
+                        MEMOISALERTE = "N"
+                    };
+                string PCDNUMEXT = "";
+                string type = "";
+                int PCDID = getPieceDiversNumber() + 1;
+                if (obj.depin != null && obj.depout != null){
+                    PCDNUMEXT = "Bon de transfert de dépot";
+                    type = "BTR";
+                }
+                else if (obj.depin != null){
+                    PCDNUMEXT = "Bon entrée en stock";
+                    type = "SIN";
+                }
+                else{
+                    PCDNUMEXT = "Bon sortir en stock";
+                    type = "SOUT";
+                }
+
+
+                ARTDEPOT depo = GetARTDEPOTbyDepArtid(obj.article.ARTID.ToString());
+
+                // artdepot problem of multiple id
+
+
+                PIECE_PREF prefs = GetPIECE_PREF(obj.pIECE_NATURE.PINID.ToString() , "o");
+
+                PIECEDIVERS p = new PIECEDIVERS
+                {
+                        PCDID = PCDID,
+                        PCDNUM = Helper.Strings.getNum(PCDID,type),
+                        PCDMNTHT = int.Parse(obj.prix),
+                        PCDNUMEXT = PCDNUMEXT,
+                        DEPID_IN =   (obj.depin!=null )? (int)obj.depin.DEPID : 0,
+                        DEPID_OUT = (obj.depout != null) ? (int)obj.depout.DEPID : 0,
+                        PCDPOIDS = int.Parse(obj.quantite),
+                        PITCODE = "B",
+                        PINID = obj.pIECE_NATURE.PINID,
+                        PINCODE = obj.designation,
+                        EXEID = 1,
+                        TRFID = 1,
+                        PCDNBIMPRESSION = 0,
+                        PCDUNITEPOIDS = 1000,
+                        PCDDATEEFFET = DateTime.Now,
+                        PCDDATE_FIN = DateTime.Now,
+                        PCDISSOLDE = "N",
+                        PCDISACTIVE = "N",
+                        PCDISCLOS = "N",
+                        PCDISPRINT = "N",
+                        PCDNBPRINT = 1,
+                        PCDMNTTTC = 0,
+                        USRMODIF = "",
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        PCDDATEPRINT = DateTime.Now,
+                        PCDDATE_DEBUT = DateTime.Now,
+                        MEMOID = getMemosNumber() + 1,
+                        MODID = prefs.MODID,
+                        NUMID = (int)obj.numauto.NUMID,
+                        SOCID=1
+                };
+
+                PIECEDIVERSLIGNES pl = new PIECEDIVERSLIGNES
+                {
+
+                    PLDNUMLIGNE = num,
+                    PLDTYPE = "L",
+                    PLDDATE = DateTime.Now,
+                    DEPID = obj.depin == null ? obj.depout.DEPID : obj.depin.DEPID,
+                    TIRIDFOU = 0,
+                    PLDISSOUMISESC = "N",
+                    PLDDESIGNATION = obj.article.ARTDESIGNATION,
+                    TPFCODE = 0,
+                    PCDID = (int)p.PCDID,
+                    PLDSTOTID = 1,
+                    PLDCOEFFUV = 100000,
+                    ARTTYPE = "A",
+                    PLDFRAIS1T = "P",
+                    PLDFRAIS2T = "P",
+                    PLDFRAIS3T = "P",
+                    PLDREMISE_T = "P",
+                    PLDQTE = int.Parse(obj.quantite),
+                    PLDQTEUS = int.Parse(obj.quantite),
+                    ARTID = obj.article.ARTID,
+                    PLDISFORFAIT = "N",
+                    PLDMNTNETHT = int.Parse(obj.prix),
+                    TVACODE = (int?)GetTVAbyTVACODE(obj.artfamilles_cpt.TVACODE_FR.ToString()).TVACODE,
+                    PLDID = getPieceDiversLignesNumber() + 1
+                };
+
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = getOperationStockNumber() + 20,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    //USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = obj.article.ARTID,
+                    DEPID = obj.depin.DEPID,
+                    USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "S",
+                    PINID = obj.pIECE_NATURE.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = short.Parse(obj.quantite),
+                    OPESENS = short.Parse(obj.sense.ToString()),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = pl.PCDID,
+                    PLID = pl.PLDID,
+                    CTMID=0,
+                    //tirid
+                    //opuint
+                };
+
+
+                return PostPiecedivers(p) &&
+                       PostPiecediversLigne(pl) &&
+                       PostOperationStock(o) &&
+                       PostIdentityTable("operationstock") &&
+                       PostIdentityTable("piecedivers");
+
+            }catch(Exception e){
+
+                    Console.WriteLine(e.StackTrace);
+                    return false;
+                  
+            } 
+
+        }
+
+        public bool PostPiecedivers(PIECEDIVERS piecediverse)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.PIECEDIVERs_url).PostJsonAsync(piecediverse).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostOperationStock(OPERATIONSTOCK operationStock)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.OPERATIONSTOCKs_url).PostJsonAsync(operationStock).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostIdentityTable(string idTable)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                var table = GetIDENTIFIANTTABLE(idTable);
+
+                return (c.IDENTIFIANTTABLEs_url + "/" + idTable).PatchJsonAsync(new
+                {
+                    CTNTABLE = idTable,
+                    CTNLASTID = table.CTNLASTID + 1
+                }).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public IDENTIFIANTTABLE GetIDENTIFIANTTABLE(string idTable)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return  (c.IDENTIFIANTTABLEs_url + "/" + idTable).GetJsonAsync<IDENTIFIANTTABLE>().Result;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public int getPieceDiversNumber()
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                var count = (c.PIECEDIVERs_url + "/count").GetJsonAsync<Count>();
+                return count.Result.count;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public int getOperationStockNumber()
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                var count = (c.OPERATIONSTOCKs_url + "/count").GetJsonAsync<Count>();
+                return count.Result.count;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public bool PostMemos(MEMOS memos)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.MEMOS_url).PostJsonAsync(memos).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public int getMemosNumber()
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                var count = (c.MEMOS_url + "/count").GetJsonAsync<Count>();
+                return count.Result.count;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public bool PostStockElement(StockLigne obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PIECE_PREF GetPIECE_PREF(string id , string PIPISDEFAULT = null)
+        {
+            try{
+                Constant c = new Constant("http://192.168.43.174:3000");
+                if(PIPISDEFAULT != null){
+                    return (c.pieceprefs_url + "?filter[where][and][0][PINID] = " + id + " & filter[where][and][1][PIPISDEFAULT] = " + PIPISDEFAULT).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
+                }
+                return (c.pieceprefs_url + "?filter[where][PINID]=" + id).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public int getPieceDiversLignesNumber()
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                var count = (c.PIECEDIVERSLIGNE_url + "/count").GetJsonAsync<Count>();
+                return count.Result.count;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public bool PostPiecediversLigne(PIECEDIVERSLIGNES piecediverseligne)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.PIECEDIVERSLIGNE_url).PostJsonAsync(piecediverseligne).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PatchArtdepot(ARTDEPOT artdepot, string artid)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.ARTDEPOTs_url + "/" + artid).PatchJsonAsync(artdepot).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        /*
+        public PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid)
+        {
+            Constant c = new Constant("http://192.168.43.174:3000");
+            try
+            {
+                return (c.PIECEDIVERSLIGNE_url + "?filter[where][ARTID]=" + artid).GetJsonAsync<IList<PIECEVENTELIGNE>>().Result[0];
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                //userNotAuth();
+            }
+            catch (Exception ex)
+            {
+                //noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        } */
     }
 
 }

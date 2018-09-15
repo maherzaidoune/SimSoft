@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PFE.Services
 {
-    interface IDialogService
+    public interface IDialogService
     {
         void ShowMessage(string message, bool error);
     }

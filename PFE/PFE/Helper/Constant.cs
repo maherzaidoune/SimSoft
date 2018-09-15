@@ -160,6 +160,24 @@ namespace PFE.Helper
                 return _baseUrl + "/api/IDENTIFIANTTABLEs";
             }
         }
+        public string MEMOS_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/MEMOs";
+            }
+        }
+        public string PIECEDIVERSLIGNE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEDIVERSLIGNEs";
+            }
+        }
 
     }
 }

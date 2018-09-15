@@ -64,6 +64,10 @@
                     <Label Text="Prix HT  " VerticalOptions="Center"/>
                     <Entry Placeholder="Prix HT.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric"  Text="{Binding pht , Mode=TwoWay}"  />
                 </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                    <Label Text="Quantite  " VerticalOptions="Center"/>
+                    <Entry Placeholder="Quantite.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric"  Text="{Binding Quantity , Mode=TwoWay}"  />
+                </StackLayout>
             </StackLayout>
 
         </ScrollView>

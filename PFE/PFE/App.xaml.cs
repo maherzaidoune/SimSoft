@@ -12,9 +12,9 @@ namespace PFE
 	{
 		public App ()
 		{
-		    InitializeComponent();
             BlobCache.ApplicationName = "simsoft";
             BlobCache.EnsureInitialized();
+            InitializeComponent();
             SetUpIOC();
             var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
@@ -24,6 +24,7 @@ namespace PFE
         {
             FreshMvvm.FreshIOC.Container.Register<IDialogService, DialogService>();
             FreshMvvm.FreshIOC.Container.Register<IRestServices, RestServices>();
+            FreshMvvm.FreshIOC.Container.Register<IDataServices, DataServices>();
         }
 
 

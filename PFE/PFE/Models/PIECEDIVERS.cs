@@ -6,7 +6,7 @@ namespace PFE.Models
 
     public partial class PIECEDIVERS
     {
-        public int PCDID { get; set; }
+        public int? PCDID { get; set; }
 
         public string PCDNUM { get; set; }
 
@@ -16,28 +16,28 @@ namespace PFE.Models
 
         public string PITCODE { get; set; }
 
-        public int PINID { get; set; }
+        public int? PINID { get; set; }
 
         public string PINCODE { get; set; }
 
-        public int EXEID { get; set; }
+        public int? EXEID { get; set; }
 
-        public int NUMID { get; set; }
+        public int? NUMID { get; set; }
 
         public int? AFFID { get; set; }
 
         public int? TRFID { get; set; }
 
-        public int DEPID_OUT { get; set; }
+        public int? DEPID_OUT { get; set; }
 
-        public int DEPID_IN { get; set; }
+        public int? DEPID_IN { get; set; }
 
         public int? EXPID { get; set; }
 
 
         public decimal PCDPOIDS { get; set; }
 
-        public int PCDUNITEPOIDS { get; set; }
+        public int? PCDUNITEPOIDS { get; set; }
 
         public DateTime PCDDATEEFFET { get; set; }
 
@@ -78,9 +78,8 @@ namespace PFE.Models
 
         public int? MEMOID { get; set; }
 
-        public int SOCID { get; set; }
+        public int? SOCID { get; set; }
 
-
-
+      
     }
 }

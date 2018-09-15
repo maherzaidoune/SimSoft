@@ -58,6 +58,8 @@ namespace PFE.PageModels
                                 break;
                         }
                     });
+                    Helper.Session.user = selecteduser;
+                    Helper.Session.group = selectedrole;
                 }
                 else
                 {
@@ -104,26 +106,14 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            //    _role = new List<UTILISATEURSGRP>
-            //{
-            //    new UTILISATEURSGRP(){ INTITULEGRP = "Administrator"},
-            //    new UTILISATEURSGRP(){ INTITULEGRP = "User"}
-            //};
-
-
-
-            //    _user = new List<UTILISATEUR>
-            //{
-            //    new UTILISATEUR(){ USRLOGIN = "maher"},
-            //    new UTILISATEUR(){ USRLOGIN = "Randa"},
-            //    new UTILISATEUR(){ USRLOGIN = "Bahloul"},
-            //};
             Task.Run(async () =>
             {
                 try
                 {
                     _role = await _restServices.GetGroupAsync();
                     // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
+                    if (_role == null)
+                        _dialogService.ShowMessage("server down ", true);
                 }
                 catch(Exception e)
                 {

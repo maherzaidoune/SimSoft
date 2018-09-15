@@ -25,9 +25,24 @@ namespace PFE.Services
         ARTTARIFLIGNE GetRTTARIFLIGNEbyARTID(string ARID);
         ARTDEPOT GetARTDEPOTbyDepid(string DEPID);
         ARTDEPOT GetARTDEPOTbyDepArtid(string ARTID);
+        bool PatchArtdepot(ARTDEPOT artdepot,string artid);
         TVA GetTVAbyTVACODE(string VACODE);
         Task<IList<PIECE_NATURE>> GetPieceNaturebyPINID(String PINID);
         Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null);
         Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null , bool like = false);
+        bool PostToStock(IList<StockLigne> stocks);
+        bool PostStockElement(StockLigne obj);
+        bool PostPiecedivers(PIECEDIVERS piecediverse);
+        bool PostPiecediversLigne(PIECEDIVERSLIGNES piecediverseligne);
+        bool PostOperationStock(OPERATIONSTOCK operationStock);
+        bool PostMemos(MEMOS memos);
+        IDENTIFIANTTABLE GetIDENTIFIANTTABLE(string idTable);
+        bool PostIdentityTable(string idTable);
+        int getPieceDiversNumber();
+        int getPieceDiversLignesNumber();
+        int getOperationStockNumber();
+        int getMemosNumber();
+        PIECE_PREF GetPIECE_PREF(string id, string PIPISDEFAULT = null);
+        //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
     }
 }

@@ -47,7 +47,9 @@ namespace PFE.PageModels
             get;
             set;
         }
+        private IDataServices _dataServices;
         private IRestServices _restService;
+        private IDialogService _dialogService;
         public IList<PIECE_NATURE> nature { get; set; }
         public string numeroPiece { get; set; }
 
@@ -64,7 +66,7 @@ namespace PFE.PageModels
                 _selectedDepo = value;
                 Task.Run(() =>
                 {
-                    storeQuantity = _restService.GetARTDEPOTbyDepid(value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    Quantity = _restService.GetARTDEPOTbyDepid(value.DEPID.ToString()).ARDSTOCKREEL.ToString();
                 });
             }
         }
@@ -107,7 +109,7 @@ namespace PFE.PageModels
             set;
         }
 
-        private string storeQuantity { get; set; }
+        public string Quantity { get; set; }
 
         private string _pht;
         public string pht
@@ -123,12 +125,46 @@ namespace PFE.PageModels
             }
         }
 
-        //save
         public ICommand validate => new Command(_validate);
 
         private void _validate(object obj)
         {
-            throw new NotImplementedException();
+            if (int.Parse(Quantity) < 0)
+            {
+                _dialogService.ShowMessage("Error : Quantity can't be null ", true);
+                return;
+            }
+            if (int.Parse(pht) < 0)
+            {
+                _dialogService.ShowMessage("Error : Price can't be null ", true);
+                return;
+            }
+            StockLigne stockLigne = new StockLigne
+            {
+                code = code,
+                designation = designation,
+                quantite = Quantity,
+                prix = pht,
+                depin = null,
+                depout = selectedDepot,
+                sense = -1,
+                article = article,
+                artfamilles_cpt = artfamilles_cpt,
+                artarifligne = artarifligne,
+                numpiece = numeroPiece,
+                numauto = numauto,
+                pIECE_NATURE = selectednature
+            };
+            Task.Run(async () =>
+            {
+                if (await _dataServices.addStockLigneMSAsync(stockLigne))
+                {
+                    _dialogService.ShowMessage("article " + code + " added to ligne list", false);
+                    MessagingCenter.Send(this, "MS");
+                }
+                else
+                    _dialogService.ShowMessage("error", true);
+            });
         }
 
         //get data by bc
@@ -150,26 +186,32 @@ namespace PFE.PageModels
                     try
                     {
                         article = _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
+                        designation = article.ARTDESIGNATION;
+                        _pht = artarifligne.ATFPRIX.ToString();
                         if (selectedDepot != null)
-                            storeQuantity = _restService.GetARTDEPOTbyDepid(selectedDepot.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                            Quantity = _restService.GetARTDEPOTbyDepid(selectedDepot.DEPID.ToString()).ARDSTOCKREEL.ToString();
 
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.StackTrace);
+                        _dialogService.ShowMessage("Error" + e.Message, true);
                     }
 
-                    designation = article.ARTDESIGNATION;
-                    pht = artarifligne.ATFPRIX.ToString();
+
                 });
             }
 
         }
 
-        public StockMSPageModel(IRestServices _restService)
+        public StockMSPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
         {
             this._restService = _restService;
+            this._dataServices = _dataServices;
+            this._dialogService = _dialogService;
         }
         public override void Init(object initData)
         {
