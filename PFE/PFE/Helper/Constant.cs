@@ -208,6 +208,15 @@ namespace PFE.Helper
                 return _baseUrl + "/api/EXERCICEs";
             }
         }
+        public string PRODUIT_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PRODUITs";
+            }
+        }
 
 
     }

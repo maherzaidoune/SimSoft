@@ -343,12 +343,16 @@ namespace PFE.Services
             return null;
         }
 
-        public ARTFAMILLES_CPT GetARTFAMILLES_CPTbyARFID(string ARFID)
+        public ARTFAMILLES_CPT GetARTFAMILLES_CPTbyARFID(string ARFID , string ARFCLASS = null)
         {
             try
             {
                 Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.ARTFAMILLES_CPTs_url + "?filter[where][ARFID]=" + ARFID).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
+                if (string.IsNullOrEmpty(ARFCLASS)){
+                    return (c.ARTFAMILLES_CPTs_url + "?filter[where][ARFID]=" + ARFID).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
+                }
+                return (c.ARTFAMILLES_CPTs_url + "?filter[where][and][0][ARFID] = " + ARFID + " & filter[where][and][1][ARFCLASS] = " + ARFCLASS).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
+
             }
             catch (FlurlHttpException e)
             {
@@ -1032,9 +1036,8 @@ namespace PFE.Services
                 //"PCVOBJET": "string",
                 TIRID_CPT = sell.tiers.TIRID
             };
-
-            PRODUIT p = null; // make produit model , and getter and settr from rest api
-
+            PRODUIT produit = getProduit("4475", "O");
+            ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
             PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
             {
                 PLVID = getPieceVenteLigne() + 1, // to be verified
@@ -1044,91 +1047,91 @@ namespace PFE.Services
                 PLVDATE = DateTime.Now,
                 DEPID = sell.depot.DEPID,
                 AFFID = sell.affaire.AFFID,
-                //"TIRIDREP": 0,
-                //"TIRIDFOU": 0,
-                //"PROID": 0,
-                //"ARTID": 0,
-                //"ARTTYPE": "string",
-                //"PLVISFORFAIT": "string",
-                //"PLVISSOUMISESC": "string",
-                //"PLVDESIGNATION": "string",
-                //"TVACODE": 0,
-                //"TPFCODE": 0,
-                //"CPTID": 0,
-                //"ANSID": 0,
-                //"PLVQTE": 0,
-                //"PLVQTEUS": 0,
-                //"PLVQTETRANSFO": 0,
-                //"PLVCOEFFUV": 0,
+                TIRIDREP = null,
+                TIRIDFOU = produit.TIRID,
+                PROID = produit.PROID,
+                ARTID = sell.articles.ARTID,
+                ARTTYPE = "A",
+                PLVISFORFAIT = "N",
+                PLVISSOUMISESC = "N",
+                PLVDESIGNATION = sell.articles.ARTDESIGNATION,
+                TVACODE = artfamilles.TVACODE_FR,
+                TPFCODE = 0,
+                CPTID = artfamilles.CPTID_FR,
+                ANSID = 7,
+                PLVQTE = sell.LivredQuantity,
+                PLVQTEUS = sell.LivredQuantity,
+                PLVQTETRANSFO = 0,
+                PLVCOEFFUV = 1,
                 //"PLVIDORG": 0,
-                //"PLVPUBRUT": 0,
-                //"PLVPUNET": 0,
-                //"PLVMNTNET": 0,
-                //"PLVMNTNETHT": 0,
+                PLVPUBRUT = (int?)sell.mutht,
+                PLVPUNET = (int?)(sell.mtht / sell.LivredQuantity),
+                PLVMNTNET = (int?)(sell.mutht * sell.LivredQuantity),
+                PLVMNTNETHT = (int?)sell.mtht,
                 //"PLVLASTPA": 0,
                 //"PLVPMP": 0,
                 //"PLVCUMP": 0,
-                //"PLVREMISE_F": "string",
-                //"PLVREMISE_T": "string",
-                //"PLVREMISE_MNT": 0,
+                PLVREMISE_F = sell.remise,
+                PLVREMISE_T = "P",
+                PLVREMISE_MNT = 0,
                 //"PLVSTOTID": 0,
-                //"PLVFRAIS1": 0,
-                //"PLVFRAIS1T": "string",
-                //"PLVFRAIS2": 0,
-                //"PLVFRAIS2T": "string",
-                //"PLVFRAIS3": 0,
-                //"PLVFRAIS3T": "string",
-                //"PLVFRAISTOTAL": 0,
-                //"PLVPOIDS": 0,
-                //"PLVUNITEPOIDS": 0,
+                PLVFRAIS1 = 0,
+                PLVFRAIS1T = "P",
+                PLVFRAIS2 = 0,
+                PLVFRAIS2T = "P",
+                PLVFRAIS3 = 0,
+                PLVFRAIS3T = "P",
+                PLVFRAISTOTAL = 0,
+                PLVPOIDS = 0,
+                PLVUNITEPOIDS = 0,
                 //"PLVDIVERS": "string",
                 //"PLVCOMMENTAIRE": "string",
                 //"PLVNUMLOT": "string",
                 //"PLVNUMSERIE": "string",
-                //"PLVPUBRUTREF": 0,
-                //"PLVARTCODE": "string",
-                //"PLVISIMPRIMABLE": "string",
-                //"PVOID": 0,
-                //"PLVSTYLEISGRAS": "string",
-                //"PLVSTYLEISITALIC": "string",
-                //"PLVSTYLEISIMPPARTIEL": "string",
-                //"PLVSTYLEISSOULIGNE": "string",
-                //"TRFID": 0,
+                PLVPUBRUTREF = (int?)sell.mutht,
+                PLVARTCODE = sell.articles.ARTCODE,
+                PLVISIMPRIMABLE = "o",
+                PVOID = 0,
+                PLVSTYLEISGRAS = "N",
+                PLVSTYLEISITALIC = "N",
+                PLVSTYLEISIMPPARTIEL = "N",
+                PLVSTYLEISSOULIGNE = "N",
+                TRFID = 1,
                 //"PLVFEFOFABRICATION": "2018-09-30T15:55:15.053Z",
                 //"PLVFEFOPEREMPTION": "2018-09-30T15:55:15.053Z",
                 //"PLVFEFODIVERS": "string",
-                //"TPFCODE1": 0,
-                //"TPFCODE2": 0,
-                //"TPFCODE3": 0,
-                //"TPFCODE4": 0,
-                //"TPFCODE5": 0,
-                //"TPFCODE6": 0,
-                //"TPFCODE7": 0,
-                //"TPFCODE8": 0,
-                //"TPFCODE9": 0,
-                //"PLVD1": 0,
-                //"PLVD2": 0,
-                //"PLVD3": 0,
-                //"PLVD4": 0,
-                //"PLVD5": 0,
-                //"PLVD6": 0,
-                //"PLVD7": 0,
-                //"PLVD8": 0,
-                //"PLVVOLUME": 0,
-                //"PLVUNITEVOLUME": 0,
-                //"PLVDENSITE": 0,
-                //"CTMID": 0,
-                //"PIFID": 0,
+                TPFCODE1 = 0,
+                TPFCODE2 = 0,
+                TPFCODE3 = 0,
+                TPFCODE4 = 0,
+                TPFCODE5 = 0,
+                TPFCODE6 = 0,
+                TPFCODE7 = 0,
+                TPFCODE8 = 0,
+                TPFCODE9 = 0,
+                PLVD1 = 0,
+                PLVD2 = 0,
+                PLVD3 = 0,
+                PLVD4 = 0,
+                PLVD5 = 0,
+                PLVD6 = 0,
+                PLVD7 = 0,
+                PLVD8 = 0,
+                PLVVOLUME = 0,
+                PLVUNITEVOLUME =  1,
+                PLVDENSITE = 0,
+                CTMID = 0,
+                PIFID = 0,
                 //"PLVLASTPR": 0,
                 //"PLVPRMP": 0,
                 //"PLVCRUMP": 0,
                 //"PLVFEFODIVERS1": "string",
                 //"PLVFEFODIVERS2": "string",
                 //"PLVFEFODIVERS3": "string",
-                //"PLVIDNOMC": 0,
-                //"PLVIDNOMCPERE": 0,
+                PLVIDNOMC = 0,
+                PLVIDNOMCPERE = 0,
                 //"TCKID": 0,
-                //"PLVISSTK": "string",
+                PLVISSTK = "O",
                 //"PLVCLF": "string"
             };
 
@@ -1208,6 +1211,27 @@ namespace PFE.Services
             }
             return 0;
         }
+
+        public PRODUIT getProduit(string PROCODE, string PROISPRINCIPAL)
+        {
+            try
+            {
+                Constant c = new Constant("http://192.168.43.174:3000");
+                return (c.PRODUIT_url + "?filter[where][and][0][PROCODE]=" + PROCODE + "&filter[where][and][1][PROISPRINCIPAL]=" + PROISPRINCIPAL).WithTimeout(7).GetJsonAsync<PRODUIT>().Result;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                noInternetConnection();
+            }
+            return null;
+        }
+
     }
 
 }

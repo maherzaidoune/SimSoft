@@ -21,7 +21,7 @@ namespace PFE.Services
         bool addUser(UTILISATEUR user);
         bool addUsers(IList<UTILISATEUR> users);
         ARTUNITE GetRTUNITE(string type);
-        ARTFAMILLES_CPT GetARTFAMILLES_CPTbyARFID(string ARFID);
+        ARTFAMILLES_CPT GetARTFAMILLES_CPTbyARFID(string ARFID , string ARFCLASS = null);
         ARTTARIFLIGNE GetRTTARIFLIGNEbyARTID(string ARID);
         ARTDEPOT GetARTDEPOTbyDepid(string ARTID, string DEPID);
         IList<ARTDEPOT> GetARTDEPOTbyDepArtid(string ARTID);
@@ -51,6 +51,7 @@ namespace PFE.Services
         int getPieceVente();
         int getEXERCICE();
         int getPieceVenteLigne();
+        PRODUIT getProduit(String PROCODE,String PROISPRINCIPAL);
         PIECE_PREF GetPIECE_PREF(string id, string PIPISDEFAULT = null);
         //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
     }

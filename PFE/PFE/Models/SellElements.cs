@@ -38,6 +38,11 @@ namespace PFE.Models
             get;
             set;
         }
+        public float mutht
+        {
+            get;
+            set;
+        }
         public float mtht
         {
             get;
@@ -49,6 +54,17 @@ namespace PFE.Models
             set;
         }
         public AFFAIRE affaire
+        {
+            get;
+            set;
+        }
+
+        public int LivredQuantity
+        {
+            get;
+            set;
+        }
+        public string remise
         {
             get;
             set;
