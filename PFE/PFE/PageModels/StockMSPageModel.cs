@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FreshMvvm;
 using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
@@ -12,6 +13,7 @@ namespace PFE.PageModels
     [AddINotifyPropertyChangedInterface]
     public class StockMSPageModel : FreshMvvm.FreshBasePageModel
     {
+        public float reelQuantity { get; set; }
 
         private PIECE_NATURE _selectednature
         {
@@ -64,10 +66,9 @@ namespace PFE.PageModels
             set
             {
                 _selectedDepo = value;
-                Task.Run(() =>
-                {
-                    Quantity = _restService.GetARTDEPOTbyDepid(value.DEPID.ToString()).ARDSTOCKREEL.ToString();
-                });
+
+                reelQuantity = (float) _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL;
+                Quantity = reelQuantity.ToString();
             }
         }
 
@@ -129,15 +130,33 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            if (int.Parse(Quantity) < 0)
+
+            try
             {
-                _dialogService.ShowMessage("Error : Quantity can't be null ", true);
-                return;
+                if (string.IsNullOrEmpty(Quantity))
+                {
+                    _dialogService.ShowMessage("Error : Quantity can't be null ", true);
+                    return;
+                }
+                if (int.Parse(Quantity) < 0)
+                {
+                    _dialogService.ShowMessage("Error : Quantity can't be null ", true);
+                    return;
+                }
+                if (int.Parse(Quantity) > reelQuantity)
+                {
+                    _dialogService.ShowMessage("Error : Quantity must be less or equals " + reelQuantity, true);
+                    return;
+                }
+                if (int.Parse(pht) < 0)
+                {
+                    _dialogService.ShowMessage("Error : Price can't be null ", true);
+                    return;
+                }
             }
-            if (int.Parse(pht) < 0)
+            catch
             {
-                _dialogService.ShowMessage("Error : Price can't be null ", true);
-                return;
+                _dialogService.ShowMessage("Error  ", true);
             }
             StockLigne stockLigne = new StockLigne
             {
@@ -170,11 +189,31 @@ namespace PFE.PageModels
         //get data by bc
         public ICommand valid => new Command(_valid);
         //scan br
-        public ICommand Scan => new Command(_Scan);
+        public ICommand scan => new Command(_Scan);
 
         private void _Scan(object obj)
         {
-            throw new NotImplementedException();
+           
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                {
+                    barreCode = result.Text;
+                    _valid(null);
+                    Console.WriteLine("Scanned Barcode: " + result.Text);
+                }
+
+            });
+        }
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         private void _valid(object obj)
@@ -191,9 +230,6 @@ namespace PFE.PageModels
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
                         _pht = artarifligne.ATFPRIX.ToString();
-                        if (selectedDepot != null)
-                            Quantity = _restService.GetARTDEPOTbyDepid(selectedDepot.DEPID.ToString()).ARDSTOCKREEL.ToString();
-
                     }
                     catch (Exception e)
                     {

@@ -12,7 +12,5 @@ namespace PFE.Models
 
         public string DEPINTITULE { get; set; }
         public string DEPISPRINCIPAL { get; set; }
-
-
     }
 }

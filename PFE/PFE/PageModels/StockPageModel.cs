@@ -14,45 +14,37 @@ namespace PFE.PageModels
     [AddINotifyPropertyChangedInterface]
     class StockPageModel : FreshMvvm.FreshBasePageModel
     {
-        public ICommand valid => new Command(_valid);
-        public ICommand tester => new Command(_teser);
+        public ICommand scan => new Command(_Scan);
 
-        private void _teser(object obj)
+        private void _Scan(object obj)
         {
-            try
+
+            Device.BeginInvokeOnMainThread(async () =>
             {
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
 
-                stock = new List<stockElement>(){
-                  //  new stockElement(){label="ARTID" , info =  depot.ARTID.ToString()},
-                   // new stockElement(){label="DEPID" , info = depot.DEPID.ToString()},
-                   // new stockElement(){label="ARDEMPLACEMENT" , info = depot.ARDEMPLACEMENT?? " "},
-                   // new stockElement(){label="ARDSEUILMIN" , info = depot.ARDSEUILMIN.ToString()},
-                  //  new stockElement(){label="ARDSEUILMAX" , info = depot.ARDSEUILMAX.ToString()},
-                    new stockElement(){label="ARDSTOCKREEL" , info = depot.ARDSTOCKREEL.ToString()},
-                    new stockElement(){label="ARDSTOCKCDE" , info = depot.ARDSTOCKCDE.ToString()},
-                    new stockElement(){label="ARDSTOCKRSV" , info = depot.ARDSTOCKRSV.ToString()},
-                    new stockElement() {label="terme" , info = (depot.ARDSTOCKREEL + depot.ARDSTOCKCDE - depot.ARDSTOCKRSV).ToString()}
-                   /*
-                    new stockElement(){label="ARDLASTDATEIN" , info = depot.ARDLASTDATEIN.ToString()},
-                    new stockElement(){label="ARDLASTDATEOUT" , info = depot.ARDLASTDATEOUT.ToString()},
-                    new stockElement(){label="ARDSTOCKFAB" , info = depot.ARDSTOCKFAB.ToString()},
-                    new stockElement(){label="ARDSTOCKSAV" , info = depot.ARDSTOCKSAV.ToString()},
-                    new stockElement(){label="ARDSTOCKCTM" , info = depot.ARDSTOCKCTM.ToString()},
-                    new stockElement(){label="ARDISBLOQUE" , info = depot.ARDISBLOQUE?? " "}, */
-                };
+                var result = await scanner.Scan();
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+                if (result != null)
+                {
+                    barreCode = result.Text;
+                    _valid(null);
+                }
 
+            });
         }
+
+        public ICommand valid => new Command(_valid);
+
 
         private void _valid(object obj)
         {
             try
             {
+                if(string.IsNullOrEmpty(barreCode)){
+                    _dialogService.ShowMessage("code can't be empty " , true);
+                    return;
+                }
                 article = _restService.getArticlebyBC(barreCode);
                 depot = _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
                 code = article.ARTCODE;
@@ -65,6 +57,12 @@ namespace PFE.PageModels
 
         }
 
+
+        public string terme
+        {
+            get;
+            set;
+        }
         public class stockElement
         {
             public string label { get; set; }
@@ -76,11 +74,12 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public IRestServices _restService
+        private IRestServices _restService
         {
             get;
             set;
         }
+        private IDialogService _dialogService { get; set; }
         public string barreCode
         {
             get;
@@ -96,14 +95,15 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public ARTDEPOT depot
+        public IList<ARTDEPOT> depot
         {
             get;
             set;
         }
-        public StockPageModel(IRestServices _restService)
+        public StockPageModel(IRestServices _restService , IDialogService _dialogService)
         {
             this._restService = _restService;
+            this._dialogService = _dialogService;
         }
 
         public override void Init(object initData)

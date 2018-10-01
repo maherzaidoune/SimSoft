@@ -7,7 +7,7 @@ namespace PFE.Models
 {
     public partial class TIERS
     {
-        public int?TIRID { get; set; }
+        public int? TIRID { get; set; }
         public string TIRCODE { get; set; }
         public string TIRTYPE { get; set; }
         public string TIRCODETRI { get; set; }

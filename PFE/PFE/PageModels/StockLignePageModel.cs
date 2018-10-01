@@ -36,8 +36,9 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("Done", false);
                     if(_dataServices.RemoveStockLigne()){
                         stockLigne.Clear();
+                    }else{
+                        _dialogService.ShowMessage("can't remove from database ",true);
                     }
-                    refresh = false;
                 }
             }catch(Exception e){
                 _dialogService.ShowMessage("Error" + e.Message, true);
@@ -47,8 +48,8 @@ namespace PFE.PageModels
                     RaisePropertyChanged();
                 });
             }
-             
-            }
+            refresh = false;
+        }
 
         public ICommand delete => new Command(_delete);
 
@@ -112,17 +113,19 @@ namespace PFE.PageModels
             base.Init(initData);
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
-        }
-        protected override void ViewIsAppearing(object sender, EventArgs e)
-        {
-            //MessagingCenter.Unsubscribe<StockMEPageModel>(this, "ME");
-            MessagingCenter.Unsubscribe<StockMSPageModel>(this, "MS");
+            MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
         }
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             base.ViewIsDisappearing(sender, e);
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
+            MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
+        }
+
+        private void updateMT(StockMTPageModel obj)
+        {
+            refreshPageMT();
         }
 
         private void updateMS(StockMSPageModel obj)
@@ -136,6 +139,7 @@ namespace PFE.PageModels
         }
 
         public void refreshPageME(){
+
             Device.BeginInvokeOnMainThread(() =>
             {
                 refresh = true;
@@ -146,6 +150,33 @@ namespace PFE.PageModels
                 try
                 {
                     var list = await _dataServices.getStockLigneObjectsMEAsync();
+                    if (list != null)
+                        stockLigne = new ObservableCollection<StockLigne>(list);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    refresh = false;
+                });
+
+            });
+        }
+        public void refreshPageMT()
+        {
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                refresh = true;
+
+            });
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var list = await _dataServices.getStockLigneObjectsMTAsync();
                     if (list != null)
                         stockLigne = new ObservableCollection<StockLigne>(list);
                 }

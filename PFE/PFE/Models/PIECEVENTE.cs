@@ -33,8 +33,8 @@ namespace PFE.Models
         public string PCVISCOMPTABILISE { get; set; }
         public string PCVISCLOS { get; set; }
         public string PCVISHT { get; set; }
-        public string PCVISPRint { get; set; }
-        public int? PCVNBPRint { get; set; }
+        public string PCVISPRINT { get; set; }
+        public int? PCVNBPRINT { get; set; }
         public DateTime?  PCVDATEPRint { get; set; }
         public int? MODID { get; set; }
         public int? PCVMNTHT { get; set; }

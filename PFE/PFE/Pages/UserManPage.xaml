@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.UserManPage">
@@ -18,6 +18,6 @@
         <Button Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#283593" Text="Gestion Groupe" Command="{Binding groupMangment}"  ></Button>
         <Button Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="Gestion Utilisateur" Command="{Binding userManagment}" ></Button>
         <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#ffb300" Text="Gestion droit d'access"  ></Button>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter" ></Button>
+        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter"  Command="{Binding quit}" ></Button>
     </Grid>
 </ContentPage>

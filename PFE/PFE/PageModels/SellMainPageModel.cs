@@ -1,4 +1,5 @@
-﻿using PFE.Helper;
+﻿using FreshMvvm;
+using PFE.Helper;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,12 @@ namespace PFE.PageModels
         public ICommand bonderetout => new Command(_bonderetout);
         public ICommand facturev => new Command(_facturev);
         public ICommand facturer => new Command(_facturer);
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
 
         private void _facturer(object obj)
         {

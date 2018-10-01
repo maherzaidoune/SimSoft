@@ -79,7 +79,7 @@
 
         </ScrollView>
         <Button Grid.Row="1" Grid.Column="0"  TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
+        <Button Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter"  Command="{Binding quit}" ></Button>
 
 
     </Grid>

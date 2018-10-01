@@ -20,6 +20,13 @@ namespace PFE.PageModels
         private IRestServices _restServices;
         public ICommand find => new Command(_find);
         public ICommand validate => new Command(_validate);
+        public ICommand back => new Command(_back);
+
+        private void _back(object obj)
+        {
+            CoreMethods.PushPageModel<AdminMenuPageModel>();
+            RaisePropertyChanged();
+        }
 
         private void _validate(object obj)
         {

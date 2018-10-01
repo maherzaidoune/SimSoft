@@ -9,6 +9,8 @@ namespace PFE.Pages
     {
         public StockMEPage()
         {
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
     }

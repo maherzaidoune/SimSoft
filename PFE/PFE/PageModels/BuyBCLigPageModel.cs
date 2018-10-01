@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Input;
+using FreshMvvm;
 using PFE.Models;
 using PropertyChanged;
+using Xamarin.Forms;
 
 namespace PFE.PageModels
 {
@@ -79,8 +82,49 @@ namespace PFE.PageModels
             set;
         }
 
+        public ICommand scan => new Command(_Scan);
+
+        private void _Scan(object obj)
+        {
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                    var result = await scanner.Scan();
+
+                    if (result != null)
+                    {
+                        barreCode = result.Text;
+                        //_valid(null);
+                        Console.WriteLine("Scanned Barcode: " + result.Text);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+
+
+            });
+
+        }
+
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
+
         public BuyBCLigPageModel()
         {
+        }
+        public override void Init(object initData)
+        {
+            base.Init(initData);
         }
     }
 }

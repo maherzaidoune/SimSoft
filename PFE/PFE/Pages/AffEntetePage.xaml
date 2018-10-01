@@ -9,6 +9,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" HeightRequest="40" >
@@ -17,7 +18,7 @@
             <Button  TextColor="White"  BackgroundColor="#283593"  Text="F"  Command="{Binding find}" ></Button>
         </StackLayout>
         <ListView
-            Grid.Row="1" Grid.ColumnSpan="2"
+            Grid.Row="1" Grid.ColumnSpan="3"
                 ItemsSource="{Binding affaireList,Mode=TwoWay}"
                 RowHeight="30"
                 SeparatorColor="LightGray"

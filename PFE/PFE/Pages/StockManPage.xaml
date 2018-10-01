@@ -21,6 +21,6 @@
         <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#ffb300" Text="Mouvement d'entrée" Command="{Binding me}"  ></Button>
         <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#5d4037" Text="Mouvement de sortie" Command="{Binding ms}" ></Button>
         <Button Grid.Row="3" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Mouvement de transfert" Command="{Binding mt}" ></Button>
-        <Button Grid.Row="3" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter" Command="{Binding stockInfo}" ></Button>
+        <Button Grid.Row="3" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter" Command="{Binding quit}" ></Button>
     </Grid>
 </ContentPage>

@@ -1,4 +1,5 @@
-﻿using PFE.Models;
+﻿using FreshMvvm;
+using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
 using System;
@@ -24,7 +25,7 @@ namespace PFE.PageModels
                 _selectedDepo = value;
                 Task.Run(() =>
                 {
-                    storeQuantity = _restService.GetARTDEPOTbyDepid(value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString() , value.DEPID.ToString()).ARDSTOCKREEL.ToString();
                 });
             }
         }
@@ -152,16 +153,47 @@ namespace PFE.PageModels
             get;set;
         }
 
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
+
+
         //save
         public ICommand validate => new Command(_validate);
         //get data by bc
         public ICommand valid => new Command(_valid);
         //scan br
-        public ICommand Scan => new Command(_Scan);
+        public ICommand scan => new Command(_Scan);
 
         private void _Scan(object obj)
         {
-            throw new NotImplementedException();
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                    var result = await scanner.Scan();
+
+                    if (result != null)
+                    {
+                        barreCode = result.Text;
+                        _valid(null);
+                        Console.WriteLine("Scanned Barcode: " + result.Text);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+
+
+            });
+
         }
 
         private void _valid(object obj)
@@ -176,7 +208,7 @@ namespace PFE.PageModels
                         artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         tva = _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if(selectedDepot != null)
-                            storeQuantity = _restService.GetARTDEPOTbyDepid(selectedDepot.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).ARDSTOCKREEL.ToString();
 
                         artunite = _restService.GetRTUNITE("v");
                     }

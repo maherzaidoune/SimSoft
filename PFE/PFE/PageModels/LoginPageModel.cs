@@ -1,5 +1,6 @@
 ﻿using PFE.Models;
 using PFE.Services;
+using Plugin.Connectivity;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,12 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                var _dialog = new DialogService();
+                _dialog.ShowMessage("Verifier votre connection internet", true);
+                return;
+            }
             Task.Run(async () =>
             {
                 try
@@ -117,7 +124,7 @@ namespace PFE.PageModels
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    //Console.WriteLine(e.Message);
                     _dialogService.ShowMessage("ERROR" + e.StackTrace, true);
                     _role = null;
                     _user = null;

@@ -48,6 +48,12 @@ namespace PFE.PageModels
         public string fournisseurintitule { get; set; }
         public string Codeaffaire { get; set; }
         public string affaireintitule { get; set; }
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
         public ICommand tiers => new Command(_tiers);
         public ICommand affairs => new Command(_affairs);
         public NUMAUTO numauto

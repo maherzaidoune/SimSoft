@@ -99,5 +99,15 @@ namespace PFE.Helper
                 App.Current.MainPage = tabs;
             });
         }
+        public static void initStockMT()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<StockMTPageModel>("Entete", "add.png");
+            tabs.AddTab<StockLignePageModel>("Ligne", "details.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                App.Current.MainPage = tabs;
+            });
+        }
     }
 }

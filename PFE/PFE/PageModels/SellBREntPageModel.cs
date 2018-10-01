@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FreshMvvm;
 using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
@@ -47,6 +48,12 @@ namespace PFE.PageModels
         public string reference { get; set; }
         public string intitule { get; set; }
         public string representant { get; set; }
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
         public ICommand tiers => new Command(_tiers);
         public ICommand affairs => new Command(_affairs);
         public NUMAUTO numauto

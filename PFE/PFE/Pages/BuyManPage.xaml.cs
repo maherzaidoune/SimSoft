@@ -14,7 +14,9 @@ namespace PFE.Pages
     {
 		public BuyManPage ()
 		{
-			InitializeComponent ();
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent ();
 		}
 	}
 }

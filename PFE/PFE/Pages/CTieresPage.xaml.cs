@@ -14,7 +14,9 @@ namespace PFE.Pages
 	{
 		public CTieresPage ()
 		{
-			InitializeComponent ();
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent ();
 		}
 	}
 }

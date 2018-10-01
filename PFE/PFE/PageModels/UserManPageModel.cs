@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using FreshMvvm;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,12 @@ namespace PFE.PageModels
     {
         public ICommand groupMangment => new Command(_groupMangment);
         public ICommand userManagment => new Command(_userManagment);
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
 
         private void _userManagment(object obj)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FreshMvvm;
 using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
@@ -121,6 +122,13 @@ namespace PFE.PageModels
             }
         }
 
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
+
         //save
         public ICommand validate => new Command(_validate);
 
@@ -166,11 +174,32 @@ namespace PFE.PageModels
         //get data by bc
         public ICommand valid => new Command(_valid);
         //scan br
-        public ICommand Scan => new Command(_Scan);
+        public ICommand scan => new Command(_Scan);
 
         private void _Scan(object obj)
         {
-            throw new NotImplementedException();
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                    var result = await scanner.Scan();
+
+                    if (result != null)
+                    {
+                        barreCode = result.Text;
+                        _valid(null);
+                        Console.WriteLine("Scanned Barcode: " + result.Text);
+                    }
+                    }catch(Exception e){
+                        Console.WriteLine(e.StackTrace);
+                    }
+
+                    
+            });
+           
         }
 
         private void _valid(object obj)

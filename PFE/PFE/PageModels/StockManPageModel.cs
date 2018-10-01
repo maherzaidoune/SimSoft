@@ -1,4 +1,5 @@
-﻿using PFE.Helper;
+﻿using FreshMvvm;
+using PFE.Helper;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace PFE.PageModels
 
         private void _mt(object obj)
         {
-            throw new NotImplementedException();
+            Navigation.initStockMT();
         }
 
         private void _stockInfo(object obj)
@@ -40,6 +41,13 @@ namespace PFE.PageModels
                 await CoreMethods.PushPageModel<StockPageModel>();
                 RaisePropertyChanged();
             });
+        }
+
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         public StockManPageModel()

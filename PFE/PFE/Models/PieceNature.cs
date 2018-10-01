@@ -9,7 +9,7 @@ namespace PFE.Models
 {
     public class PieceNature
     {
-           public string DoPiece { get; set; }
+        public string DoPiece { get; set; }
         public string PINCODE { get; set; }
         public int PINID { get; set; }
         public string PINLIBELLE { get; set; }

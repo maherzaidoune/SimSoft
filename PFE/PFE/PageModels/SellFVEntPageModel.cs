@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using FreshMvvm;
 using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
@@ -64,6 +65,13 @@ namespace PFE.PageModels
                 RaisePropertyChanged();
             });
             MessagingCenter.Subscribe<AffEntetePageModel, AFFAIRE>(this, "affaire", getAff);
+        }
+
+        public ICommand quit => new Command(_quit);
+
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         private void getAff(AffEntetePageModel arg1, AFFAIRE arg2)

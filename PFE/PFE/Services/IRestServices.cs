@@ -23,15 +23,21 @@ namespace PFE.Services
         ARTUNITE GetRTUNITE(string type);
         ARTFAMILLES_CPT GetARTFAMILLES_CPTbyARFID(string ARFID);
         ARTTARIFLIGNE GetRTTARIFLIGNEbyARTID(string ARID);
-        ARTDEPOT GetARTDEPOTbyDepid(string DEPID);
-        ARTDEPOT GetARTDEPOTbyDepArtid(string ARTID);
-        bool PatchArtdepot(ARTDEPOT artdepot,string artid);
+        ARTDEPOT GetARTDEPOTbyDepid(string ARTID, string DEPID);
+        IList<ARTDEPOT> GetARTDEPOTbyDepArtid(string ARTID);
+        bool PatchArtdepot(ARTDEPOT artdepot,string artid,string depid);
         TVA GetTVAbyTVACODE(string VACODE);
         Task<IList<PIECE_NATURE>> GetPieceNaturebyPINID(String PINID);
         Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null);
         Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null , bool like = false);
         bool PostToStock(IList<StockLigne> stocks);
         bool PostStockElement(StockLigne obj);
+        bool PostSellLignes(IList<SellElements> sells);
+        bool PostSellLigne(SellElements sell, int num);
+
+        bool PostPIECEVENTELIGNE(PIECEVENTELIGNE pIECEVENTELIGNE);
+        bool PostPIECEVENTE(PIECEVENTE pIECEVENTE);
+
         bool PostPiecedivers(PIECEDIVERS piecediverse);
         bool PostPiecediversLigne(PIECEDIVERSLIGNES piecediverseligne);
         bool PostOperationStock(OPERATIONSTOCK operationStock);
@@ -42,6 +48,9 @@ namespace PFE.Services
         int getPieceDiversLignesNumber();
         int getOperationStockNumber();
         int getMemosNumber();
+        int getPieceVente();
+        int getEXERCICE();
+        int getPieceVenteLigne();
         PIECE_PREF GetPIECE_PREF(string id, string PIPISDEFAULT = null);
         //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
     }

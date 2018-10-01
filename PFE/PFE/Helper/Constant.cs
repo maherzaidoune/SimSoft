@@ -179,5 +179,36 @@ namespace PFE.Helper
             }
         }
 
+        public string PIECEVENTE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEVENTEs";
+            }
+        }
+
+
+        public string PIECEVENTELIGNE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEVENTELIGNEs";
+            }
+        }
+        public string EXERCICE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/EXERCICEs";
+            }
+        }
+
+
     }
 }

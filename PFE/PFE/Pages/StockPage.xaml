@@ -4,9 +4,8 @@
              x:Class="PFE.Pages.StockPage">
     <Grid RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -30,28 +29,55 @@
                 <Entry Placeholder="Designation" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding Designation , Mode=TwoWay}"  />
             </StackLayout>
         </StackLayout>
-        <Button Grid.Row="1" Grid.ColumnSpan="2" TextColor="White" BackgroundColor="#283593" Text="Tester" Command="{Binding tester}" ></Button>
         <ListView
-            Grid.Row="2" Grid.ColumnSpan="2"
-                ItemsSource="{Binding stock}"
-                SeparatorColor="LightGray"
-                VerticalOptions="Fill"
-                HorizontalOptions="Fill"
-                HasUnevenRows="True" >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#fcfcfc" Margin="1" Padding="0,2,0,2">
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding label}" FontSize="16" TextColor="Gray" WidthRequest="160" />
-                                <Label Text=" : " />
-                                <Label Text="{Binding info}" FontSize="18" TextColor="Black" />  
-                            </StackLayout>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            Grid.Row="1" Grid.ColumnSpan="2"
+            ItemsSource="{Binding depot}"
+            RowHeight="30"
+            SelectedItem="{Binding selectedelement, Mode=TwoWay}"
+            SeparatorColor="LightGray"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            HasUnevenRows="True" >
+                <ListView.Header>
+                    <Grid RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        
+                        </Grid.ColumnDefinitions>
+                           <Label BackgroundColor="#bdbdbd" Grid.Column="0" Text="code " />
+                           <Label BackgroundColor="#eceff1" Grid.Column="1" Text="DEPID " />
+                           <Label BackgroundColor="#fafafa" Grid.Column="4" Text="STOCKREEL " />
+                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="STOCKCDE " />
+                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="STOCKRSV " />
+                           
+                        </Grid>
+                 </ListView.Header>
+                
+               <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                        <Grid RowSpacing="0" ColumnSpacing="0">
+                            <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                                <Label BackgroundColor="#bdbdbd" Grid.Column="0" Text="{Binding ARTID} " />  
+                               <Label BackgroundColor="#eceff1" Grid.Column="1" Text="{Binding DEPID} " />
+                               <Label BackgroundColor="#fafafa" Grid.Column="4" Text="{Binding ARDSTOCKREEL} " />
+                               <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="{Binding ARDSTOCKCDE}" />
+                               <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="{Binding ARDSTOCKRSV}" />
+                        </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
     </Grid>
 </ContentPage>

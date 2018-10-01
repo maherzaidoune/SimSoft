@@ -223,29 +223,22 @@ namespace PFE.Services
 
         public bool RemoveStockLigne()
         {
+            var stocks = new List<StockLigne>();
             try
             {
                 BlobCache.UserAccount.Invalidate("stockLigneME");
+                BlobCache.UserAccount.InsertObject("stockLigneME", stocks);
+                BlobCache.UserAccount.Invalidate("stockLigneMS");
+                BlobCache.UserAccount.InsertObject("stockLigneMS", stocks);
+                BlobCache.UserAccount.Invalidate("stockLigneMT");
+                BlobCache.UserAccount.InsertObject("stockLigneMT", stocks);
                 return true;
             }
-            catch
-            {
-                try{
-                    BlobCache.UserAccount.Invalidate("stockLigneMS");
-                    return true;
-                }catch{
-
-                    try{
-                        BlobCache.UserAccount.Invalidate("stockLigneMT");
-                        return true;
-                    }
                     catch{
+
                         return false;
                     }
-
-                }
             }
-        }
 
         public async Task<bool> addStockLigneMTAsync(StockLigne obj)
         {
