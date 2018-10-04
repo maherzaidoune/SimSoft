@@ -70,5 +70,11 @@ namespace PFE.Models
             set;
         }
 
+        public string type
+        {
+            get;
+            set;
+        }
+
     }
 }

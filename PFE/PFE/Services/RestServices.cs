@@ -15,8 +15,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var l =  c.group_uri.WithTimeout(7).GetJsonAsync<IList<UTILISATEURSGRP>>();
+                
+                var l =  Constant.group_uri.WithTimeout(7).GetJsonAsync<IList<UTILISATEURSGRP>>();
                 return l;
             }
             catch (FlurlHttpException e)
@@ -36,8 +36,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var user =  (c.user_uri + "?filter[where][USERGRP]=" + groupId).WithTimeout(7).GetJsonAsync<IList<UTILISATEUR>>();
+                
+                var user =  (Constant.user_uri + "?filter[where][USERGRP]=" + groupId).WithTimeout(7).GetJsonAsync<IList<UTILISATEUR>>();
                 return user;
                 
             }
@@ -58,8 +58,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return c.user_uri.WithTimeout(7).GetJsonAsync<IList<UTILISATEUR>>();
+                
+                return Constant.user_uri.WithTimeout(7).GetJsonAsync<IList<UTILISATEUR>>();
             }
             catch (FlurlHttpException)
             {
@@ -77,8 +77,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.user_uri + "count?where={\"and\":[{\"USRLOGIN\":" + user.USRLOGIN + "},{\"USRPWD\":\" " + user.USRPWD + "}]}").WithTimeout(7).GetJsonAsync<login>().Result.count > 0;
+                
+                return (Constant.user_uri + "count?where={\"and\":[{\"USRLOGIN\":" + user.USRLOGIN + "},{\"USRPWD\":\" " + user.USRPWD + "}]}").WithTimeout(7).GetJsonAsync<login>().Result.count > 0;
             }
             catch (FlurlHttpException)
             {
@@ -96,13 +96,13 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
 
                 if (string.IsNullOrEmpty(info))
                 {
-                    return c.tiers_uri.WithTimeout(7).GetJsonAsync<IList<TIERS>>();
+                    return Constant.tiers_uri.WithTimeout(7).GetJsonAsync<IList<TIERS>>();
                 }
-                return (c.tiers_uri + "?filter[where][or][0][TIRSOCIETE]=" + info + "&filter[where][or][1][TIRCODE]=" + info ).WithTimeout(7).GetJsonAsync<IList<TIERS>>();
+                return (Constant.tiers_uri + "?filter[where][or][0][TIRSOCIETE]=" + info + "&filter[where][or][1][TIRCODE]=" + info ).WithTimeout(7).GetJsonAsync<IList<TIERS>>();
             }
             catch (FlurlHttpException e)
             {
@@ -119,18 +119,18 @@ namespace PFE.Services
 
         public Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null, bool like = false )
         {
-            Constant c = new Constant("http://192.168.43.174:3000");
+            
             try
             {
                 if(string.IsNullOrEmpty(PINLIBELLE) && string.IsNullOrEmpty(PINSENSSTOCK)) 
-                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
+                    return (Constant.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
                 if (string.IsNullOrEmpty(PINLIBELLE))
-                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINSENSSTOCK]=" + PINSENSSTOCK).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
+                    return (Constant.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINSENSSTOCK]=" + PINSENSSTOCK).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
 
                 if(like){
-                    return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE +  "&filter[where][and][2][PINLIBELLE][like]=" + PINLIBELLE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
+                    return (Constant.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE +  "&filter[where][and][2][PINLIBELLE][like]=" + PINLIBELLE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
                 }
-                return (c.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINLIBELLE][nlike]=" + PINLIBELLE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
+                return (Constant.piece_nature_uri + "?filter[where][and][0][PICCODE]=" + PICCODE + "&filter[where][and][1][PITCODE]=" + PITCODE + "&filter[where][and][2][PINLIBELLE][nlike]=" + PINLIBELLE).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
             }
             catch (FlurlHttpException e)
             {
@@ -147,10 +147,10 @@ namespace PFE.Services
 
         public Task<IList<PIECE_NATURE>> GetPieceNaturebyPINID(String PINID)
         {
-            Constant c = new Constant("http://192.168.43.174:3000");
+            
             try
             {
-                return (c.piece_nature_uri + "?filter[where][PINID]=" + PINID ).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
+                return (Constant.piece_nature_uri + "?filter[where][PINID]=" + PINID ).WithTimeout(7).GetJsonAsync<IList<PIECE_NATURE>>();
             }
             catch (FlurlHttpException e)
             {
@@ -168,13 +168,13 @@ namespace PFE.Services
 
         public Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null)
         {
-            Constant c = new Constant("http://192.168.43.174:3000");
+            
             try
             {
                 if (string.IsNullOrEmpty(DEPISPRINCIPAL)){
-                    return  (c.depot_url + "?filter[where][DEPISACTIF]=" + DEPISACTIF).WithTimeout(7).GetJsonAsync<IList<depot>>();
+                    return  (Constant.depot_url + "?filter[where][DEPISACTIF]=" + DEPISACTIF).WithTimeout(7).GetJsonAsync<IList<depot>>();
                     }
-                return (c.depot_url + "?filter[where][and][0][DEPISACTIF]=" + DEPISACTIF + "&filter[where][and][1][DEPISPRINCIPAL]=" + DEPISPRINCIPAL ).WithTimeout(7).GetJsonAsync<IList<depot>>();
+                return (Constant.depot_url + "?filter[where][and][0][DEPISACTIF]=" + DEPISACTIF + "&filter[where][and][1][DEPISPRINCIPAL]=" + DEPISPRINCIPAL ).WithTimeout(7).GetJsonAsync<IList<depot>>();
             }
             catch (FlurlHttpException e)
             {
@@ -193,13 +193,13 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
 
                 if (string.IsNullOrEmpty(info))
                 {
-                    return c.affaire_uri.WithTimeout(7).GetJsonAsync<IList<AFFAIRE>>();
+                    return Constant.affaire_uri.WithTimeout(7).GetJsonAsync<IList<AFFAIRE>>();
                 }
-                return (c.affaire_uri + "?filter[where][or][0][AFFCODE]=" + info + "&filter[where][or][1][AFFINTITULE]=" + info).WithTimeout(7).GetJsonAsync<IList<AFFAIRE>>();
+                return (Constant.affaire_uri + "?filter[where][or][0][AFFCODE]=" + info + "&filter[where][or][1][AFFINTITULE]=" + info).WithTimeout(7).GetJsonAsync<IList<AFFAIRE>>();
             }
             catch (FlurlHttpException e)
             {
@@ -218,8 +218,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.article_url + "?filter[where][ARTCODEBARRE]=" + bc).WithTimeout(7).GetJsonAsync<IList<ARTICLE>>().Result[0];
+                
+                return (Constant.article_url + "?filter[where][ARTCODEBARRE]=" + bc).WithTimeout(7).GetJsonAsync<IList<ARTICLE>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -238,9 +238,9 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
                 PIECE_PREF  prefs = GetPIECE_PREF(nature);
-                var numauto =  (c.numauto_url + "?filter[where][NUMID]=" + prefs.NUMID ).WithTimeout(7).GetJsonAsync<IList<NUMAUTO>>().Result;
+                var numauto =  (Constant.numauto_url + "?filter[where][NUMID]=" + prefs.NUMID ).WithTimeout(7).GetJsonAsync<IList<NUMAUTO>>().Result;
                 return numauto[0];
             }
             catch (FlurlHttpException e)
@@ -260,8 +260,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count =  (c.user_uri + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count =  (Constant.user_uri + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -280,7 +280,7 @@ namespace PFE.Services
         public bool addUser(UTILISATEUR user)
         {
             try{
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
                 var id = userNumber();
 
                 user.USRID = id + 1;
@@ -288,7 +288,7 @@ namespace PFE.Services
                     user.PROID = 1;
                 else
                     user.PROID = 2;
-                return (c.user_uri).WithTimeout(7).WithTimeout(7).PostJsonAsync(new {
+                return (Constant.user_uri).WithTimeout(7).WithTimeout(7).PostJsonAsync(new {
                     USRID = user.USRID,
                     USRLOGIN =  user.USRLOGIN,
                     PROID =  user.PROID,
@@ -327,8 +327,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.article_url + "?filter[where][ARTID]=" + id).WithTimeout(7).GetJsonAsync<IList<ARTICLE>>().Result[0];
+                
+                return (Constant.article_url + "?filter[where][ARTID]=" + id).WithTimeout(7).GetJsonAsync<IList<ARTICLE>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -347,11 +347,11 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
                 if (string.IsNullOrEmpty(ARFCLASS)){
-                    return (c.ARTFAMILLES_CPTs_url + "?filter[where][ARFID]=" + ARFID).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
+                    return (Constant.ARTFAMILLES_CPTs_url + "?filter[where][ARFID]=" + ARFID).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
                 }
-                return (c.ARTFAMILLES_CPTs_url + "?filter[where][and][0][ARFID] = " + ARFID + " & filter[where][and][1][ARFCLASS] = " + ARFCLASS).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
+                return (Constant.ARTFAMILLES_CPTs_url + "?filter[where][and][0][ARFID] = " + ARFID + " & filter[where][and][1][ARFCLASS] = " + ARFCLASS).WithTimeout(7).GetJsonAsync<IList<ARTFAMILLES_CPT>>().Result[0];
 
             }
             catch (FlurlHttpException e)
@@ -371,8 +371,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.ARTTARIFLIGNEs_url + "?filter[where][ARTID]=" + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTTARIFLIGNE>>().Result[0];
+                
+                return (Constant.ARTTARIFLIGNEs_url + "?filter[where][ARTID]=" + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTTARIFLIGNE>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -391,8 +391,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.TVAs_url + "?filter[where][TVACODE]=" + TVACODE).WithTimeout(7).GetJsonAsync<IList<TVA>>().Result[0];
+                
+                return (Constant.TVAs_url + "?filter[where][TVACODE]=" + TVACODE).WithTimeout(7).GetJsonAsync<IList<TVA>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -411,8 +411,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.ARTUNITEs_url + "?filter[where][AUTCODE]=" + type).WithTimeout(7).GetJsonAsync<IList<ARTUNITE>>().Result[0];
+                
+                return (Constant.ARTUNITEs_url + "?filter[where][AUTCODE]=" + type).WithTimeout(7).GetJsonAsync<IList<ARTUNITE>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -431,8 +431,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var artdep =  (c.ARTDEPOTs_url + "?filter[where][and][0][DEPID] = " + DEPID + " & filter[where][and][1][ARTID] = " + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTDEPOT>>().Result[0];
+                
+                var artdep =  (Constant.ARTDEPOTs_url + "?filter[where][and][0][DEPID] = " + DEPID + " & filter[where][and][1][ARTID] = " + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTDEPOT>>().Result[0];
                 return artdep;
             }
             catch (FlurlHttpException e)
@@ -452,8 +452,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.ARTDEPOTs_url + "?filter[where][ARTID]=" + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTDEPOT>>().Result;
+                
+                return (Constant.ARTDEPOTs_url + "?filter[where][ARTID]=" + ARTID).WithTimeout(7).GetJsonAsync<IList<ARTDEPOT>>().Result;
             }
             catch (FlurlHttpException e)
             {
@@ -650,8 +650,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.PIECEDIVERs_url).WithTimeout(7).PostJsonAsync(piecediverse).Result.IsSuccessStatusCode;
+                
+                return (Constant.PIECEDIVERs_url).WithTimeout(7).PostJsonAsync(piecediverse).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -668,8 +668,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.OPERATIONSTOCKs_url).WithTimeout(7).PostJsonAsync(operationStock).Result.IsSuccessStatusCode;
+                
+                return (Constant.OPERATIONSTOCKs_url).WithTimeout(7).PostJsonAsync(operationStock).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -688,10 +688,10 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
                 var table = GetIDENTIFIANTTABLE(idTable);
 
-                return (c.IDENTIFIANTTABLEs_url + "/" + idTable).PatchJsonAsync(new
+                return (Constant.IDENTIFIANTTABLEs_url + "/" + idTable).PatchJsonAsync(new
                 {
                     CTNTABLE = idTable,
                     CTNLASTID = table.CTNLASTID + 1
@@ -714,8 +714,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return  (c.IDENTIFIANTTABLEs_url + "/" + idTable).WithTimeout(7).GetJsonAsync<IDENTIFIANTTABLE>().Result;
+                
+                return  (Constant.IDENTIFIANTTABLEs_url + "/" + idTable).WithTimeout(7).GetJsonAsync<IDENTIFIANTTABLE>().Result;
             }
             catch (FlurlHttpException e)
             {
@@ -734,8 +734,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.PIECEDIVERs_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.PIECEDIVERs_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -755,8 +755,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.OPERATIONSTOCKs_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.OPERATIONSTOCKs_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -776,8 +776,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.MEMOS_url).WithTimeout(7).PostJsonAsync(memos).Result.IsSuccessStatusCode;
+                
+                return (Constant.MEMOS_url).WithTimeout(7).PostJsonAsync(memos).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -796,8 +796,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.MEMOS_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.MEMOS_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -818,11 +818,11 @@ namespace PFE.Services
         public PIECE_PREF GetPIECE_PREF(string id , string PIPISDEFAULT = null)
         {
             try{
-                Constant c = new Constant("http://192.168.43.174:3000");
+                
                 if(PIPISDEFAULT != null){
-                    return (c.pieceprefs_url + "?filter[where][and][0][PINID] = " + id + " & filter[where][and][1][PIPISDEFAULT] = " + PIPISDEFAULT).WithTimeout(7).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
+                    return (Constant.pieceprefs_url + "?filter[where][and][0][PINID] = " + id + " & filter[where][and][1][PIPISDEFAULT] = " + PIPISDEFAULT).WithTimeout(7).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
                 }
-                return (c.pieceprefs_url + "?filter[where][PINID]=" + id).WithTimeout(7).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
+                return (Constant.pieceprefs_url + "?filter[where][PINID]=" + id).WithTimeout(7).GetJsonAsync<IList<PIECE_PREF>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -841,8 +841,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.PIECEDIVERSLIGNE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.PIECEDIVERSLIGNE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -862,8 +862,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.PIECEDIVERSLIGNE_url).WithTimeout(7).PostJsonAsync(piecediverseligne).Result.IsSuccessStatusCode;
+                
+                return (Constant.PIECEDIVERSLIGNE_url).WithTimeout(7).PostJsonAsync(piecediverseligne).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -882,8 +882,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.ARTDEPOTs_url + "/update?[where][and][0][DEPID]" + depid + "&[where][and][1][ARTID]=" + artid).PostJsonAsync(artdepot).Result.IsSuccessStatusCode;
+                
+                return (Constant.ARTDEPOTs_url + "/update?[where][and][0][DEPID]" + depid + "&[where][and][1][ARTID]=" + artid).PostJsonAsync(artdepot).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -901,10 +901,10 @@ namespace PFE.Services
         /*
         public PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid)
         {
-            Constant c = new Constant("http://192.168.43.174:3000");
+            
             try
             {
-                return (c.PIECEDIVERSLIGNE_url + "?filter[where][ARTID]=" + artid).WithTimeout(7).GetJsonAsync<IList<PIECEVENTELIGNE>>().Result[0];
+                return (Constant.PIECEDIVERSLIGNE_url + "?filter[where][ARTID]=" + artid).WithTimeout(7).GetJsonAsync<IList<PIECEVENTELIGNE>>().Result[0];
             }
             catch (FlurlHttpException e)
             {
@@ -954,186 +954,221 @@ namespace PFE.Services
 
         public bool PostSellLigne(SellElements sell, int num)
         {
+            try{
+                PIECEVENTE pv = new PIECEVENTE
+                {
+                    PCVID = getPieceVente() + 1,
+                    PCVNUM = "", // a partir de piece nature 
+                                 //"PCVNUMEXT": "string",
+                    PITCODE = sell.pIECE_NATURE.PITCODE,
+                    PINID = sell.pIECE_NATURE.PINID,
+                    PINCODE = sell.pIECE_NATURE.PINCODE,
+                    EXEID = getEXERCICE() + 1, // need to add exercice 
+                    NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).NUMID,
+                    //"AFFID": 0,
+                    TRFID = int.Parse(sell.tiers.TRFID),
+                    TIRID = sell.tiers.TIRID,
+                    TIRID_FAC = int.Parse(sell.tiers.TIRID_FAC),
+                    TIRID_LIV = int.Parse(sell.tiers.TIRID_LIV),
+                    TIRID_REP = null,
+                    //ADRID_FAC = sell.tiers.ADRID
+                    //"ADRID_LIV": 0,
+                    DEPID = sell.depot.DEPID,
+                    //"EXPID": 0,
+                    PCVCOLISAGE = 1, // fix ?
+                    PCVPOIDS = 0, // fix ?
+                    PCVUNITEPOIDS = 1000, // fix ?
+                    JORID = 2, // fix ?
+                    ECRSEQUENCE = 0, // fix ?
+                    DEVID = 1, // fix ?
+                    PCVCOURSDEV = 1, // fix ?
+                    PCVDATEEFFET = DateTime.Now,
+                    PCVISSOLDE = "N", // fix ?
+                    PCVISCOMPTABILISE = "N", // fix ?
+                    PCVISCLOS = "N", // fix ?
+                    PCVISHT = "o", // fix ?
+                    PCVISPRINT = "N",// fix ?
+                    PCVNBPRINT = 1,
+                    PCVDATEPRint = DateTime.Now, // fix ?
+                    MODID = 15, // fix ?
+                    PCVMNTHT = (int?)sell.mtht,
+                    PCVMNTTTC = (int?)sell.mttc,
+                    PCVMNTAREGLER = (int?)sell.mttc,
+                    PCVMNTACOMPTE = 0,
+                    PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
+                    PCVMNTTPF = 0,
+                    PCVMNTESCOMPTE = 0,
+                    PCVMNTPORT = 0,
+                    PCVTAUXESCOMPTE = 0,
+                    PCVCPTRELANCE = 0,
+                    PCVCONDREGLEMENT = "Chèque à réception de facture",
+                    USRMODIF = Helper.Session.user.USRNOM,
+                    DATEUPDATE = DateTime.Now,
+                    DATECREATE = DateTime.Now,
+                    MEMOID = sell.tiers.MEMOID,
+                    PCVNBIMPRESSION = 0,
+                    PABID = 0,
+                    SOCID = 67,
+                    PCVISEDI = "N",
+                    PCVEDIETAT = "A",
+                    //"PCVEDIDATE": "2018-09-20T19:12:03.830Z",
+                    //"PCVEDICODELIV": "string",
+                    //"PCVDATELIVRAISON": "2018-09-20T19:12:03.830Z",
+                    PCVISDEB = "N",
+                    //"PCVDEBREGIME": "string",
+                    //"PCVDEBTRANSACTION": "string",
+                    //"PCVDEBLIVRAISON": "string",
+                    //"PCVDEBTRANSPORT": "string",
+                    //"PCVCRITREGROUPE": "string",
+                    //"CAPID": 0,
+                    PCVVOLUME = 0,
+                    PCVUNITEVOLUME = 1,
+                    PCVISPIECEFRAIS = "N",
+                    PCVREMISEPIED = 0,
+                    //TPVID = 1,
+                    //"TYNCODE": "string",
+                    //"PCVNBPTSCARTE": 0,
+                    //"ANSID": 0,
+                    USRCREATE = Session.user.USRLOGIN,
+                    PCVISECOM = "N",
+                    PRFID = 0,
+                    OXID = 0,
+                    //"PCVOBJET": "string",
+                    TIRID_CPT = sell.tiers.TIRID
+                };
+                PRODUIT produit = getProduit("4475", "O");
+                ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
+                PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
+                {
+                    PLVID = getPieceVenteLigne() + 1, // to be verified
+                    PCVID = getPieceVenteLigne() + 1,
+                    //"PLVNUMLIGNE": 0,
+                    PLVTYPE = "L",
+                    PLVDATE = DateTime.Now,
+                    DEPID = sell.depot.DEPID,
+                    AFFID = sell.affaire.AFFID,
+                    TIRIDREP = null,
+                    TIRIDFOU = produit.TIRID,
+                    PROID = produit.PROID,
+                    ARTID = sell.articles.ARTID,
+                    ARTTYPE = "A",
+                    PLVISFORFAIT = "N",
+                    PLVISSOUMISESC = "N",
+                    PLVDESIGNATION = sell.articles.ARTDESIGNATION,
+                    TVACODE = artfamilles.TVACODE_FR,
+                    TPFCODE = 0,
+                    CPTID = artfamilles.CPTID_FR,
+                    ANSID = 7,
+                    PLVQTE = sell.LivredQuantity,
+                    PLVQTEUS = sell.LivredQuantity,
+                    PLVQTETRANSFO = 0,
+                    PLVCOEFFUV = 1,
+                    //"PLVIDORG": 0,
+                    PLVPUBRUT = (int?)sell.mutht,
+                    PLVPUNET = (int?)(sell.mtht / sell.LivredQuantity),
+                    PLVMNTNET = (int?)(sell.mutht * sell.LivredQuantity),
+                    PLVMNTNETHT = (int?)sell.mtht,
+                    //"PLVLASTPA": 0,
+                    //"PLVPMP": 0,
+                    //"PLVCUMP": 0,
+                    PLVREMISE_F = sell.remise,
+                    PLVREMISE_T = "P",
+                    PLVREMISE_MNT = 0,
+                    //"PLVSTOTID": 0,
+                    PLVFRAIS1 = 0,
+                    PLVFRAIS1T = "P",
+                    PLVFRAIS2 = 0,
+                    PLVFRAIS2T = "P",
+                    PLVFRAIS3 = 0,
+                    PLVFRAIS3T = "P",
+                    PLVFRAISTOTAL = 0,
+                    PLVPOIDS = 0,
+                    PLVUNITEPOIDS = 0,
+                    //"PLVDIVERS": "string",
+                    //"PLVCOMMENTAIRE": "string",
+                    //"PLVNUMLOT": "string",
+                    //"PLVNUMSERIE": "string",
+                    PLVPUBRUTREF = (int?)sell.mutht,
+                    PLVARTCODE = sell.articles.ARTCODE,
+                    PLVISIMPRIMABLE = "o",
+                    PVOID = 0,
+                    PLVSTYLEISGRAS = "N",
+                    PLVSTYLEISITALIC = "N",
+                    PLVSTYLEISIMPPARTIEL = "N",
+                    PLVSTYLEISSOULIGNE = "N",
+                    TRFID = 1,
+                    //"PLVFEFOFABRICATION": "2018-09-30T15:55:15.053Z",
+                    //"PLVFEFOPEREMPTION": "2018-09-30T15:55:15.053Z",
+                    //"PLVFEFODIVERS": "string",
+                    TPFCODE1 = 0,
+                    TPFCODE2 = 0,
+                    TPFCODE3 = 0,
+                    TPFCODE4 = 0,
+                    TPFCODE5 = 0,
+                    TPFCODE6 = 0,
+                    TPFCODE7 = 0,
+                    TPFCODE8 = 0,
+                    TPFCODE9 = 0,
+                    PLVD1 = 0,
+                    PLVD2 = 0,
+                    PLVD3 = 0,
+                    PLVD4 = 0,
+                    PLVD5 = 0,
+                    PLVD6 = 0,
+                    PLVD7 = 0,
+                    PLVD8 = 0,
+                    PLVVOLUME = 0,
+                    PLVUNITEVOLUME = 1,
+                    PLVDENSITE = 0,
+                    CTMID = 0,
+                    PIFID = 0,
+                    //"PLVLASTPR": 0,
+                    //"PLVPRMP": 0,
+                    //"PLVCRUMP": 0,
+                    //"PLVFEFODIVERS1": "string",
+                    //"PLVFEFODIVERS2": "string",
+                    //"PLVFEFODIVERS3": "string",
+                    PLVIDNOMC = 0,
+                    PLVIDNOMCPERE = 0,
+                    //"TCKID": 0,
+                    PLVISSTK = "O",
+                    //"PLVCLF": "string"
+                };
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = getOperationStockNumber() + 1,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    //USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = sell.articles.ARTID,
+                    DEPID = sell.depot.DEPID,
+                    USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "S",
+                    PINID = pv.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = sell.type.Equals("BR")? sell.LivredQuantity : -sell.LivredQuantity,
+                    OPESENS = (short)(sell.type.Equals("BR") ? 1 : -1),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = pvl.PCVID,
+                    PLID = pvl.PLVID,
+                    CTMID = 0,
+                    TIRID = pv.TIRID,
+                    OPEINTITULE = sell.tiers.TIRSOCIETE
+                    //opuint
+                };
 
-            PIECEVENTE pv = new PIECEVENTE
-            {
-                PCVID = getPieceVente() + 1,
-                PCVNUM = "", // a partir de piece nature 
-                //"PCVNUMEXT": "string",
-                PITCODE = sell.pIECE_NATURE.PITCODE,
-                PINID = sell.pIECE_NATURE.PINID,
-                PINCODE = sell.pIECE_NATURE.PINCODE,
-                EXEID = getEXERCICE() + 1, // need to add exercice 
-                NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).NUMID,
-                //"AFFID": 0,
-                TRFID = int.Parse(sell.tiers.TRFID),
-                TIRID = sell.tiers.TIRID,
-                TIRID_FAC = int.Parse(sell.tiers.TIRID_FAC),
-                TIRID_LIV = int.Parse(sell.tiers.TIRID_LIV),
-                TIRID_REP = null,
-                //ADRID_FAC = sell.tiers.ADRID
-                //"ADRID_LIV": 0,
-                DEPID = sell.depot.DEPID,
-                //"EXPID": 0,
-                PCVCOLISAGE = 1, // fix ?
-                PCVPOIDS = 0, // fix ?
-                PCVUNITEPOIDS = 1000, // fix ?
-                JORID = 2, // fix ?
-                ECRSEQUENCE = 0, // fix ?
-                DEVID = 1, // fix ?
-                PCVCOURSDEV = 1, // fix ?
-                PCVDATEEFFET = DateTime.Now,
-                PCVISSOLDE = "N", // fix ?
-                PCVISCOMPTABILISE = "N", // fix ?
-                PCVISCLOS =  "N", // fix ?
-                PCVISHT = "o", // fix ?
-                PCVISPRINT = "N",// fix ?
-                PCVNBPRINT = 1,
-                PCVDATEPRint = DateTime.Now, // fix ?
-                MODID = 15, // fix ?
-                PCVMNTHT = (int?) sell.mtht,
-                PCVMNTTTC = (int?)sell.mttc,
-                PCVMNTAREGLER = (int?)sell.mttc,
-                PCVMNTACOMPTE = 0,
-                PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)) ,
-                PCVMNTTPF = 0,
-                PCVMNTESCOMPTE = 0,
-                PCVMNTPORT = 0,
-                PCVTAUXESCOMPTE = 0,
-                PCVCPTRELANCE = 0,
-                PCVCONDREGLEMENT = "Chèque à réception de facture",
-                USRMODIF = Helper.Session.user.USRNOM,
-                DATEUPDATE = DateTime.Now,
-                DATECREATE = DateTime.Now,
-                MEMOID = sell.tiers.MEMOID ,
-                PCVNBIMPRESSION = 0,
-                PABID = 0,
-                SOCID = 67,
-                PCVISEDI = "N",
-                PCVEDIETAT = "A",
-                //"PCVEDIDATE": "2018-09-20T19:12:03.830Z",
-                //"PCVEDICODELIV": "string",
-                //"PCVDATELIVRAISON": "2018-09-20T19:12:03.830Z",
-                PCVISDEB = "N",
-                //"PCVDEBREGIME": "string",
-                //"PCVDEBTRANSACTION": "string",
-                //"PCVDEBLIVRAISON": "string",
-                //"PCVDEBTRANSPORT": "string",
-                //"PCVCRITREGROUPE": "string",
-                //"CAPID": 0,
-                PCVVOLUME = 0,
-                PCVUNITEVOLUME = 1,
-                PCVISPIECEFRAIS = "N",
-                PCVREMISEPIED = 0,
-                //TPVID = 1,
-                //"TYNCODE": "string",
-                //"PCVNBPTSCARTE": 0,
-                //"ANSID": 0,
-                USRCREATE = Session.user.USRLOGIN,
-                PCVISECOM = "N",
-                PRFID = 0,
-                OXID = 0,
-                //"PCVOBJET": "string",
-                TIRID_CPT = sell.tiers.TIRID
-            };
-            PRODUIT produit = getProduit("4475", "O");
-            ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
-            PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
-            {
-                PLVID = getPieceVenteLigne() + 1, // to be verified
-                PCVID = getPieceVenteLigne() + 1,
-                //"PLVNUMLIGNE": 0,
-                PLVTYPE = "L",
-                PLVDATE = DateTime.Now,
-                DEPID = sell.depot.DEPID,
-                AFFID = sell.affaire.AFFID,
-                TIRIDREP = null,
-                TIRIDFOU = produit.TIRID,
-                PROID = produit.PROID,
-                ARTID = sell.articles.ARTID,
-                ARTTYPE = "A",
-                PLVISFORFAIT = "N",
-                PLVISSOUMISESC = "N",
-                PLVDESIGNATION = sell.articles.ARTDESIGNATION,
-                TVACODE = artfamilles.TVACODE_FR,
-                TPFCODE = 0,
-                CPTID = artfamilles.CPTID_FR,
-                ANSID = 7,
-                PLVQTE = sell.LivredQuantity,
-                PLVQTEUS = sell.LivredQuantity,
-                PLVQTETRANSFO = 0,
-                PLVCOEFFUV = 1,
-                //"PLVIDORG": 0,
-                PLVPUBRUT = (int?)sell.mutht,
-                PLVPUNET = (int?)(sell.mtht / sell.LivredQuantity),
-                PLVMNTNET = (int?)(sell.mutht * sell.LivredQuantity),
-                PLVMNTNETHT = (int?)sell.mtht,
-                //"PLVLASTPA": 0,
-                //"PLVPMP": 0,
-                //"PLVCUMP": 0,
-                PLVREMISE_F = sell.remise,
-                PLVREMISE_T = "P",
-                PLVREMISE_MNT = 0,
-                //"PLVSTOTID": 0,
-                PLVFRAIS1 = 0,
-                PLVFRAIS1T = "P",
-                PLVFRAIS2 = 0,
-                PLVFRAIS2T = "P",
-                PLVFRAIS3 = 0,
-                PLVFRAIS3T = "P",
-                PLVFRAISTOTAL = 0,
-                PLVPOIDS = 0,
-                PLVUNITEPOIDS = 0,
-                //"PLVDIVERS": "string",
-                //"PLVCOMMENTAIRE": "string",
-                //"PLVNUMLOT": "string",
-                //"PLVNUMSERIE": "string",
-                PLVPUBRUTREF = (int?)sell.mutht,
-                PLVARTCODE = sell.articles.ARTCODE,
-                PLVISIMPRIMABLE = "o",
-                PVOID = 0,
-                PLVSTYLEISGRAS = "N",
-                PLVSTYLEISITALIC = "N",
-                PLVSTYLEISIMPPARTIEL = "N",
-                PLVSTYLEISSOULIGNE = "N",
-                TRFID = 1,
-                //"PLVFEFOFABRICATION": "2018-09-30T15:55:15.053Z",
-                //"PLVFEFOPEREMPTION": "2018-09-30T15:55:15.053Z",
-                //"PLVFEFODIVERS": "string",
-                TPFCODE1 = 0,
-                TPFCODE2 = 0,
-                TPFCODE3 = 0,
-                TPFCODE4 = 0,
-                TPFCODE5 = 0,
-                TPFCODE6 = 0,
-                TPFCODE7 = 0,
-                TPFCODE8 = 0,
-                TPFCODE9 = 0,
-                PLVD1 = 0,
-                PLVD2 = 0,
-                PLVD3 = 0,
-                PLVD4 = 0,
-                PLVD5 = 0,
-                PLVD6 = 0,
-                PLVD7 = 0,
-                PLVD8 = 0,
-                PLVVOLUME = 0,
-                PLVUNITEVOLUME =  1,
-                PLVDENSITE = 0,
-                CTMID = 0,
-                PIFID = 0,
-                //"PLVLASTPR": 0,
-                //"PLVPRMP": 0,
-                //"PLVCRUMP": 0,
-                //"PLVFEFODIVERS1": "string",
-                //"PLVFEFODIVERS2": "string",
-                //"PLVFEFODIVERS3": "string",
-                PLVIDNOMC = 0,
-                PLVIDNOMCPERE = 0,
-                //"TCKID": 0,
-                PLVISSTK = "O",
-                //"PLVCLF": "string"
-            };
+
+            }
+            catch(Exception e){
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+                return false;
+            }
 
 
             return true;
@@ -1153,8 +1188,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.PIECEVENTE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.PIECEVENTE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -1174,8 +1209,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.EXERCICE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.EXERCICE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -1195,8 +1230,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                var count = (c.PIECEVENTELIGNE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
+                
+                var count = (Constant.PIECEVENTELIGNE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
@@ -1216,8 +1251,8 @@ namespace PFE.Services
         {
             try
             {
-                Constant c = new Constant("http://192.168.43.174:3000");
-                return (c.PRODUIT_url + "?filter[where][and][0][PROCODE]=" + PROCODE + "&filter[where][and][1][PROISPRINCIPAL]=" + PROISPRINCIPAL).WithTimeout(7).GetJsonAsync<PRODUIT>().Result;
+                
+                return (Constant.PRODUIT_url + "?filter[where][and][0][PROCODE]=" + PROCODE + "&filter[where][and][1][PROISPRINCIPAL]=" + PROISPRINCIPAL).WithTimeout(7).GetJsonAsync<PRODUIT>().Result;
             }
             catch (FlurlHttpException e)
             {
@@ -1231,6 +1266,29 @@ namespace PFE.Services
             }
             return null;
         }
+
+        public bool testServer(string uri = null){
+            try{
+                if(string.IsNullOrEmpty(uri)){
+                    uri = Config.URL + ':' + Config.port;
+                }
+                ServerResponce res = uri.GetJsonAsync<ServerResponce>().Result;
+                if(res != null){
+                    var _dialog = new DialogService();
+                    _dialog.ShowMessage("started : " + res.started + "uptime : " + res.uptime, false);
+                    return true;
+                }else{
+                    var _dialog = new DialogService();
+                    _dialog.ShowMessage("Can't reach server ", true);
+                    return false;
+                }
+            }
+            catch(Exception e){
+                var _dialog = new DialogService();
+                _dialog.ShowMessage("Error make sure you use http:// and you type a valid port " , true);
+                return false;
+            }
+		}
 
     }
 

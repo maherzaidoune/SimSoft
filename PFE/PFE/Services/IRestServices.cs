@@ -54,5 +54,6 @@ namespace PFE.Services
         PRODUIT getProduit(String PROCODE,String PROISPRINCIPAL);
         PIECE_PREF GetPIECE_PREF(string id, string PIPISDEFAULT = null);
         //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
+        bool testServer(string uri = null);
     }
 }

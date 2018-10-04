@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.ConfiPage">
@@ -18,19 +18,23 @@
         <StackLayout Grid.Row="1" Grid.ColumnSpan="2" >
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="IP server" VerticalOptions="Center"/>
-                <Entry Placeholder="127.0.0.1" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding ipServer , Mode=OneWayToSource}"  />
+                <Entry Placeholder="127.0.0.1" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding ipServer , Mode=TwoWay}"  />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                <Label Text="PORT" VerticalOptions="Center"/>
+                <Entry Placeholder="3000" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding port , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="Nom de base de donne" VerticalOptions="Center"/>
-                <Entry Placeholder="database" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding db , Mode=OneWayToSource}"  />
+                <Entry Placeholder="database" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding db , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="Utilisateur" VerticalOptions="Center"/>
-                <Entry Placeholder="user" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding user , Mode=OneWayToSource}"  />
+                <Entry Placeholder="user" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding user , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="Mot de passe" VerticalOptions="Center"/>
-                <Entry Placeholder="password" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" IsPassword="True"  Text="{Binding passord , Mode=OneWayToSource}"  />
+                <Entry Placeholder="password" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" IsPassword="True"  Text="{Binding passord , Mode=TwoWay}"  />
             </StackLayout>
         </StackLayout>
         <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Valider" Command="{Binding valider}" ></Button>

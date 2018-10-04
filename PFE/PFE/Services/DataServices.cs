@@ -10,10 +10,6 @@ namespace PFE.Services
 {
     public class DataServices : IDataServices
     {
-        public DataServices()
-        {
-        }
-
         public async Task<bool> addStockLigneMEAsync(StockLigne obj)
         {
             if (obj == null)
@@ -50,8 +46,6 @@ namespace PFE.Services
                 return false;
             }
         }
-
-
 
         public bool addStockLigneListMEAsync(IList<StockLigne> obj)
         {
@@ -115,8 +109,6 @@ namespace PFE.Services
 
         }
 
-
-    
         public async Task<bool> addStockLigneMSAsync(StockLigne obj)
         {
             if (obj == null)
@@ -186,8 +178,6 @@ namespace PFE.Services
             }
         }
 
-
-
         public bool addStockLigneListMSAsync(IList<StockLigne> obj)
         {
             try
@@ -238,7 +228,7 @@ namespace PFE.Services
 
                         return false;
                     }
-            }
+         }
 
         public async Task<bool> addStockLigneMTAsync(StockLigne obj)
         {
@@ -339,6 +329,109 @@ namespace PFE.Services
                 Console.WriteLine(e.StackTrace);
                 return null;
 
+            }
+        }
+
+
+        // sell elements
+        public async Task<bool> addSellElementAsync(SellElements obj)
+        {
+            if (obj == null)
+                return false;
+            try
+            {
+                var stocks = await getSellElementAsync();
+                if (obj.LivredQuantity > 0)
+                {
+                    stocks.Add(obj);
+                    return addSellElementsAsync(stocks);
+                }
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error adding to stock element list" + e.StackTrace);
+                return false;
+            }
+        }
+
+        public bool addSellElementsAsync(IList<SellElements> obj)
+        {
+            try
+            {
+                BlobCache.UserAccount.Invalidate("SellElements");
+                BlobCache.UserAccount.InsertObject("SellElements", obj);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error saving list of sell elements");
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<IList<SellElements>> getSellElementAsync()
+        {
+            try
+            {
+                // need much test
+                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElements");
+                return Stocks;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error getting list of sell elements");
+                Console.WriteLine(e.StackTrace);
+                return null;
+
+            }
+        }
+
+        public async Task<bool> removeSellElementsAsync(SellElements obj)
+        {
+            if (obj == null)
+                return false;
+            IList<SellElements> stocks = new List<SellElements>();
+            try
+            {
+                stocks = await getSellElementAsync();
+                if (stocks == null)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < stocks.Count; i++)
+                {
+                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
+                    {
+                        stocks.RemoveAt(i);
+                    }
+                }
+                return addSellElementsAsync(stocks);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
+                return false;
+            }
+
+        }
+
+        public bool RemoveSellElements()
+        {
+            var stocks = new List<SellElements>();
+            try
+            {
+                BlobCache.UserAccount.Invalidate("SellElements");
+                BlobCache.UserAccount.InsertObject("SellElements", stocks);
+                return true;
+            }
+            catch
+            {
+
+                return false;
             }
         }
     }

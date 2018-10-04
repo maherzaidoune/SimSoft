@@ -6,19 +6,16 @@ namespace PFE.Helper
 {
     class Constant
     {
-        private string _baseUrl;
-        public Constant(string _baseUrl)
-        {
-            this._baseUrl = _baseUrl;
-            Console.WriteLine(_baseUrl);
-        }
-        public string user_uri { get {
+
+        private static string _baseUrl = Config.URL + ':' + Config.port;
+
+        public static string user_uri { get {
                 if (string.IsNullOrEmpty(_baseUrl))
                     throw new Exception(" _baseUr is null ");
                 return _baseUrl + "/api/UTILISATEURs";
             }  
             }
-        public string group_uri
+        public static string group_uri
         {
             get
             {
@@ -28,13 +25,13 @@ namespace PFE.Helper
             }
         }
 
-        public string tiers_uri { get {
+        public static string tiers_uri { get {
                 if (string.IsNullOrEmpty(_baseUrl))
                     throw new Exception(" _baseUr is null ");
                 return _baseUrl + "/api/TIERs";
             }
         }
-        public string affaire_uri
+        public static string affaire_uri
         {
             get
             {
@@ -43,7 +40,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/AFFAIREs";
             }
         }
-        public string piece_nature_uri
+        public static string piece_nature_uri
         {
             get
             {
@@ -52,7 +49,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/PIECE_NATUREs";
             }
         }
-        public string depot_url
+        public static string depot_url
         {
             get
             {
@@ -61,7 +58,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/DEPOTs";
             }
         }
-        public string article_url
+        public static string article_url
         {
             get
             {
@@ -70,7 +67,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTICLEs";
             }
         }
-        public string numauto_url
+        public static string numauto_url
         {
             get
             {
@@ -79,7 +76,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/NUMAUTOs";
             }
         }
-        public string pieceprefs_url
+        public static string pieceprefs_url
         {
             get
             {
@@ -88,7 +85,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/PIECE_PREFs";
             }
         }
-        public string ARTFAMILLES_CPTs_url
+        public static string ARTFAMILLES_CPTs_url
         {
             get
             {
@@ -97,7 +94,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTFAMILLES_CPTs";
             }
         }
-        public string ARTTARIFLIGNEs_url
+        public static string ARTTARIFLIGNEs_url
         {
             get
             {
@@ -106,7 +103,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTTARIFLIGNEs";
             }
         }
-        public string TVAs_url
+        public static string TVAs_url
         {
             get
             {
@@ -115,7 +112,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/TVAs";
             }
         }
-        public string ARTUNITEs_url
+        public static string ARTUNITEs_url
         {
             get
             {
@@ -124,7 +121,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTUNITEs";
             }
         }
-        public string ARTDEPOTs_url
+        public static string ARTDEPOTs_url
         {
             get
             {
@@ -133,7 +130,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/ARTDEPOTs";
             }
         }
-        public string PIECEDIVERs_url
+        public static string PIECEDIVERs_url
         {
             get
             {
@@ -142,7 +139,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/PIECEDIVERs";
             }
         }
-        public string OPERATIONSTOCKs_url
+        public static string OPERATIONSTOCKs_url
         {
             get
             {
@@ -151,7 +148,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/OPERATIONSTOCKs";
             }
         }
-        public string IDENTIFIANTTABLEs_url
+        public static string IDENTIFIANTTABLEs_url
         {
             get
             {
@@ -160,7 +157,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/IDENTIFIANTTABLEs";
             }
         }
-        public string MEMOS_url
+        public static string MEMOS_url
         {
             get
             {
@@ -169,7 +166,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/MEMOs";
             }
         }
-        public string PIECEDIVERSLIGNE_url
+        public static string PIECEDIVERSLIGNE_url
         {
             get
             {
@@ -179,7 +176,7 @@ namespace PFE.Helper
             }
         }
 
-        public string PIECEVENTE_url
+        public static string PIECEVENTE_url
         {
             get
             {
@@ -190,7 +187,7 @@ namespace PFE.Helper
         }
 
 
-        public string PIECEVENTELIGNE_url
+        public static string PIECEVENTELIGNE_url
         {
             get
             {
@@ -199,7 +196,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/PIECEVENTELIGNEs";
             }
         }
-        public string EXERCICE_url
+        public static string EXERCICE_url
         {
             get
             {
@@ -208,7 +205,7 @@ namespace PFE.Helper
                 return _baseUrl + "/api/EXERCICEs";
             }
         }
-        public string PRODUIT_url
+        public static string PRODUIT_url
         {
             get
             {

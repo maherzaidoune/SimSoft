@@ -113,14 +113,22 @@ namespace PFE.PageModels
                 _dialog.ShowMessage("Verifier votre connection internet", true);
                 return;
             }
+
             Task.Run(async () =>
             {
                 try
                 {
-                    _role = await _restServices.GetGroupAsync();
-                    // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
-                    if (_role == null)
-                        _dialogService.ShowMessage("server down ", true);
+                    if (!_restServices.testServer())
+                    {
+                        await CoreMethods.PushPageModel<ConfiPageModel>();
+                        RaisePropertyChanged();
+                    }else{
+                        _role = await _restServices.GetGroupAsync();
+                        // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
+                        if (_role == null)
+                            _dialogService.ShowMessage("server down ", true);
+                    }
+
                 }
                 catch(Exception e)
                 {
