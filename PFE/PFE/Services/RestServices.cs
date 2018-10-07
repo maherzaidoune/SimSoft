@@ -1272,7 +1272,7 @@ namespace PFE.Services
                 if(string.IsNullOrEmpty(uri)){
                     uri = Config.URL + ':' + Config.port;
                 }
-                ServerResponce res = uri.GetJsonAsync<ServerResponce>().Result;
+                ServerResponce res = uri.WithTimeout(3).GetJsonAsync<ServerResponce>().Result;
                 if(res != null){
                     var _dialog = new DialogService();
                     _dialog.ShowMessage("started : " + res.started + "uptime : " + res.uptime, false);
@@ -1283,7 +1283,7 @@ namespace PFE.Services
                     return false;
                 }
             }
-            catch(Exception e){
+            catch{
                 var _dialog = new DialogService();
                 _dialog.ShowMessage("Error make sure you use http:// and you type a valid port " , true);
                 return false;

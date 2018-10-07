@@ -104,43 +104,67 @@ namespace PFE.PageModels
         //mocking role and user  list
         public IList<UTILISATEURSGRP> _role { get; set; }
         public IList<UTILISATEUR> _user { get; set; }
-        public override void Init(object initData)
+
+        //public override void ReverseInit(object returnedData)
+        //{
+        //    base.ReverseInit(returnedData);
+        //    Console.WriteLine("reverse init");
+        //}
+
+        protected override void ViewIsAppearing(object sender, EventArgs e)
         {
-            base.Init(initData);
+            base.ViewIsAppearing(sender, e);
             if (!CrossConnectivity.Current.IsConnected)
             {
                 var _dialog = new DialogService();
                 _dialog.ShowMessage("Verifier votre connection internet", true);
                 return;
             }
-
-            Task.Run(async () =>
+            else
             {
-                try
+
+                Task.Run(async () =>
                 {
-                    if (!_restServices.testServer())
+                    try
                     {
-                        await CoreMethods.PushPageModel<ConfiPageModel>();
-                        RaisePropertyChanged();
-                    }else{
-                        _role = await _restServices.GetGroupAsync();
-                        // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
-                        if (_role == null)
-                            _dialogService.ShowMessage("server down ", true);
+                        if (!_restServices.testServer())
+                        {
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await CoreMethods.PushPageModel<ConfiPageModel>();
+                                RaisePropertyChanged();
+                            });
+
+                        }
+                        else
+                        {
+                            _role = await _restServices.GetGroupAsync();
+                            // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
+                            if (_role == null)
+                                _dialogService.ShowMessage("server down ", true);
+                        }
+                        isEnabled = false;
+                        loading = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        //Console.WriteLine(e.Message);
+                        _dialogService.ShowMessage("ERROR" + ex.StackTrace, true);
+                        _role = null;
+                        _user = null;
+                        isEnabled = false;
+                        loading = false;
                     }
 
-                }
-                catch(Exception e)
-                {
-                    //Console.WriteLine(e.Message);
-                    _dialogService.ShowMessage("ERROR" + e.StackTrace, true);
-                    _role = null;
-                    _user = null;
-                }
-                
-            });
-            isEnabled = false;
-            loading = false;
+                });
+
+            }
+        }
+
+        public override void Init(object initData)
+        {
+            base.Init(initData);
+
         }
     }
 }

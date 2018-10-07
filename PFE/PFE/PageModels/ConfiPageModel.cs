@@ -53,7 +53,7 @@ namespace PFE.PageModels
             {
                 Helper.Config.URL = ipServer;
                 Helper.Config.port = port;
-                Task.Run(async () =>
+                Device.BeginInvokeOnMainThread(async () =>
                 {
                     await CoreMethods.PopPageModel();
                     RaisePropertyChanged();
