@@ -356,6 +356,38 @@ namespace PFE.Services
             }
         }
 
+        public async Task<bool> updateAsyncSellElement(SellElements obj){
+            if (obj == null)
+                return false;
+            IList<SellElements> stocks = new List<SellElements>();
+            try
+            {
+                stocks = await getSellElementAsync();
+                if (stocks == null)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < stocks.Count; i++)
+                {
+                    stocks[i].depot = obj.depot;
+                    stocks[i].tva = obj.tva;
+                    stocks[i].articles = obj.articles; 
+                    stocks[i].artarifligne = obj.artarifligne;
+                    stocks[i].LivredQuantity = obj.LivredQuantity;
+                    stocks[i].mutht = obj.mutht;
+                    stocks[i].mtht = obj.mtht;
+                    stocks[i].mttc = obj.mttc;
+                }
+                return addSellElementsAsync(stocks);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
+                return false;
+            }
+        }
+
         public bool addSellElementsAsync(IList<SellElements> obj)
         {
             try

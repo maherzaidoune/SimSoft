@@ -8,6 +8,11 @@ namespace PFE.Models
             get;
             set;
         }
+        public TVA tva
+        {
+            get;
+            set;
+        }
         public PIECEVENTE pIECEVENTE
         {
             get;
@@ -58,7 +63,6 @@ namespace PFE.Models
             get;
             set;
         }
-
         public int LivredQuantity
         {
             get;
@@ -69,12 +73,10 @@ namespace PFE.Models
             get;
             set;
         }
-
         public string type
         {
             get;
             set;
         }
-
     }
 }

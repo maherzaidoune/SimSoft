@@ -518,13 +518,21 @@ namespace PFE.Services
                 if (type.Equals( "SIN")){
                     artdepo.DEPID = obj.depin.DEPID;
                     artdepo.ARDSTOCKREEL += int.Parse(obj.quantite);
-                    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depin.DEPID.ToString());
+                    if(PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depin.DEPID.ToString())){
+                        Console.WriteLine("artdepot updated");
+                    }
+
                 }
                 else if (type.Equals("SOUT"))
                 {
-                    artdepo.DEPID = obj.depout.DEPID;
-                    artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
-                    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depout.DEPID.ToString());
+                    try{
+                        artdepo.DEPID = obj.depout.DEPID;
+                        artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
+                        PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
+                    }catch(Exception e){
+                        Console.WriteLine(e.Message);
+                    }
+
                 }
                 else if (type.Equals("BTR")){
 
@@ -630,10 +638,9 @@ namespace PFE.Services
                     //opuint
                 };
 
-
                 return  PostPiecedivers(p) &&
                        PostPiecediversLigne(pl) &&
-                       PostOperationStock(o) &&
+                       //PostOperationStock(o) &&
                        PostIdentityTable("operationstock") &&
                        PostIdentityTable("piecedivers");
 
@@ -667,8 +674,7 @@ namespace PFE.Services
         public bool PostOperationStock(OPERATIONSTOCK operationStock)
         {
             try
-            {
-                
+            {  
                 return (Constant.OPERATIONSTOCKs_url).WithTimeout(7).PostJsonAsync(operationStock).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
@@ -882,8 +888,9 @@ namespace PFE.Services
         {
             try
             {
-                
-                return (Constant.ARTDEPOTs_url + "/update?[where][and][0][DEPID]" + depid + "&[where][and][1][ARTID]=" + artid).PostJsonAsync(artdepot).Result.IsSuccessStatusCode;
+                var update = new { ARDSTOCKREEL = artdepot.ARDSTOCKREEL };
+                var result = (Constant.ARTDEPOTs_url + "/update?[where][and][0][DEPID]=" + depid + "&[where][and][1][ARTID]=" + artid).PostJsonAsync(update).Result.IsSuccessStatusCode;
+                return result;
             }
             catch (FlurlHttpException e)
             {
