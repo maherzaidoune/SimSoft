@@ -226,14 +226,26 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            throw new NotImplementedException();
+            SellElements sell = new SellElements
+            {
+                depot = selectedDepot,
+                tva = tva,
+                articles = article,
+                artarifligne = artarifligne,
+                LivredQuantity = int.Parse(LivredQuantity),
+                mutht = float.Parse(pht),
+                mtht = float.Parse(mtht),
+                mttc = float.Parse(mtttc)
+             };
+            _dataService.updateAsyncSellElementBL(sell);
         }
 
 
-
-        public SellLignePageModel(IRestServices _restService)
+        private IDataServices _dataService;
+        public SellLignePageModel(IRestServices _restService, IDataServices _dataService)
         {
             this._restService = _restService;
+            this._dataService = _dataService;
         }
         public override void Init(object initData)
         {

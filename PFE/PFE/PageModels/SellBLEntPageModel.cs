@@ -44,6 +44,11 @@ namespace PFE.PageModels
         }
         public IList<PIECE_NATURE> nature { get; set; }
         public string numeroPiece { get; set; }
+        public TIERS Tiers
+        {
+            get;
+            set;
+        }
         public DateTime date { get; set; }
 
         public string reference { get; set; }
@@ -54,6 +59,12 @@ namespace PFE.PageModels
         private void _quit(object obj)
         {
             App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
+
+        public AFFAIRE affaires
+        {
+            get;
+            set;
         }
         public ICommand tiers => new Command(_tiers);
         public ICommand affairs => new Command(_affairs);
@@ -78,8 +89,10 @@ namespace PFE.PageModels
             Device.BeginInvokeOnMainThread(() =>
             {
                 representant = arg2.AFFINTITULE;
+                affaires = arg2;
             });
         }
+
 
         private IRestServices _restService;
         private void _tiers(object obj)
@@ -98,14 +111,31 @@ namespace PFE.PageModels
             {
                 reference = arg2.TIRREFFOUCLI;
                 intitule = arg2.TIRSOCIETE;
+                Tiers = arg2;
             });
 
         }
 
+        public ICommand validate => new Command(_validate);
 
-        public SellBLEntPageModel(IRestServices _restService)
+        private void _validate(object obj)
+        {
+            SellElements sell = new SellElements
+            {
+                pIECE_NATURE = selectednature,
+                type = "SBL",
+                affaire = affaires,
+                tiers = Tiers
+            };
+            _dataService.addSellElementBLAsync(sell);
+        }
+
+        private IDataServices _dataService;
+
+        public SellBLEntPageModel(IRestServices _restService,IDataServices _dataService)
         {
             this._restService = _restService;
+            this._dataService = _dataService;
         }
         public override void Init(object initData)
         {

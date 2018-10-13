@@ -23,7 +23,7 @@ namespace PFE.Models
             get;
             set;
         }
-        public Articles articles
+        public ARTICLE articles
         {
             get;
             set;
