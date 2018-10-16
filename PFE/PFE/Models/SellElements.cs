@@ -78,5 +78,10 @@ namespace PFE.Models
             get;
             set;
         }
+        public bool ligneUpdated
+        {
+            get;
+            set;
+        }
     }
 }

@@ -21,24 +21,27 @@ namespace PFE.Services
                 {
                     stocks = new List<StockLigne>();
                 }
-                for (int i = 0; i < stocks.Count; i++){
+                for (int i = 0; i < stocks.Count; i++)
+                {
 
-                    if(obj.code.Equals(stocks[i].code)  && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID && (int.Parse(obj.quantite) > 0))
+                    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID && (int.Parse(obj.quantite) > 0))
                     {
                         obj.quantite = (int.Parse(stocks[i].quantite) + int.Parse(obj.quantite)).ToString();
-                        if (await RemoveStockLigneMEAsync(stocks[i])){
+                        if (await RemoveStockLigneMEAsync(stocks[i]))
+                        {
                             stocks.RemoveAt(i);
                             stocks.Add(obj);
                             return addStockLigneListMEAsync(stocks);
                         }
                     }
                 }
-                if(int.Parse(obj.quantite) > 0){
+                if (int.Parse(obj.quantite) > 0)
+                {
                     stocks.Add(obj);
                     return addStockLigneListMEAsync(stocks);
                 }
                 return false;
-                   
+
             }
             catch (Exception e)
             {
@@ -93,14 +96,15 @@ namespace PFE.Services
                     return false;
                 }
 
-                for (int i = 0; i < stocks.Count ; i++ ){
-                    if(obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID)
+                for (int i = 0; i < stocks.Count; i++)
+                {
+                    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID)
                     {
                         stocks.RemoveAt(i);
                     }
                 }
-                return  addStockLigneListMEAsync(stocks ); 
-        }
+                return addStockLigneListMEAsync(stocks);
+            }
             catch (Exception e)
             {
                 Console.WriteLine("Data service ==== error deleting to stock element list" + e.StackTrace);
@@ -224,11 +228,12 @@ namespace PFE.Services
                 BlobCache.UserAccount.InsertObject("stockLigneMT", stocks);
                 return true;
             }
-                    catch{
+            catch
+            {
 
-                        return false;
-                    }
-         }
+                return false;
+            }
+        }
 
         public async Task<bool> addStockLigneMTAsync(StockLigne obj)
         {
@@ -337,152 +342,29 @@ namespace PFE.Services
 
         // sell elements
 
-        public async Task<bool> addSellElementBCAsync(SellElements obj)
+        public async Task<bool> addSellElementAsync(SellElements obj)
         {
             if (obj == null)
                 return false;
             try
             {
-                var stocks = await getSellElementBCAsync();
-                if (obj.LivredQuantity > 0)
-                {
-                    stocks.Add(obj);
-                    return addSellElementsBCAsync(stocks);
-                }
-                return false;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error adding to stock element BC list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool addSellElementsBCAsync(IList<SellElements> obj)
-        {
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsBC");
-                BlobCache.UserAccount.InsertObject("SellElementsBC", obj);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error saving list of sell elements BC");
-                Console.WriteLine(e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<IList<SellElements>> getSellElementBCAsync()
-        {
-            try
-            {
-                // need much test
-                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElementsBC");
-                return Stocks;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error getting list of sell elements BC");
-                Console.WriteLine(e.StackTrace);
-                return null;
-
-            }
-        }
-
-        public async Task<bool> updateAsyncSellElementBC(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementBCAsync();
+                var stocks = await getSellElementAsync();
                 if (stocks == null)
                 {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    stocks[i].depot = obj.depot;
-                    stocks[i].tva = obj.tva;
-                    stocks[i].articles = obj.articles;
-                    stocks[i].artarifligne = obj.artarifligne;
-                    stocks[i].LivredQuantity = obj.LivredQuantity;
-                    stocks[i].mutht = obj.mutht;
-                    stocks[i].mtht = obj.mtht;
-                    stocks[i].mttc = obj.mttc;
-                }
-                return addSellElementsBCAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<bool> removeSellElementsBCAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementBCAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
-                    {
-                        stocks.RemoveAt(i);
-                    }
-                }
-                return addSellElementsBCAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list BC" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool RemoveSellElementsBC()
-        {
-            var stocks = new List<SellElements>();
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsBC");
-                BlobCache.UserAccount.InsertObject("SellElementsBC", stocks);
-                return true;
-            }
-            catch
-            {
-
-                return false;
-            }
-        }
-
-        public async Task<bool> addSellElementBLAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            try
-            {
-                var stocks = await getSellElementBLAsync();
-                if(stocks == null){
                     stocks = new List<SellElements>();
                 }
-                stocks.Add(obj);
-                return addSellElementsBLAsync(stocks);
+                else
+                    if (stocks.Count > 0)
+                {
+                    if (!stocks[0].type.Equals(obj.type))
+                    {
+                        RemoveSellElements();
+                        stocks = new List<SellElements>();
+                    }
                 }
+                stocks.Add(obj);
+                return addSellElementsAsync(stocks);
+            }
             catch (Exception e)
             {
                 Console.WriteLine("Data service ==== error adding to sell element list" + e.StackTrace);
@@ -490,28 +372,28 @@ namespace PFE.Services
             }
         }
 
-        public bool addSellElementsBLAsync(IList<SellElements> obj)
+        public bool addSellElementsAsync(IList<SellElements> obj)
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("SellElementsBL");
-                BlobCache.UserAccount.InsertObject("SellElementsBL", obj);
+                BlobCache.UserAccount.Invalidate("SellElements");
+                BlobCache.UserAccount.InsertObject("SellElements", obj);
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Data service ==== error saving list of sell elements BL");
+                Console.WriteLine("Data service ==== error saving list of sell elements");
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
         }
 
-        public async Task<IList<SellElements>> getSellElementBLAsync()
+        public async Task<IList<SellElements>> getSellElementAsync()
         {
             try
             {
                 // need much test
-                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElementsBL");
+                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElements");
                 return Stocks;
             }
             catch (Exception e)
@@ -523,14 +405,14 @@ namespace PFE.Services
             }
         }
 
-        public async Task<bool> updateAsyncSellElementBL(SellElements obj)
+        public async Task<bool> updateAsyncSellElement(SellElements obj)
         {
             if (obj == null)
                 return false;
             IList<SellElements> stocks = new List<SellElements>();
             try
             {
-                stocks = await getSellElementBLAsync();
+                stocks = await getSellElementAsync();
                 if (stocks == null)
                 {
                     return false;
@@ -538,16 +420,20 @@ namespace PFE.Services
 
                 for (int i = 0; i < stocks.Count; i++)
                 {
-                    stocks[i].depot = obj.depot;
-                    stocks[i].tva = obj.tva;
-                    stocks[i].articles = obj.articles;
-                    stocks[i].artarifligne = obj.artarifligne;
-                    stocks[i].LivredQuantity = obj.LivredQuantity;
-                    stocks[i].mutht = obj.mutht;
-                    stocks[i].mtht = obj.mtht;
-                    stocks[i].mttc = obj.mttc;
+                    if(!stocks[i].ligneUpdated == true){
+                        stocks[i].depot = obj.depot;
+                        stocks[i].tva = obj.tva;
+                        stocks[i].articles = obj.articles;
+                        stocks[i].artarifligne = obj.artarifligne;
+                        stocks[i].LivredQuantity = obj.LivredQuantity;
+                        stocks[i].mutht = obj.mutht;
+                        stocks[i].mtht = obj.mtht;
+                        stocks[i].mttc = obj.mttc;
+                        stocks[i].artarifligne = obj.artarifligne;
+                    }
+
                 }
-                return addSellElementsBLAsync(stocks);
+                return addSellElementsAsync(stocks);
             }
             catch (Exception e)
             {
@@ -556,14 +442,14 @@ namespace PFE.Services
             }
         }
 
-        public async Task<bool> removeSellElementsBLAsync(SellElements obj)
+        public async Task<bool> removeSellElementsAsync(SellElements obj)
         {
             if (obj == null)
                 return false;
             IList<SellElements> stocks = new List<SellElements>();
             try
             {
-                stocks = await getSellElementBLAsync();
+                stocks = await getSellElementAsync();
                 if (stocks == null)
                 {
                     return false;
@@ -576,7 +462,7 @@ namespace PFE.Services
                         stocks.RemoveAt(i);
                     }
                 }
-                return addSellElementsBLAsync(stocks);
+                return addSellElementsAsync(stocks);
             }
             catch (Exception e)
             {
@@ -585,130 +471,13 @@ namespace PFE.Services
             }
         }
 
-        public async Task<bool> addSellElementBRAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            try
-            {
-                var stocks = await getSellElementBRAsync();
-                if (obj.LivredQuantity > 0)
-                {
-                    stocks.Add(obj);
-                    return addSellElementsBRAsync(stocks);
-                }
-                return false;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error adding to sell element br list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool addSellElementsBRAsync(IList<SellElements> obj)
-        {
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsBR");
-                BlobCache.UserAccount.InsertObject("SellElementsBR", obj);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error saving list of sell elements BR");
-                Console.WriteLine(e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<IList<SellElements>> getSellElementBRAsync()
-        {
-            try
-            {
-                // need much test
-                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElementsBR");
-                return Stocks;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error getting list of sell elements BR");
-                Console.WriteLine(e.StackTrace);
-                return null;
-
-            }
-        }
-
-        public async Task<bool> updateAsyncSellElementBR(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementBRAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    stocks[i].depot = obj.depot;
-                    stocks[i].tva = obj.tva;
-                    stocks[i].articles = obj.articles;
-                    stocks[i].artarifligne = obj.artarifligne;
-                    stocks[i].LivredQuantity = obj.LivredQuantity;
-                    stocks[i].mutht = obj.mutht;
-                    stocks[i].mtht = obj.mtht;
-                    stocks[i].mttc = obj.mttc;
-                }
-                return addSellElementsBRAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<bool> removeSellElementsBRAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementBRAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
-                    {
-                        stocks.RemoveAt(i);
-                    }
-                }
-                return addSellElementsBRAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool RemoveSellElementsBR()
+        public bool RemoveSellElements()
         {
             var stocks = new List<SellElements>();
             try
             {
-                BlobCache.UserAccount.Invalidate("SellElementsBR");
-                BlobCache.UserAccount.InsertObject("SellElementsBR", stocks);
+                BlobCache.UserAccount.Invalidate("SellElements");
+                BlobCache.UserAccount.InsertObject("SellElements", stocks);
                 return true;
             }
             catch
@@ -718,286 +487,5 @@ namespace PFE.Services
             }
         }
 
-        public async Task<bool> addSellElementFVAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            try
-            {
-                var stocks = await getSellElementFVAsync();
-                if (obj.LivredQuantity > 0)
-                {
-                    stocks.Add(obj);
-                    return addSellElementsFVAsync(stocks);
-                }
-                return false;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error adding to sell element list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool addSellElementsFVAsync(IList<SellElements> obj)
-        {
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsFV");
-                BlobCache.UserAccount.InsertObject("SellElementsFV", obj);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error saving list of sell elements FV");
-                Console.WriteLine(e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<IList<SellElements>> getSellElementFVAsync()
-        {
-            try
-            {
-                // need much test
-                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElementsFV");
-                return Stocks;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error getting list of sell elements FV");
-                Console.WriteLine(e.StackTrace);
-                return null;
-
-            }
-        }
-
-        public async Task<bool> updateAsyncSellElementFV(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementFVAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    stocks[i].depot = obj.depot;
-                    stocks[i].tva = obj.tva;
-                    stocks[i].articles = obj.articles;
-                    stocks[i].artarifligne = obj.artarifligne;
-                    stocks[i].LivredQuantity = obj.LivredQuantity;
-                    stocks[i].mutht = obj.mutht;
-                    stocks[i].mtht = obj.mtht;
-                    stocks[i].mttc = obj.mttc;
-                }
-                return addSellElementsFVAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<bool> removeSellElementsFVAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementFVAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
-                    {
-                        stocks.RemoveAt(i);
-                    }
-                }
-                return addSellElementsFVAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool RemoveSellElementsFV()
-        {
-            var stocks = new List<SellElements>();
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsFV");
-                BlobCache.UserAccount.InsertObject("SellElementsFV", stocks);
-                return true;
-            }
-            catch
-            {
-
-                return false;
-            }
-        }
-
-        public async Task<bool> addSellElementFRAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            try
-            {
-                var stocks = await getSellElementFRAsync();
-                if (obj.LivredQuantity > 0)
-                {
-                    stocks.Add(obj);
-                    return addSellElementsFRAsync(stocks);
-                }
-                return false;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error adding to sell element list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool addSellElementsFRAsync(IList<SellElements> obj)
-        {
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsFR");
-                BlobCache.UserAccount.InsertObject("SellElementsFR", obj);
-                return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error saving list of sell elements FR");
-                Console.WriteLine(e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<IList<SellElements>> getSellElementFRAsync()
-        {
-            try
-            {
-                // need much test
-                var Stocks = await BlobCache.UserAccount.GetObject<IList<SellElements>>("SellElementsFR");
-                return Stocks;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error getting list of sell elements FR");
-                Console.WriteLine(e.StackTrace);
-                return null;
-
-            }
-        }
-
-        public async Task<bool> updateAsyncSellElementFR(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementFRAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    stocks[i].depot = obj.depot;
-                    stocks[i].tva = obj.tva;
-                    stocks[i].articles = obj.articles;
-                    stocks[i].artarifligne = obj.artarifligne;
-                    stocks[i].LivredQuantity = obj.LivredQuantity;
-                    stocks[i].mutht = obj.mutht;
-                    stocks[i].mtht = obj.mtht;
-                    stocks[i].mttc = obj.mttc;
-                }
-                return addSellElementsFRAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public async Task<bool> removeSellElementsFRAsync(SellElements obj)
-        {
-            if (obj == null)
-                return false;
-            IList<SellElements> stocks = new List<SellElements>();
-            try
-            {
-                stocks = await getSellElementFRAsync();
-                if (stocks == null)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
-                    {
-                        stocks.RemoveAt(i);
-                    }
-                }
-                return addSellElementsFRAsync(stocks);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
-                return false;
-            }
-        }
-
-        public bool RemoveSellElementsFR()
-        {
-            var stocks = new List<SellElements>();
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsFR");
-                BlobCache.UserAccount.InsertObject("SellElementsFR", stocks);
-                return true;
-            }
-            catch
-            {
-
-                return false;
-            }
-        }
-
-        public bool RemoveSellElementsBL()
-        {
-            var stocks = new List<SellElements>();
-            try
-            {
-                BlobCache.UserAccount.Invalidate("SellElementsBL");
-                BlobCache.UserAccount.InsertObject("SellElementsBL", stocks);
-                return true;
-            }
-            catch
-            {
-
-                return false;
-            }
-        }
     }
 }

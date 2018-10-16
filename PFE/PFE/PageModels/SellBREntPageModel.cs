@@ -76,6 +76,7 @@ namespace PFE.PageModels
             Console.WriteLine("tiers recieved");
             Device.BeginInvokeOnMainThread(() =>
             {
+                affaires = arg2;
                 representant = arg2.AFFINTITULE;
             });
         }
@@ -95,16 +96,45 @@ namespace PFE.PageModels
             Console.WriteLine("tiers recieved");
             Device.BeginInvokeOnMainThread(() =>
             {
+                Tiers = arg2;
                 reference = arg2.TIRREFFOUCLI;
                 intitule = arg2.TIRSOCIETE;
             });
 
         }
+        
+        public AFFAIRE affaires
+        {
+            get;
+            set;
+        }
 
+        public TIERS Tiers
+        {
+            get;
+            set;
+        }
 
-        public SellBREntPageModel(IRestServices _restService)
+        public ICommand validate => new Command(_validate);
+
+        private void _validate(object obj)
+        {
+            SellElements sell = new SellElements
+            {
+                pIECE_NATURE = selectednature,
+                type = "SBR",
+                affaire = affaires,
+                tiers = Tiers
+            };
+            _dataService.addSellElementAsync(sell);
+        }
+
+        private IDataServices _dataService;
+
+        public SellBREntPageModel(IRestServices _restService, IDataServices _dataService)
         {
             this._restService = _restService;
+            this._dataService = _dataService;
         }
         public override void Init(object initData)
         {

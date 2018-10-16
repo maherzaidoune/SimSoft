@@ -127,7 +127,7 @@ namespace PFE.PageModels
                 affaire = affaires,
                 tiers = Tiers
             };
-            _dataService.addSellElementBLAsync(sell);
+            _dataService.addSellElementAsync(sell);
         }
 
         private IDataServices _dataService;

@@ -226,6 +226,8 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+            mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
+            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
             SellElements sell = new SellElements
             {
                 depot = selectedDepot,
@@ -235,9 +237,10 @@ namespace PFE.PageModels
                 LivredQuantity = int.Parse(LivredQuantity),
                 mutht = float.Parse(pht),
                 mtht = float.Parse(mtht),
-                mttc = float.Parse(mtttc)
-             };
-            _dataService.updateAsyncSellElementBL(sell);
+                mttc = float.Parse(mtttc),
+                ligneUpdated = true,
+            };
+            _dataService.updateAsyncSellElement(sell);
         }
 
 
