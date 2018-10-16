@@ -51,9 +51,13 @@ namespace PFE.Services
         int getPieceVente();
         int getEXERCICE();
         int getPieceVenteLigne();
+        int getPIECEVENTEECHEANCE_PEVID();
+        int getREGLEMENTECHEANCE_ECHID();
         PRODUIT getProduit(String PROCODE,String PROISPRINCIPAL);
+        PRODUIT getProduitbyARTID(string ARTID, string PROISPRINCIPAL);
         PIECE_PREF GetPIECE_PREF(string id, string PIPISDEFAULT = null);
         //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
         bool testServer(string uri = null);
+        float get_PCVMNTTTC(string PCVID);
     }
 }

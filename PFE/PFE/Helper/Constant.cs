@@ -214,6 +214,33 @@ namespace PFE.Helper
                 return _baseUrl + "/api/PRODUITs";
             }
         }
+        public static string PIECEVENTEECHEANCE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEVENTEECHEANCEs";
+            }
+        }
+        public static string PIECEVENTETAXES_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEVENTETAXES";
+            }
+        }
+        public static string REGLEMENTECHEANCE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/REGLEMENTECHEANCEs";
+            }
+        }
 
 
     }

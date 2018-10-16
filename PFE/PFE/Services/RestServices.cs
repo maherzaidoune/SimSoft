@@ -1043,7 +1043,7 @@ namespace PFE.Services
                     //"PCVOBJET": "string",
                     TIRID_CPT = sell.tiers.TIRID
                 };
-                PRODUIT produit = getProduit("4475", "O");
+                PRODUIT produit = getProduitbyARTID(sell.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
                 PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
                 {
@@ -1165,9 +1165,55 @@ namespace PFE.Services
                     PLID = pvl.PLVID,
                     CTMID = 0,
                     TIRID = pv.TIRID,
-                    OPEINTITULE = sell.tiers.TIRSOCIETE
+                    OPEINTITULE = sell.tiers.TIRSOCIETE,
                     //opuint
+
                 };
+
+                PIECEVENTEECHEANCE pve = new PIECEVENTEECHEANCE
+                {
+                    PCVID = pvl.PCVID,
+                    PEVID = getPIECEVENTEECHEANCE_PEVID() + 1 ,
+                    PEVDATE = DateTime.Now,
+                    PEVMONTANT = (int?)get_PCVMNTTTC(pvl.PCVID.ToString()),
+                    PEVTAUX = 1,
+                    RGTID = 2,
+                    PEVISREGLE = "N",
+                    PEVMNTREGLE = 0,
+                    PITCODE = "F"
+                };
+
+                PIECEVENTETAXES pvt = new PIECEVENTETAXES
+                {
+                    PCVID = pvl.PCVID,
+                    CODETAXE = 10,
+                    PTVBASETVA = pvl.PLVMNTNETHT,
+                    PTVBASETVAESC = 0,
+                    //PTVMNTTVA = ,
+                    PTVTAUXTVA = (int?)sell.tva.TVATAUX,
+                    PTVBASETPF = 0,
+                    PTVBASETPFESC = 0,
+                    PTVMNTTPF = 0,
+                    PTVTAUXTPF = 0
+                };
+                REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
+                {
+                    ECHID = getREGLEMENTECHEANCE_ECHID() + 1,
+                    PEREID = pvl.PCVID,
+                    PERECLASSE = "PCV",
+                    ECHNUMERO = 1,
+                    RGTID = 2,
+                    ECHLIBELLE = "Chèque à réception de facture",
+                    ECHISLIBELLEAUTO = "N",
+                    ECHJOUR = 0,
+                    //ECHTYPE": "string",
+                    ECHLE = 0,
+                    ECHTAUX = 1,
+                    ECHDATE = DateTime.Now,
+                    PITCODE = "F"
+                };
+
+
 
 
             }
@@ -1242,6 +1288,7 @@ namespace PFE.Services
                 return count.Result.count;
             }
             catch (FlurlHttpException e)
+
             {
                 Console.WriteLine(e.StackTrace);
                 noInternetConnection();
@@ -1260,6 +1307,25 @@ namespace PFE.Services
             {
                 
                 return (Constant.PRODUIT_url + "?filter[where][and][0][PROCODE]=" + PROCODE + "&filter[where][and][1][PROISPRINCIPAL]=" + PROISPRINCIPAL).WithTimeout(7).GetJsonAsync<PRODUIT>().Result;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                noInternetConnection();
+            }
+            return null;
+        }
+        public PRODUIT getProduitbyARTID(string ARTID, string PROISPRINCIPAL)
+        {
+            try
+            {
+
+                return (Constant.PRODUIT_url + "?filter[where][and][0][ARTID]=" + ARTID + "&filter[where][and][1][PROISPRINCIPAL]=" + PROISPRINCIPAL).WithTimeout(7).GetJsonAsync<PRODUIT>().Result;
             }
             catch (FlurlHttpException e)
             {
@@ -1297,6 +1363,68 @@ namespace PFE.Services
             }
 		}
 
+        public int getPIECEVENTEECHEANCE_PEVID()
+        {
+            try
+            {
+
+                return (int)(Constant.PIECEVENTEECHEANCE_url + "filter[order]=PEVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTEECHEANCE>>().Result[0].PEVID;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+        public int getREGLEMENTECHEANCE_ECHID()
+        {
+            try
+            {
+
+                return (int)(Constant.REGLEMENTECHEANCE_url + "filter[order]=ECHID DESC").WithTimeout(7).GetJsonAsync<IList<REGLEMENTECHEANCE>>().Result[0].ECHID;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public float get_PCVMNTTTC(string PCVID)
+        {
+            try{
+                var list = (Constant.PIECEVENTE_url + "?filter[where][PCVID]=" + PCVID).WithTimeout(10).GetJsonAsync<IList<PIECEVENTE>>().Result;
+                float sum = 0;
+                foreach (PIECEVENTE P in list)
+                {
+                    sum += (float)P.PCVMNTTTC;
+                }
+                return sum;
+            }
+            catch(FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
     }
 
 }
