@@ -17,13 +17,14 @@ namespace PFE.PageModels
         public ObservableCollection<SellElements> productList { get; set; }
         public SellElements selectedProdut { get; set; }
         private IDataServices _dataService;
+        private IRestServices _restservices;
         private IDialogService _dialogService;
 
-        public SellDetailsPageModel(IDataServices _dataService , IDialogService _dialogService)
+        public SellDetailsPageModel(IDataServices _dataService , IDialogService _dialogService, IRestServices _restservices)
         {
             this._dataService = _dataService;
             this._dialogService = _dialogService;
-
+            this._restservices = _restservices;
         }
 
         public ICommand delete => new Command(_delete);
@@ -32,6 +33,9 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+
+
+
             if(_dataService.RemoveSellElements()){
                 productList.Clear();
                 _dialogService.ShowMessage("working on valiid", true);

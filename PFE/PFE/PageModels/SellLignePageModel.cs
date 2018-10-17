@@ -238,7 +238,7 @@ namespace PFE.PageModels
                 mutht = float.Parse(pht),
                 mtht = float.Parse(mtht),
                 mttc = float.Parse(mtttc),
-                ligneUpdated = true,
+                ligneUpdated = true
             };
             _dataService.updateAsyncSellElement(sell);
         }
