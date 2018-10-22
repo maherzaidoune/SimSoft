@@ -35,11 +35,15 @@ namespace PFE.PageModels
         {
 
 
+            if(_restservices.PostSellLignes(productList)){
 
-            if(_dataService.RemoveSellElements()){
-                productList.Clear();
-                _dialogService.ShowMessage("working on valiid", true);
+                if (_dataService.RemoveSellElements())
+                {
+                    productList.Clear();
+                    _dialogService.ShowMessage("Done", false);
+                }
             }
+
         }
 
         private void _delete(object obj)

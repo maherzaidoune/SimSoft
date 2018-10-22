@@ -41,6 +41,9 @@ namespace PFE.Services
         bool PostPiecedivers(PIECEDIVERS piecediverse);
         bool PostPiecediversLigne(PIECEDIVERSLIGNES piecediverseligne);
         bool PostOperationStock(OPERATIONSTOCK operationStock);
+        bool PostPieceVenteEcheace(PIECEVENTEECHEANCE pIECEVENTEECHEANCE);
+        bool PostPieceVenteTaxe(PIECEVENTETAXES pIECEVENTETAXES);
+        bool PostReglementEcheace(REGLEMENTECHEANCE rEGLEMENTECHEANCE);
         bool PostMemos(MEMOS memos);
         IDENTIFIANTTABLE GetIDENTIFIANTTABLE(string idTable);
         bool PostIdentityTable(string idTable);

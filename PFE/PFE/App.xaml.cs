@@ -1,5 +1,6 @@
 using Akavache;
 using FreshMvvm;
+using PFE.Helper;
 using PFE.Services;
 using System;
 using Xamarin.Forms;
@@ -16,8 +17,9 @@ namespace PFE
             BlobCache.EnsureInitialized();
             InitializeComponent();
             SetUpIOC();
-            var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
-            MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+            //var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
+            //MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+            Navigation.initTabsSellBL();
         }
         // setting up ioc container 
         void SetUpIOC()

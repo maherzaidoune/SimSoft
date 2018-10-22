@@ -965,23 +965,29 @@ namespace PFE.Services
                 PIECEVENTE pv = new PIECEVENTE
                 {
                     PCVID = getPieceVente() + 1,
-                    PCVNUM = "", // a partir de piece nature 
-                                 //"PCVNUMEXT": "string",
+                    PCVNUM = Strings.increCode(getPieceVente() + 1, sell.type[0].ToString()), // a partir de piece nature 
+                    PCVNUMEXT =  "test", // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
                     PINCODE = sell.pIECE_NATURE.PINCODE,
                     EXEID = getEXERCICE() + 1, // need to add exercice 
+
+
                     NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).NUMID,
-                    //"AFFID": 0,
-                    TRFID = int.Parse(sell.tiers.TRFID),
+                    //AFFID =  sell.affaire.AFFID,
+                    //TRFID = int.Parse(sell.tiers.TRFID),
                     TIRID = sell.tiers.TIRID,
-                    TIRID_FAC = int.Parse(sell.tiers.TIRID_FAC),
-                    TIRID_LIV = int.Parse(sell.tiers.TIRID_LIV),
-                    TIRID_REP = null,
-                    //ADRID_FAC = sell.tiers.ADRID
-                    //"ADRID_LIV": 0,
-                    DEPID = sell.depot.DEPID,
-                    //"EXPID": 0,
+                    TIRID_FAC = 0,//not tested
+                    TIRID_LIV = 0,//not tested
+                    //TIRID_REP = null,
+                    ADRID_FAC = 0, //sell.tiers.ADRID
+                    ADRID_LIV = 0,
+                    //DEPID = sell.depot.DEPID,
+                    ////"EXPID": 0,
+
+
+
+                    //working
                     PCVCOLISAGE = 1, // fix ?
                     PCVPOIDS = 0, // fix ?
                     PCVUNITEPOIDS = 1000, // fix ?
@@ -1009,62 +1015,74 @@ namespace PFE.Services
                     PCVTAUXESCOMPTE = 0,
                     PCVCPTRELANCE = 0,
                     PCVCONDREGLEMENT = "Chèque à réception de facture",
-                    USRMODIF = Helper.Session.user.USRNOM,
+                    //working
+
+
+
+                    //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = sell.tiers.MEMOID,
+                    MEMOID = 0,//sell.tiers.MEMOID,
+
+                    //working
                     PCVNBIMPRESSION = 0,
                     PABID = 0,
                     SOCID = 67,
                     PCVISEDI = "N",
                     PCVEDIETAT = "A",
-                    //"PCVEDIDATE": "2018-09-20T19:12:03.830Z",
-                    //"PCVEDICODELIV": "string",
-                    //"PCVDATELIVRAISON": "2018-09-20T19:12:03.830Z",
+                    PCVEDIDATE = DateTime.Now,
+                    PCVEDICODELIV = "t", //tesst
+                    PCVDATELIVRAISON = DateTime.Now,
                     PCVISDEB = "N",
-                    //"PCVDEBREGIME": "string",
-                    //"PCVDEBTRANSACTION": "string",
-                    //"PCVDEBLIVRAISON": "string",
-                    //"PCVDEBTRANSPORT": "string",
-                    //"PCVCRITREGROUPE": "string",
-                    //"CAPID": 0,
+                    PCVDEBREGIME = "t", //test
+                    PCVDEBTRANSACTION = "t", //test
+                    PCVDEBLIVRAISON = "t", //test
+                    PCVDEBTRANSPORT = "t", //test
+                    PCVCRITREGROUPE = "t", //test
+                    CAPID  = 0, //test
                     PCVVOLUME = 0,
                     PCVUNITEVOLUME = 1,
                     PCVISPIECEFRAIS = "N",
                     PCVREMISEPIED = 0,
-                    //TPVID = 1,
-                    //"TYNCODE": "string",
-                    //"PCVNBPTSCARTE": 0,
-                    //"ANSID": 0,
-                    USRCREATE = Session.user.USRLOGIN,
-                    PCVISECOM = "N",
-                    PRFID = 0,
-                    OXID = 0,
+                    TPVID = 1, //test
+                    TYNCODE = "t", //test
+
+                    //working
+
+
+                   // PCVNBPTSCARTE = 0, //test
+                    //ANSID = 0, //test
+                    //USRCREATE = Session.user.USRLOGIN,
+                    //PCVISECOM = "N",
+                    //PRFID = 0,
+                    //OXID = 0,
                     //"PCVOBJET": "string",
-                    TIRID_CPT = sell.tiers.TIRID
+                    //TIRID_CPT = sell.tiers.TIRID
                 };
+
                 PRODUIT produit = getProduitbyARTID(sell.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
+
                 PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
                 {
                     PLVID = getPieceVenteLigne() + 1, // to be verified
                     PCVID = getPieceVenteLigne() + 1,
-                    //"PLVNUMLIGNE": 0,
+                    PLVNUMLIGNE = 0, // just added
                     PLVTYPE = "L",
                     PLVDATE = DateTime.Now,
                     DEPID = sell.depot.DEPID,
-                    AFFID = sell.affaire.AFFID,
+                    AFFID = 0,//sell.affaire.AFFID,
                     TIRIDREP = null,
-                    TIRIDFOU = produit.TIRID,
-                    PROID = produit.PROID,
+                    TIRIDFOU = 0,//produit.TIRID,
+                    PROID = 0,//produit.PROID,
                     ARTID = sell.articles.ARTID,
                     ARTTYPE = "A",
                     PLVISFORFAIT = "N",
                     PLVISSOUMISESC = "N",
                     PLVDESIGNATION = sell.articles.ARTDESIGNATION,
-                    TVACODE = artfamilles.TVACODE_FR,
+                    TVACODE = 0,//artfamilles.TVACODE_FR,
                     TPFCODE = 0,
-                    CPTID = artfamilles.CPTID_FR,
+                    CPTID = 0,//artfamilles.CPTID_FR,
                     ANSID = 7,
                     PLVQTE = sell.LivredQuantity,
                     PLVQTEUS = sell.LivredQuantity,
@@ -1075,10 +1093,10 @@ namespace PFE.Services
                     PLVPUNET = (int?)(sell.mtht / sell.LivredQuantity),
                     PLVMNTNET = (int?)(sell.mutht * sell.LivredQuantity),
                     PLVMNTNETHT = (int?)sell.mtht,
-                    //"PLVLASTPA": 0,
-                    //"PLVPMP": 0,
-                    //"PLVCUMP": 0,
-                    PLVREMISE_F = sell.remise,
+                    PLVLASTPA = 0, // just added
+                    PLVPMP = 0, // just added
+                    PLVCUMP = 0, // just added
+                    PLVREMISE_F = "0",//sell.remise,
                     PLVREMISE_T = "P",
                     PLVREMISE_MNT = 0,
                     //"PLVSTOTID": 0,
@@ -1129,9 +1147,9 @@ namespace PFE.Services
                     PLVDENSITE = 0,
                     CTMID = 0,
                     PIFID = 0,
-                    //"PLVLASTPR": 0,
-                    //"PLVPRMP": 0,
-                    //"PLVCRUMP": 0,
+                    PLVLASTPR = 0, // just added
+                    PLVPRMP = 0, // just added
+                    PLVCRUMP = 0, // just added
                     //"PLVFEFODIVERS1": "string",
                     //"PLVFEFODIVERS2": "string",
                     //"PLVFEFODIVERS3": "string",
@@ -1150,7 +1168,7 @@ namespace PFE.Services
                     OPEDATE = DateTime.Now,
                     ARTID = sell.articles.ARTID,
                     DEPID = sell.depot.DEPID,
-                    USRMODIF = Helper.Session.user.USRNOM,
+                    //USRMODIF = Helper.Session.user.USRNOM,
                     PICCODE = "S",
                     PINID = pv.PINID,
                     OPENATURESTOCK = "R",
@@ -1213,31 +1231,62 @@ namespace PFE.Services
                     PITCODE = "F"
                 };
 
-
-
-
-
-
-
+                var result = PostPIECEVENTE(pv)
+                            &&
+                    PostPIECEVENTELIGNE(pvl);
+                if(result){
+                    if(!sell.type.Equals("SBC")){
+                        PostPieceVenteEcheace(pve);
+                        PostPieceVenteTaxe(pvt);
+                        PostReglementEcheace(re);
+                    }
+                    return true;
+                }
+                return false;
             }
             catch(Exception e){
                 Console.WriteLine(e.StackTrace);
                 noInternetConnection();
                 return false;
             }
-
-
-            return true;
+            //return false;
         }
 
         public bool PostPIECEVENTELIGNE(PIECEVENTELIGNE pIECEVENTELIGNE)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = (Constant.PIECEVENTELIGNE_url).PostJsonAsync(pIECEVENTELIGNE);
+                return result.Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
 
         public bool PostPIECEVENTE(PIECEVENTE pIECEVENTE)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result =  (Constant.PIECEVENTE_url).WithTimeout(7).PostJsonAsync(pIECEVENTE);
+                var res = result.Result;
+                return res.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
 
         public int getPieceVente()
@@ -1286,9 +1335,9 @@ namespace PFE.Services
         {
             try
             {
-                
-                var count = (Constant.PIECEVENTELIGNE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
-                return count.Result.count;
+                var res =  (Constant.PIECEVENTELIGNE_url + "?filter[order]=PLVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTELIGNE>>();
+                Console.WriteLine(res);
+                return (int) res.Result[0].PLVID;
             }
             catch (FlurlHttpException e)
 
@@ -1371,7 +1420,7 @@ namespace PFE.Services
             try
             {
 
-                return (int)(Constant.PIECEVENTEECHEANCE_url + "filter[order]=PEVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTEECHEANCE>>().Result[0].PEVID;
+                return (int)(Constant.PIECEVENTEECHEANCE_url + "?filter[order]=PEVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTEECHEANCE>>().Result[0].PEVID;
             }
             catch (FlurlHttpException e)
             {
@@ -1390,7 +1439,7 @@ namespace PFE.Services
             try
             {
 
-                return (int)(Constant.REGLEMENTECHEANCE_url + "filter[order]=ECHID DESC").WithTimeout(7).GetJsonAsync<IList<REGLEMENTECHEANCE>>().Result[0].ECHID;
+                return (int)(Constant.REGLEMENTECHEANCE_url + "?filter[order]=ECHID DESC").WithTimeout(7).GetJsonAsync<IList<REGLEMENTECHEANCE>>().Result[0].ECHID;
             }
             catch (FlurlHttpException e)
             {
@@ -1427,6 +1476,59 @@ namespace PFE.Services
                 Console.WriteLine(ex.Message);
             }
             return 0;
+        }
+
+        public bool PostPieceVenteEcheace(PIECEVENTEECHEANCE pIECEVENTEECHEANCE)
+        {
+            try
+            {
+                return (Constant.PIECEVENTEECHEANCE_url).WithTimeout(7).PostJsonAsync(pIECEVENTEECHEANCE).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostPieceVenteTaxe(PIECEVENTETAXES pIECEVENTETAXES)
+        {
+            try
+            {
+
+                return (Constant.PIECEVENTETAXES_url).WithTimeout(7).PostJsonAsync(pIECEVENTETAXES).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostReglementEcheace(REGLEMENTECHEANCE rEGLEMENTECHEANCE)
+        {
+            try
+            {
+
+                return (Constant.REGLEMENTECHEANCE_url).WithTimeout(7).PostJsonAsync(rEGLEMENTECHEANCE).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
     }
 
