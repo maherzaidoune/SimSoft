@@ -16,7 +16,7 @@
         <StackLayout Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" HeightRequest="40" >
             <Label Text="Recherche " VerticalOptions="Center"/>
             <Entry Placeholder="Recherche.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding search , Mode=OneWayToSource}"  />
-            <Button  TextColor="White"  BackgroundColor="#283593"  Text="F"  Command="{Binding find}" ></Button>
+            <Button  Margin="10" Image="info.png" BorderRadius="10"  TextColor="White"  BackgroundColor="#283593"  Text="F"  Command="{Binding find}" ></Button>
         </StackLayout>
         <ListView
             Grid.Row="1" Grid.ColumnSpan="2"
@@ -41,7 +41,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e"  Text="Valider"  Command="{Binding validate}" ></Button>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Annuler"  Command="{Binding back}" ></Button>
+        <Button Grid.Row="2" Margin="10" Image="save.png" BorderRadius="10" TextColor="White" Grid.Column="0" BackgroundColor="#33691e"  Text="Valider"  Command="{Binding validate}" ></Button>
+        <Button Grid.Row="2" Margin="10" Image="close.png" BorderRadius="10" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Annuler"  Command="{Binding back}" ></Button>
     </Grid>
 </ContentPage>

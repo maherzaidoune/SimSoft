@@ -17,9 +17,9 @@ namespace PFE
             BlobCache.EnsureInitialized();
             InitializeComponent();
             SetUpIOC();
-            //var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
-            //MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
-            Navigation.initTabsSellBL();
+            var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPageModel>();
+            MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+            //Navigation.initTabsSellBL();
         }
         // setting up ioc container 
         void SetUpIOC()

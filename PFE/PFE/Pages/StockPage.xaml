@@ -17,8 +17,8 @@
                 <Entry Placeholder="CB" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding barreCode , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                <Button   TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
-                <Button  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
+                 <Button Margin="5" Image="save.png" BorderRadius="10"  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
+                 <Button Margin="5" Image="qrcode.png" BorderRadius="10" TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
             </StackLayout>
             <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                 <Label Text="Code" VerticalOptions="Center"/>

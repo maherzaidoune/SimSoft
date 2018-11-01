@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.LoginPage"
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:local="clr-namespace:PFE">
 
-    <Grid RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,0,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="3*" />
@@ -15,10 +15,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" >
+        <StackLayout Margin="10" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" >
             <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
         </StackLayout>
-        <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" >
+        <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" VerticalOptions="Center" >
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                 <Label Text="Groupe  "  VerticalOptions="Center"/>
                 <controls:CustomPicker HorizontalOptions="EndAndExpand"
@@ -50,7 +50,38 @@
             </StackLayout>
         </StackLayout>
         <ActivityIndicator Color="Red" Grid.Row="2" Grid.ColumnSpan="2" IsVisible="{Binding loading }" IsRunning="{Binding loading }" ></ActivityIndicator>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" IsVisible="{Binding isEnabled}" IsEnabled="{Binding isEnabled}" Text="Connecter"  Command="{Binding validate}" ></Button>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" IsVisible="{Binding isEnabled}" IsEnabled="{Binding isEnabled}" Text="Quitter"  Command="{Binding quit}" ></Button>
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="2"
+        CornerRadius="10"
+        Margin="10"
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Image HorizontalOptions="Center" Source="login.png" Margin="0,5,0,0" />
+                <Button   TextColor="White"  BackgroundColor="Transparent" Text="Connecter"  Command="{Binding validate}" VerticalOptions="Fill" ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="1"
+        Grid.Row="2"
+        CornerRadius="10"
+        Margin="10"
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Image HorizontalOptions="Center" Source="close.png" Margin="0,5,0,0" />
+                <Button TextColor="White"  BackgroundColor="Transparent" Text="Quitter"  Command="{Binding quit}" VerticalOptions="Fill" ></Button>
+        </local:GradientButton>
+        </Frame>
     </Grid>
-</ContentPage>
+</ContentPage> 

@@ -119,6 +119,28 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
     <AndroidResource Include="Resources\drawable\back.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\close.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\login.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\worker.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\shopping.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\user.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\settings.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\delete.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\save.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\printer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\tax.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\analyze.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\qrcode.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\info.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\in.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\out.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\transfer.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\team.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\key.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\addw.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\add.png" />
+    <AndroidResource Include="Resources\drawable\edit.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\edit.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-xhdpi\" />
@@ -140,9 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\SIMSOFT.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\add.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\details.png" />

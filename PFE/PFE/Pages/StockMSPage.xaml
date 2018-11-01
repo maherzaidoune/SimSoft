@@ -34,8 +34,8 @@
                     <Entry Placeholder="Code a barre .." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding barreCode , Mode=TwoWay}"  />
                 </StackLayout >
                 <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="0,2,0,2" >
-                    <Button   TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
-                    <Button  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
+                   <Button Margin="5" Image="save.png" BorderRadius="10"  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
+                    <Button Margin="5" Image="qrcode.png" BorderRadius="10" TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
                 </StackLayout>
                  
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
@@ -71,7 +71,7 @@
             </StackLayout>
 
         </ScrollView>
-        <Button Grid.Row="1" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
+        <Button Margin="10" Image="save.png" BorderRadius="10" Grid.Row="1" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
+        <Button Margin="10" Image="close.png" BorderRadius="10" Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
     </Grid>
 </ContentPage>

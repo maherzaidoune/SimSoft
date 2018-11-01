@@ -36,7 +36,7 @@
                     <DatePicker Date="{Binding date,Mode=TwoWay}" TextColor="Black" WidthRequest="195" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand" />
                 </StackLayout>
                 
-                <Button HorizontalOptions="Fill" Text="Compte tier" Command="{Binding tiers}" />
+                <Button Margin="10" Image="info.png" BorderRadius="10" HorizontalOptions="Fill" Text="Compte tier" Command="{Binding tiers}" />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Numero Fournisseur  " VerticalOptions="Center"/>
                     <Entry Placeholder="Numero Fournisseur.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numerofournisseur , Mode=TwoWay}"  />
@@ -45,7 +45,7 @@
                     <Label Text="Intitulé  " VerticalOptions="Center"/>
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding fournisseurintitule , Mode=TwoWay}"  />
                 </StackLayout>
-                <Button HorizontalOptions="Fill" Text="Affaire" Command="{Binding affairs}"/>
+                <Button Margin="10" Image="info.png" BorderRadius="10" HorizontalOptions="Fill" Text="Affaire" Command="{Binding affairs}"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Code affaire " VerticalOptions="Center"/>
                     <Entry Placeholder="Code affairer.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding Codeaffaire , Mode=TwoWay}"  />
@@ -57,7 +57,7 @@
             </StackLayout>
 
         </ScrollView>
-        <Button Grid.Row="1" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
+        <Button Grid.Row="1" Margin="10" Image="save.png" BorderRadius="10" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
+        <Button Grid.Row="1" Margin="10" Image="close.png" BorderRadius="10" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
     </Grid>
 </ContentPage>

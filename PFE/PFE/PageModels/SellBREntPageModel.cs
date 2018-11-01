@@ -31,9 +31,9 @@ namespace PFE.PageModels
                 try
                 {
                     numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
+                    var comp = numauto.NUMCOMPTEUR + 1; 
                     numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-
+                        
                 }
                 catch (Exception e)
                 {

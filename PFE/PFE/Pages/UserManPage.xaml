@@ -15,9 +15,9 @@
         <StackLayout Grid.Row="0" Grid.ColumnSpan="2" >
             <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
         </StackLayout>
-        <Button Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#283593" Text="Gestion Groupe" Command="{Binding groupMangment}"  ></Button>
-        <Button Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="Gestion Utilisateur" Command="{Binding userManagment}" ></Button>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#ffb300" Text="Gestion droit d'access"  ></Button>
-        <Button Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter"  Command="{Binding quit}" ></Button>
+        <Button Margin="10" Image="team.png" BorderRadius="10" Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#283593" Text="Gestion Groupe" Command="{Binding groupMangment}"  ></Button>
+        <Button Margin="10" Image="user.png" BorderRadius="10" Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="Gestion Utilisateur" Command="{Binding userManagment}" ></Button>
+        <Button Margin="10" Image="key.png" BorderRadius="10" Grid.Row="2" TextColor="White" Grid.Column="0" BackgroundColor="#ffb300" Text="Gestion droit d'access"  ></Button>
+        <Button Margin="10" Image="close.png" BorderRadius="10" Grid.Row="2" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Quitter"  Command="{Binding quit}" ></Button>
     </Grid>
 </ContentPage>
