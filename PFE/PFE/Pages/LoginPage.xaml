@@ -5,7 +5,7 @@
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:local="clr-namespace:PFE">
 
-    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,0,5,5">
+    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,0,5,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="3*" />
@@ -58,11 +58,9 @@
         CornerRadius="10"
         Margin="10"
         Padding="0"
-        IsVisible="{Binding isEnabled}"
-        IsEnabled="{Binding isEnabled}"
-        HorizontalOptions="Fill">
+       HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="login.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="login.png" Margin="0,15,0,0" />
                 <Button   TextColor="White"  BackgroundColor="Transparent" Text="Connecter"  Command="{Binding validate}" VerticalOptions="Fill" ></Button>
         </local:GradientButton>
         </Frame>
@@ -75,11 +73,9 @@
         CornerRadius="10"
         Margin="10"
         Padding="0"
-        IsVisible="{Binding isEnabled}"
-        IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="close.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="close.png" Margin="0,15,0,0" />
                 <Button TextColor="White"  BackgroundColor="Transparent" Text="Quitter"  Command="{Binding quit}" VerticalOptions="Fill" ></Button>
         </local:GradientButton>
         </Frame>

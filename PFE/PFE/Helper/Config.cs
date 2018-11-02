@@ -1,24 +1,27 @@
 ﻿using System;
+using System.Reactive.Linq;
+using Akavache;
 using Plugin.SecureStorage;
 
 namespace PFE.Helper
 {
     public class Config
     {
+
         public static string URL
         {
             get
             {
                 try
                 {
-                    //working :)
-                    if(string.IsNullOrEmpty(CrossSecureStorage.Current.GetValue("URL"))){
+                    string url = BlobCache.UserAccount.GetObject<String>("URL").Wait();
+                    if (string.IsNullOrEmpty(url)){
                         return "http://localhost";
                     }else{
-                        if(CrossSecureStorage.Current.GetValue("URL").Contains("http://")){
-                            return CrossSecureStorage.Current.GetValue("URL");
+                        if(url.Contains("http://")){
+                            return url.ToString();
                         }else{
-                            return "http://" + CrossSecureStorage.Current.GetValue("URL");
+                            return "http://" + url;
                         }
                     }
 
@@ -32,7 +35,8 @@ namespace PFE.Helper
 
             set
             {
-                CrossSecureStorage.Current.SetValue("URL", value);
+                 BlobCache.UserAccount.Invalidate("port");
+                BlobCache.UserAccount.InsertObject("URL", value);
             }
         }
 
@@ -42,11 +46,12 @@ namespace PFE.Helper
             {
                 try
                 {
+                    string url = BlobCache.UserAccount.GetObject<string>("port").Wait();
                     //working :)
-                    if(string.IsNullOrEmpty(CrossSecureStorage.Current.GetValue("port"))){
+                    if (string.IsNullOrEmpty(url)){
                         return "3000";
                     }
-                    return CrossSecureStorage.Current.GetValue("port");
+                    return url;
                 }
                 catch
                 {
@@ -56,7 +61,8 @@ namespace PFE.Helper
 
             set
             {
-                CrossSecureStorage.Current.SetValue("port", value);
+                BlobCache.UserAccount.Invalidate("port");
+                BlobCache.UserAccount.InsertObject("port", value);
             }
         }
     }
