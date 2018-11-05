@@ -18,38 +18,12 @@
             <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" >
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Code a barre    " VerticalOptions="Center"/>
+                    <Label Text="Code a barre " VerticalOptions="Center"/>
                     <Entry Placeholder="Code a barre .." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding barreCode , Mode=TwoWay}"  />
                 </StackLayout >
-                <StackLayout  Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="0,2,0,2" >
-                <Frame
-                AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
-                IsClippedToBounds="False"
-                CornerRadius="20"
-                Margin="15,5,15,5"
-                Padding="0"
-                MinimumWidthRequest="250"
-                HorizontalOptions="StartAndExpand"
-                        >
-                <local:GradientButton  StartColor="#e5a671" EndColor="#f0b07b" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="save.png" Margin="0,5,0,0" />
-                    <Button   TextColor="White" HorizontalOptions="Fill"  BackgroundColor="Transparent" Text="Valider"  Command="{Binding valid}" ></Button>
-               </local:GradientButton>
-                </Frame>
-                    <Frame
-                AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
-                IsClippedToBounds="False"
-                CornerRadius="20"
-                Margin="15,5,15,5"
-                Padding="0"
-                MinimumWidthRequest="250"
-                HorizontalOptions="EndAndExpand"
-                        >
-                <local:GradientButton  StartColor="#e5a671" EndColor="#f0b07b" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="qrcode.png" Margin="0,5,0,0" />
-                  <Button  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="Transparent" Text="Scan" Command="{Binding scan}" ></Button>
-                </local:GradientButton>
-                </Frame>
+                <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="0,2,0,2" >
+                    <Button Margin="5" Image="save.png"   TextColor="White" HorizontalOptions="FillAndExpand"   Text="Valider"  Command="{Binding valid}" ></Button>
+                    <Button Margin="5" Image="qrcode.png" TextColor="White" HorizontalOptions="FillAndExpand"   Text="Scan" Command="{Binding scan}" ></Button>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Désignation  " VerticalOptions="Center"/>
@@ -120,8 +94,8 @@
         IsClippedToBounds="False"
         Grid.Column="0"
         Grid.Row="1"
-        CornerRadius="20"
-        Margin="10"
+        CornerRadius="10"
+         Margin="10,15,10,15"
         Padding="0"
         IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"
@@ -137,8 +111,8 @@
         IsClippedToBounds="False"
         Grid.Row="1"
         Grid.Column="1"
-        CornerRadius="20"
-        Margin="10"
+        CornerRadius="10"
+         Margin="10,15,10,15"
         Padding="0"
         IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"

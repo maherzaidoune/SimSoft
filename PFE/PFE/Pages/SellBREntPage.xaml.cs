@@ -10,7 +10,7 @@ namespace PFE.Pages
         public SellBREntPage()
         {
             InitializeComponent();
-            if (Device.RuntimePlatform == Device.Android)
+            //if (Device.RuntimePlatform == Device.Android)
                 NavigationPage.SetHasNavigationBar(this, false);
         }
     }

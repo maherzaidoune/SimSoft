@@ -1,4 +1,5 @@
-﻿using PFE.Models;
+﻿using FreshMvvm;
+using PFE.Models;
 using PFE.Services;
 using PropertyChanged;
 using System;
@@ -14,6 +15,13 @@ namespace PFE.PageModels
     [AddINotifyPropertyChangedInterface]
     class StockPageModel : FreshMvvm.FreshBasePageModel
     {
+
+        public ICommand quit => new Command(_quit);
+        private void _quit(object obj)
+        {
+            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+        }
+
         public ICommand scan => new Command(_Scan);
 
         private void _Scan(object obj)

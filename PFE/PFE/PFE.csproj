@@ -68,6 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Pages\SellBREntPage.cs" />
+    <Compile Remove="Pages\BuyBRecentetPage.cs" />
+    <Compile Remove="PageModels\BuyFAentPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">

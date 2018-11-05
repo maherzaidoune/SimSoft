@@ -205,7 +205,6 @@
     <BundleResource Include="Resources\printer.png" />
     <BundleResource Include="Resources\tax.png" />
     <BundleResource Include="Resources\analyze.png" />
-    <BundleResource Include="Resources\qr-code.png" />
     <BundleResource Include="Resources\info.png" />
     <BundleResource Include="Resources\in.png" />
     <BundleResource Include="Resources\out.png" />
@@ -214,6 +213,7 @@
     <BundleResource Include="Resources\key.png" />
     <BundleResource Include="Resources\addw.png" />
     <BundleResource Include="Resources\edit.png" />
+    <BundleResource Include="Resources\qrcode.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />

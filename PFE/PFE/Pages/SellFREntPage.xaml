@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:controls="clr-namespace:PFE.Rendereres" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PFE.Pages.SellFREntPage">
-<Grid ColumnSpacing="0" RowSpacing="0">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:controls="clr-namespace:PFE.Rendereres"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PFE"
+            x:Class="PFE.Pages.SellFREntPage">
+<Grid BackgroundColor="White" Padding="5,0,5,0" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -32,7 +36,9 @@
                     <Label Text="Numero piece  " VerticalOptions="Center"/>
                     <Entry Placeholder="Numero piece.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
                 </StackLayout>
-                <Button Margin="10" Image="info.png" BorderRadius="10" HorizontalOptions="Fill" Text="Compte tier" Command="{Binding tiers}" />
+                   <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                    <Button WidthRequest="150" TextColor="White" HorizontalOptions="FillAndExpand" Image="info.png" Text="Compte tier" Command="{Binding tiers}" />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Intitulé  " VerticalOptions="Center"/>
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding intitule , Mode=TwoWay}"  />
@@ -41,7 +47,6 @@
                     <Label Text="Reference  " VerticalOptions="Center"/>
                     <Entry Placeholder="Reference.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding reference , Mode=TwoWay}"  />
                 </StackLayout>
-                <Button Margin="10" Image="info.png" BorderRadius="10" HorizontalOptions="Fill" Text="Affaire" Command="{Binding affairs}"/>
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Representant " VerticalOptions="Center"/>
@@ -51,7 +56,36 @@
             </StackLayout>
 
         </ScrollView>
-        <Button Grid.Row="1" Margin="10" Image="save.png" BorderRadius="10" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Grid.Row="1" Margin="10" Image="close.png" BorderRadius="10" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
+       <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"   
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="save.png" TextColor="White" BackgroundColor="Transparent"  Text="Ajouter" Command="{Binding validate}"  HorizontalOptions="Fill" VerticalOptions="Fill"  ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="1"
+        Grid.Column="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter" Command="{Binding quit}"   HorizontalOptions="Fill" VerticalOptions="Fill" ></Button>
+        </local:GradientButton>
+        </Frame>
     </Grid>
 </ContentPage>

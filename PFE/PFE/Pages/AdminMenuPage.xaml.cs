@@ -15,7 +15,7 @@ namespace PFE.Pages
 		public AdminMenuPage ()
 		{
 			InitializeComponent ();
-            if (Device.RuntimePlatform == Device.Android)
+            ////if (Device.RuntimePlatform == Device.Android)
                 NavigationPage.SetHasNavigationBar(this, false);
         }
 	}

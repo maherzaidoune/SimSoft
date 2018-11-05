@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PFE.Pages.StockLignePage">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+              xmlns:local="clr-namespace:PFE"
+             x:Class="PFE.Pages.StockLignePage">
     <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Fill" >
         <ActivityIndicator 
             AbsoluteLayout.LayoutBounds="0.5,0.5,1,1"
@@ -8,10 +11,10 @@
             Color="Orange" HeightRequest="50" WidthRequest="50" 
             IsRunning="{Binding refresh ,  Mode=TwoWay}" IsVisible="{Binding refresh , Mode=TwoWay}" IsEnabled="{Binding refresh}" />
         
-        <Grid RowSpacing="0" ColumnSpacing="0"   AbsoluteLayout.LayoutBounds="0,0,1,1"
+        <Grid RowSpacing="0" ColumnSpacing="0" BackgroundColor="White" Padding="5,0,5,10"  AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding grid , Mode=TwoWay}" IsEnabled="{Binding grid , Mode=TwoWay}" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
@@ -29,7 +32,7 @@
             HorizontalOptions="Fill"
             HasUnevenRows="True" >
                 <ListView.Header>
-                    <Grid RowSpacing="0" ColumnSpacing="0">
+                    <Grid RowSpacing="0" ColumnSpacing="2">
                         <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -63,8 +66,35 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        <Button Margin="10" Image="save.png" BorderRadius="10" Grid.Row="1" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Valider"  Command="{Binding save}" ></Button>
-        <Button Margin="10" Image="delete.png" BorderRadius="10" Grid.Row="1" TextColor="White" Grid.Column="1" BackgroundColor="#b71c1c" Text="Supprimer"   Command="{Binding delete}" ></Button>
+            
+            
+            <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding save}" ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="1"
+        Grid.Row="1"
+        CornerRadius="10"
+         Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#665978" EndColor="#706482" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer" IsVisible="{Binding isEnabled}" Command="{Binding delete}" ></Button>
+        </local:GradientButton>
+        </Frame>
     </Grid>
     </AbsoluteLayout>
    

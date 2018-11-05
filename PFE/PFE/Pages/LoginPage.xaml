@@ -5,17 +5,17 @@
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:local="clr-namespace:PFE">
 
-    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,0,5,10">
+    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,10,5,10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackLayout Margin="10" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" >
+        <StackLayout Margin="10,15,10,15" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" >
             <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
         </StackLayout>
         <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" VerticalOptions="Center" >
@@ -56,12 +56,12 @@
         Grid.Column="0"
         Grid.Row="2"
         CornerRadius="10"
-        Margin="10"
+        Margin="10,15,10,15"
         Padding="0"
-       HorizontalOptions="Fill">
+        HeightRequest="50"
+        HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="login.png" Margin="0,15,0,0" />
-                <Button   TextColor="White"  BackgroundColor="Transparent" Text="Connecter"  Command="{Binding validate}" VerticalOptions="Fill" ></Button>
+                <Button Image="login.png"  TextColor="White" BackgroundColor="Transparent" Text="Connecter"  Command="{Binding validate}" VerticalOptions="Fill" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -71,12 +71,12 @@
         Grid.Column="1"
         Grid.Row="2"
         CornerRadius="10"
-        Margin="10"
+        Margin="10,15,10,15"
         Padding="0"
+        HeightRequest="50"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="close.png" Margin="0,15,0,0" />
-                <Button TextColor="White"  BackgroundColor="Transparent" Text="Quitter"  Command="{Binding quit}" VerticalOptions="Fill" ></Button>
+                <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter"  Command="{Binding quit}" VerticalOptions="Fill" ></Button>
         </local:GradientButton>
         </Frame>
     </Grid>

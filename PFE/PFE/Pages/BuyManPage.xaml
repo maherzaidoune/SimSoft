@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.BuyManPage">
-    <Grid BackgroundColor="White" Padding="5,0,5,5" RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
@@ -24,11 +24,11 @@
         Grid.Column="0"
         Grid.Row="1"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="Bon de command" Command="{Binding boncomm}"  ></Button>
          </local:GradientButton>
         </Frame>
@@ -39,11 +39,11 @@
         Grid.Row="1"
         Grid.Column="1"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="bon de reception" ></Button>
         </local:GradientButton>
         </Frame>
@@ -54,11 +54,11 @@
         Grid.Row="2"
         Grid.Column="0"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#eb836e" EndColor="#eb8779" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="printer.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="bon de retour"  ></Button>
          </local:GradientButton>
         </Frame>
@@ -69,11 +69,11 @@
         Grid.Row="2"
         Grid.Column="1"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#68accb" EndColor="#72b4d3" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="tax.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="tax.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="facture d'achat" ></Button>
          </local:GradientButton>
         </Frame>    
@@ -84,11 +84,11 @@
         Grid.Row="3"
         Grid.Column="0"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#445965" EndColor="#4d626e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="tax.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="tax.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="facture de retourd" ></Button>
         </local:GradientButton>
         </Frame>
@@ -99,11 +99,11 @@
         Grid.Row="3" 
         Grid.Column="1"
         CornerRadius="10"
-        Margin="10"
+         Margin="10,15,10,15"
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="close.png" Margin="0,5,0,0" />
+                <Image HorizontalOptions="Center" Source="close.png" Margin="0,10,0,0" />
                 <Button TextColor="White" BackgroundColor="Transparent" VerticalOptions="Fill" Text="Quitter" ></Button>
         </local:GradientButton>
         </Frame>  

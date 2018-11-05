@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.AdminMenuPage">
-      <Grid BackgroundColor="White" Padding="5,0,5,10" RowSpacing="0" ColumnSpacing="0"  >
+      <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
@@ -28,8 +28,8 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="worker.png" Margin="0,15,0,0" />
-                <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion du sock" Command="{Binding stockManagment}" HorizontalOptions="Fill" VerticalOptions="Fill" ></Button>
+                <Image HorizontalOptions="Center" Source="worker.png" Margin="0,10,0,0"/>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion du stock" Command="{Binding stockManagment}" HorizontalOptions="Fill" VerticalOptions="Fill" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -43,7 +43,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,15,0,0" />
+                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,10,0,0"/>
                 <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion des achats" Command="{Binding buyManagment}" ></Button>
         </local:GradientButton>
         </Frame>
@@ -58,7 +58,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#eb836e" EndColor="#eb8779" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,15,0,0" />
+                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,10,0,0"/>
                 <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion des ventes" Command="{Binding sellManagment}" ></Button>
         </local:GradientButton>
         </Frame>
@@ -73,7 +73,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#68accb" EndColor="#72b4d3" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="user.png" Margin="0,15,0,0" />
+                <Image HorizontalOptions="Center" Source="user.png" Margin="0,10,0,0"/>
                  <Button TextColor="White" BackgroundColor="Transparent" Text="Utilisateur" Command="{Binding userManagment}" ></Button>
         </local:GradientButton>
         </Frame>
@@ -88,7 +88,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#445965" EndColor="#4d626e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="settings.png" Margin="0,15,0,0" />
+                <Image HorizontalOptions="Center" Source="settings.png" Margin="0,10,0,0"/>
                 <Button TextColor="White" BackgroundColor="Transparent" Text="Configuration" Command="{Binding Config}" ></Button>
         </local:GradientButton>
         </Frame>
@@ -103,7 +103,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="close.png" Margin="0,15,0,0" />
+                <Image HorizontalOptions="Center" Source="close.png" Margin="0,10,0,0"/>
                 <Button TextColor="White" BackgroundColor="Transparent" Text="Quitter" Command="{Binding quitter}" ></Button>
        </local:GradientButton>
         </Frame>         

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:controls="clr-namespace:PFE.Rendereres" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PFE.Pages.StockMTPage">
-     <Grid ColumnSpacing="0" RowSpacing="0">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:local="clr-namespace:PFE"
+             xmlns:controls="clr-namespace:PFE.Rendereres" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PFE.Pages.StockMTPage">
+     <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -33,10 +35,14 @@
                     <Label Text="Code a barre  " VerticalOptions="Center"/>
                     <Entry Placeholder="Code a barre .." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding barreCode , Mode=TwoWay}"  />
                 </StackLayout >
-                <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="0,2,0,2" >
-                    <Button Margin="5" Image="save.png" BorderRadius="10"  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
-                    <Button Margin="5" Image="qrcode.png" BorderRadius="10" TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
-              </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                
+              
+                <Button Image="save.png" WidthRequest="150" TextColor="White" HorizontalOptions="FillAndExpand"   Text="Valider"  Command="{Binding valid}" ></Button>
+        
+                <Button Image="qrcode.png" WidthRequest="150" TextColor="White" HorizontalOptions="FillAndExpand"   Text="Scan" Command="{Binding scan}" ></Button>
+                 
+            </StackLayout>
                  
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Code  " VerticalOptions="Center"/>
@@ -83,7 +89,37 @@
             </StackLayout>
 
         </ScrollView>
-        <Button Margin="10" Image="save.png" BorderRadius="10" Grid.Row="1" Grid.Column="0" TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Margin="10" Image="close.png" BorderRadius="10" Grid.Row="1" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter" IsVisible="{Binding isEnabled}" Command="{Binding quit}" ></Button>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"   
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="save.png" TextColor="White" BackgroundColor="Transparent"  Text="Ajouter" Command="{Binding validate}"  HorizontalOptions="Fill" VerticalOptions="Fill"  ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="1"
+        Grid.Column="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"
+        Padding="0"
+        IsVisible="{Binding isEnabled}"
+        IsEnabled="{Binding isEnabled}"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter" Command="{Binding quit}"   HorizontalOptions="Fill" VerticalOptions="Fill" ></Button>
+        </local:GradientButton>
+        </Frame>
     </Grid>
 </ContentPage>

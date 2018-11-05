@@ -10,7 +10,7 @@ namespace PFE.Pages
         public BuyBCLigPage()
         {
             InitializeComponent();
-            if (Device.RuntimePlatform == Device.Android)
+            //if (Device.RuntimePlatform == Device.Android)
                 NavigationPage.SetHasNavigationBar(this, false);
         }
     }

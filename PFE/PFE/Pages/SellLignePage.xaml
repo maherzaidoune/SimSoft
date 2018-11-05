@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:PFE.Rendereres"
+             xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.SellLignePage">
 
-    <Grid ColumnSpacing="0" RowSpacing="0">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,8 +23,8 @@
                     <Entry Placeholder="Code a barre .." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding barreCode , Mode=TwoWay}"  />
                 </StackLayout >
                 <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="0,2,0,2" >
-                    <Button Margin="5" Image="save.png" BorderRadius="10"  TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#33691e" Text="Valider"  Command="{Binding valid}" ></Button>
-                    <Button Margin="5" Image="qrcode.png" BorderRadius="10" TextColor="White" HorizontalOptions="Fill"  BackgroundColor="#5d4037" Text="Scan" Command="{Binding scan}" ></Button>
+                    <Button Margin="5" Image="save.png"   TextColor="White" HorizontalOptions="FillAndExpand"   Text="Valider"  Command="{Binding valid}" ></Button>
+                    <Button Margin="5" Image="qrcode.png" TextColor="White" HorizontalOptions="FillAndExpand"   Text="Scan" Command="{Binding scan}" ></Button>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Désignation  " VerticalOptions="Center"/>
@@ -78,9 +79,34 @@
             </StackLayout>
 
         </ScrollView>
-        <Button Grid.Row="1" Margin="10" Image="save.png" BorderRadius="10" Grid.Column="0"  TextColor="White"  BackgroundColor="#33691e" Text="Ajouter" IsEnabled="{Binding isEnabled}" Command="{Binding validate}" ></Button>
-        <Button Grid.Row="1" Margin="10" Image="close.png" BorderRadius="10" Grid.Column="1" TextColor="White"  BackgroundColor="#b71c1c" Text="Quitter"  Command="{Binding quit}" ></Button>
-
-
-    </Grid>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter"  Command="{Binding validate}" ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="1" 
+        Grid.Column="1"
+        CornerRadius="10"
+         Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter"  Command="{Binding quit}" ></Button>
+        </local:GradientButton>
+        </Frame>  
+      
+      </Grid>
 </ContentPage>

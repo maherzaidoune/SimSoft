@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.ConfiPage">
-    <Grid RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -25,19 +26,45 @@
                 <Entry Placeholder="3000" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding port , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                <Label Text="Nom de base de donne" VerticalOptions="Center"/>
-                <Entry Placeholder="database" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding db , Mode=TwoWay}"  />
+                <Label Text="Nom de base de données" VerticalOptions="Center"/>
+                <Entry Placeholder="base de données" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding db , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="Utilisateur" VerticalOptions="Center"/>
-                <Entry Placeholder="user" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding user , Mode=TwoWay}"  />
+                <Entry Placeholder="Utilisateur" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding user , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 <Label Text="Mot de passe" VerticalOptions="Center"/>
-                <Entry Placeholder="password" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" IsPassword="True"  Text="{Binding passord , Mode=TwoWay}"  />
+                <Entry Placeholder="Mot de passe" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" IsPassword="True"  Text="{Binding passord , Mode=TwoWay}"  />
             </StackLayout>
         </StackLayout>
-        <Button Grid.Row="2" Margin="10" Image="save.png" BorderRadius="10" TextColor="White" Grid.Column="0" BackgroundColor="#33691e" Text="Valider" Command="{Binding valider}" ></Button>
-        <Button Grid.Row="2" Margin="10" Image="analyze.png" BorderRadius="10" TextColor="White" Grid.Column="1" BackgroundColor="#ad1457" Text="Tester" Command="{Binding tester}" ></Button>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="2"
+        Grid.Column="0"
+        CornerRadius="10"
+        Margin="10,15,10,15"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Valider" Command="{Binding valider}" ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="2"
+        Grid.Column="1"
+        CornerRadius="10"
+         Margin="10,15,10,15"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#665978" EndColor="#706482" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="analyze.png" TextColor="White" BackgroundColor="Transparent" Text="Tester" Command="{Binding tester}" ></Button>
+        </local:GradientButton>
+        </Frame>
     </Grid>
 </ContentPage>

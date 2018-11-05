@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Xamarin.Forms;
 
 namespace PFE.Pages
 {
-    public partial class SellBLEntPage : ContentPage
+    public partial class BuyFRentPage : ContentPage
     {
-        public SellBLEntPage()
+        public BuyFRentPage()
         {
             InitializeComponent();
             //if (Device.RuntimePlatform == Device.Android)
-                NavigationPage.SetHasNavigationBar(this, false);
+            NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
         }
     }
 }
