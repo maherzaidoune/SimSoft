@@ -50,7 +50,7 @@ namespace PFE.PageModels
             try
             {
                 if(string.IsNullOrEmpty(barreCode)){
-                    _dialogService.ShowMessage("code can't be empty " , true);
+                    _dialogService.ShowMessage("entrer un code " , true);
                     return;
                 }
                 article = _restService.getArticlebyBC(barreCode);

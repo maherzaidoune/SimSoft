@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:PFE"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.StockMEPage">
-    <Grid BackgroundColor="White" Padding="5,0,5,10" ColumnSpacing="0" RowSpacing="0">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />

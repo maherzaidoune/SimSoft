@@ -15,10 +15,10 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackLayout Margin="10,15,10,15" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="Center" >
+        <StackLayout Margin="10,15,10,15" Grid.Row="0" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand" >
             <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
         </StackLayout>
-        <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" VerticalOptions="Center" >
+        <StackLayout  Grid.Row="1" Grid.ColumnSpan="2" Padding="0,20,0,10" VerticalOptions="Start" >
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                 <Label Text="Groupe  "  VerticalOptions="Center"/>
                 <controls:CustomPicker HorizontalOptions="EndAndExpand"
@@ -59,6 +59,7 @@
         Margin="10,15,10,15"
         Padding="0"
         HeightRequest="50"
+            VerticalOptions="Center"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Button Image="login.png"  TextColor="White" BackgroundColor="Transparent" Text="Connecter"  Command="{Binding validate}" VerticalOptions="Fill" ></Button>
@@ -73,6 +74,7 @@
         CornerRadius="10"
         Margin="10,15,10,15"
         Padding="0"
+            VerticalOptions="Center"
         HeightRequest="50"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">

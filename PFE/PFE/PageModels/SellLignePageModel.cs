@@ -183,7 +183,6 @@ namespace PFE.PageModels
                     {
                         barreCode = result.Text;
                         _valid(null);
-                        Console.WriteLine("Scanned Barcode: " + result.Text);
                     }
                 }
                 catch (Exception e)

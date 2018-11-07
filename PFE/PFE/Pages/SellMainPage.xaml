@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.SellMainPage">
     
-    <Grid BackgroundColor="White" Padding="5,0,5,10" RowSpacing="0" ColumnSpacing="0"  >
+    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
@@ -30,7 +30,7 @@
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Image HorizontalOptions="Center" Source="printer.png" Margin="0,10,0,0"/>
-                <Button TextColor="White" BackgroundColor="Transparent" Text="bon de command" Command="{Binding bondecommand}" ></Button>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="bon de commande" Command="{Binding bondecommand}" ></Button>
             </local:GradientButton>
         </Frame>
         

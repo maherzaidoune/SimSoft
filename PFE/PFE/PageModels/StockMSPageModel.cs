@@ -135,28 +135,28 @@ namespace PFE.PageModels
             {
                 if (string.IsNullOrEmpty(Quantity))
                 {
-                    _dialogService.ShowMessage("Error : Quantity can't be null ", true);
+                    _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                     return;
                 }
                 if (int.Parse(Quantity) < 0)
                 {
-                    _dialogService.ShowMessage("Error : Quantity can't be null ", true);
+                    _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                     return;
                 }
                 if (int.Parse(Quantity) > reelQuantity)
                 {
-                    _dialogService.ShowMessage("Error : Quantity must be less or equals " + reelQuantity, true);
+                    _dialogService.ShowMessage("Erreur : quantite doit être supérieur à  " + reelQuantity, true);
                     return;
                 }
                 if (int.Parse(pht) < 0)
                 {
-                    _dialogService.ShowMessage("Error : Price can't be null ", true);
+                    _dialogService.ShowMessage("Erreur : prix doit être supérieur à 0 ", true);
                     return;
                 }
             }
             catch
             {
-                _dialogService.ShowMessage("Error  ", true);
+                _dialogService.ShowMessage("Erreur  ", true);
             }
             StockLigne stockLigne = new StockLigne
             {
@@ -178,7 +178,7 @@ namespace PFE.PageModels
             {
                 if (await _dataServices.addStockLigneMSAsync(stockLigne))
                 {
-                    _dialogService.ShowMessage("article " + code + " added to ligne list", false);
+                    _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
                     MessagingCenter.Send(this, "MS");
                 }
                 else
@@ -204,7 +204,6 @@ namespace PFE.PageModels
                 {
                     barreCode = result.Text;
                     _valid(null);
-                    Console.WriteLine("Scanned Barcode: " + result.Text);
                 }
 
             });

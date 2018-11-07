@@ -35,13 +35,13 @@ namespace PFE.PageModels
 
             if(selectedrole == null || selecteduser == null)
             {
-                _dialogService.ShowMessage("make sure you select a valid user and role ", true);
+                _dialogService.ShowMessage("verifiez vos donnees ", true);
             }
             else
             {
                 if (selecteduser.USRPWD == password)
                 {
-                    _dialogService.ShowMessage("Login success : " + selecteduser.USRLOGIN, false);
+                    _dialogService.ShowMessage(selecteduser.USRLOGIN + " connecté ", false);
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         switch (selectedrole.CODEGRP)
@@ -64,7 +64,7 @@ namespace PFE.PageModels
                 }
                 else
                 {
-                    _dialogService.ShowMessage("Invalid Password " + selecteduser.USRLOGIN, true);
+                    _dialogService.ShowMessage("mot de passe incorrect " + selecteduser.USRLOGIN, true);
                 }
             }
              
@@ -141,7 +141,7 @@ namespace PFE.PageModels
                             _role = await _restServices.GetGroupAsync();
                             // _user = await _restServices.GetUserByGroupIdAsync(selectedrole.CODEGRP.ToString());
                             if (_role == null)
-                                _dialogService.ShowMessage("server down ", true);
+                                _dialogService.ShowMessage("le serveur a rencontré une erreur interne ", true);
                         }
                         isEnabled = false;
                         loading = false;

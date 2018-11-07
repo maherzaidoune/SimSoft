@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
             x:Class="PFE.Pages.SellFREntPage">
-<Grid BackgroundColor="White" Padding="5,0,5,0" ColumnSpacing="0" RowSpacing="0">
+<Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />

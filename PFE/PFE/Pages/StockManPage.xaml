@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.StockManPage">
    
-    <Grid BackgroundColor="White" Padding="5,0,5,10" RowSpacing="0" ColumnSpacing="0"  >
+    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
@@ -60,7 +60,7 @@
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#eb836e" EndColor="#eb8779" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Image HorizontalOptions="Center" Source="in.png" Margin="0,10,0,0" />
-                <Button TextColor="White" BackgroundColor="Transparent" Text="Mouvement d'entrée" Command="{Binding me}"  ></Button> 
+                <Button TextColor="White" BackgroundColor="Transparent" Text="bon d'entrée" Command="{Binding me}"  ></Button> 
         </local:GradientButton>
         </Frame>
         
@@ -75,7 +75,7 @@
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#68accb" EndColor="#72b4d3" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Image HorizontalOptions="Center" Source="out.png" Margin="0,10,0,0" />
-                <Button TextColor="White" BackgroundColor="Transparent" Text="Mouvement de sortie" Command="{Binding ms}" ></Button>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="bon de sortie" Command="{Binding ms}" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -90,7 +90,7 @@
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#445965" EndColor="#4d626e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Image HorizontalOptions="Center" Source="transfer.png" Margin="0,10,0,0" />
-                <Button TextColor="White" BackgroundColor="Transparent" Text="Mouvement de transfert" Command="{Binding mt}" ></Button>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="bon de transfert" Command="{Binding mt}" ></Button>
         </local:GradientButton>
         </Frame>
         

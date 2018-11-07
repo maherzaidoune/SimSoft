@@ -93,7 +93,6 @@ namespace PFE.PageModels
 
         private void getTiers(CTieresPageModel arg1, TIERS arg2)
         {
-            Console.WriteLine("tiers recieved");
             Device.BeginInvokeOnMainThread(() =>
             {
                 Tiers = arg2;

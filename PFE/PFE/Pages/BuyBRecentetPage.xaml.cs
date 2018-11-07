@@ -10,6 +10,9 @@ namespace PFE.Pages
         public BuyBRecentetPage()
         {
             InitializeComponent();
+            //if (Device.RuntimePlatform == Device.Android)
+            NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
         }
     }
 }

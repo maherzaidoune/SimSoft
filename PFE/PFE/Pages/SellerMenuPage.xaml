@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.SellerMenuPage">
-    <Grid RowSpacing="0" ColumnSpacing="0">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <StackLayout Grid.Row="0" Grid.ColumnSpan="2" >
+        <StackLayout Grid.Row="0" VerticalOptions="Center"  >
             <Image Source="SIMSOFT.png"  VerticalOptions="Center" />
         </StackLayout>
-        <Button Grid.Row="1" Margin="10" Image="shopping.png" BorderRadius="10" TextColor="White" Grid.Column="0" BackgroundColor="#ad1457" Text="Gestion des achats" Command="{Binding buyManagment}" ></Button>
-        <Button Grid.Row="1" Margin="10" Image="shopping.png" BorderRadius="10" TextColor="White" Grid.Column="1" BackgroundColor="#ffb300" Text="Gestion des ventes" Command="{Binding sellManagment}" ></Button>
-        <Button Grid.Row="2" Margin="10" Image="close.png" BorderRadius="10" TextColor="White" Grid.ColumnSpan="2" BackgroundColor="#b71c1c" Text="Quitter" Command="{Binding quitter}" ></Button>
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,10,0,0"/>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion des achats" Command="{Binding buyManagment}" ></Button>
+       </local:GradientButton>
+        </Frame>
+               
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="2"
+       CornerRadius="10"
+        Margin="10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Image HorizontalOptions="Center" Source="shopping.png" Margin="0,10,0,0"/>
+                <Button TextColor="White" BackgroundColor="Transparent" Text="Gestion des ventes" Command="{Binding sellManagment}" ></Button>    
+        </local:GradientButton>
+        </Frame>      
+            
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Row="3"
+        CornerRadius="10"
+        Margin="10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#eb836e" EndColor="#eb8779" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Image HorizontalOptions="Center" Source="close.png" Margin="0,10,0,0"/>
+                 <Button  TextColor="White" Grid.ColumnSpan="2" BackgroundColor="Transparent" Text="Quitter" Command="{Binding quitter}" ></Button>
+         </local:GradientButton>
+        </Frame>
+        
     </Grid>
 </ContentPage>

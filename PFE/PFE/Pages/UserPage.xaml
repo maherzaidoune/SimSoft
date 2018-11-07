@@ -6,7 +6,7 @@
              x:Class="PFE.Pages.UserPage">
     <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="4*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>

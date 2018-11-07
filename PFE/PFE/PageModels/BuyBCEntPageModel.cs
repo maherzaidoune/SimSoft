@@ -108,11 +108,7 @@ namespace PFE.PageModels
         {
             Application.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
-        public BuyBCEntPageModel(IRestServices _restService)
-        {
-            date = DateTime.Today;
-            this._restService = _restService;
-        }
+
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -120,6 +116,12 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNature("A", "C");
             });
+        }
+
+        public BuyBCEntPageModel(IRestServices _restService)
+        {
+            date = DateTime.Today;
+            this._restService = _restService;
         }
     }
 }

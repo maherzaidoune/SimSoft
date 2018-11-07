@@ -4,9 +4,9 @@
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.BuyBCLigPage">
-     <Grid BackgroundColor="White" Padding="5,0,5,0" ColumnSpacing="0" RowSpacing="0">
+     <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -95,14 +95,13 @@
         Grid.Column="0"
         Grid.Row="1"
         CornerRadius="10"
-         Margin="10,15,10,15"
+        Margin="10,10,10,10"
         Padding="0"
         IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
-        <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="save.png" Margin="0,5,0,0" />
-                <Button TextColor="White"  BackgroundColor="Transparent" Text="Ajouter" Command="{Binding validate}" ></Button>
+        <local:GradientButton   StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter" Command="{Binding validate}" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -112,14 +111,13 @@
         Grid.Row="1"
         Grid.Column="1"
         CornerRadius="10"
-         Margin="10,15,10,15"
+        Margin="10,10,10,10"
         Padding="0"
         IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Image HorizontalOptions="Center" Source="close.png" Margin="0,5,0,0" />
-                <Button TextColor="White"  BackgroundColor="Transparent" Text="Quitter" Command="{Binding quit}" ></Button>
+                <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter" Command="{Binding quit}" ></Button>
         </local:GradientButton>
         </Frame>
 

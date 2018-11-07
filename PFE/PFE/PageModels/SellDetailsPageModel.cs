@@ -49,9 +49,9 @@ namespace PFE.PageModels
         private void _delete(object obj)
         {
             if (productList == null)
-                _dialogService.ShowMessage("List already empty !", true);
+                _dialogService.ShowMessage("liste vide !", true);
             else if (productList == null)
-                _dialogService.ShowMessage("select item to be deleted !", true);
+                _dialogService.ShowMessage("choisissez l'element a supprimer", true);
             else{
                 Task.Run(async () =>
                 {
@@ -60,7 +60,7 @@ namespace PFE.PageModels
                         if (await _dataService.removeSellElementsAsync(selectedProdut))
                         {
                             productList.Remove(selectedProdut);
-                            _dialogService.ShowMessage("name : " + selectedProdut.articles.ARTDESIGNATION + " type : " + selectedProdut.type + " deleted !", false);
+                            _dialogService.ShowMessage("name : " + selectedProdut.articles.ARTDESIGNATION + " type : " + selectedProdut.type + " effacer avec succes !", false);
                         }
                     }
                     catch (Exception e)

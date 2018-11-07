@@ -56,9 +56,9 @@ namespace PFE.PageModels
         private void _delete(object obj)
         {
             if (stockLigne == null)
-                _dialogService.ShowMessage("List already empty !", true);
+                _dialogService.ShowMessage("liste vide !", true);
             else if (selectedelement == null)
-                _dialogService.ShowMessage("select item to be deleted !", true);
+                _dialogService.ShowMessage("choisissez l'element a supprimer!", true);
             else{
                 try{
                     Task.Run(async () =>
