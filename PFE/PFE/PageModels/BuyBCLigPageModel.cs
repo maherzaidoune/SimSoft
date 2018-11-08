@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using FreshMvvm;
 using PFE.Models;
+using PFE.Services;
 using PropertyChanged;
 using Xamarin.Forms;
 
@@ -119,12 +121,21 @@ namespace PFE.PageModels
             App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
-        public BuyBCLigPageModel()
+        private IRestServices _restService;
+        private IDataServices _dataService;
+        public BuyBCLigPageModel(IRestServices _restService, IDataServices _dataService)
         {
+            this._restService = _restService;
+            this._dataService = _dataService;
         }
         public override void Init(object initData)
         {
             base.Init(initData);
+            Task.Run(async () =>
+            {
+                depo = await _restService.GetDepot("o");
+            });
+            //_LivredQuantity = "1";
         }
     }
 }

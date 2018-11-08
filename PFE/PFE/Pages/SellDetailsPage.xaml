@@ -23,7 +23,7 @@
             HorizontalOptions="Fill"
             HasUnevenRows="True" >
              <ListView.Header>
-                    <Grid RowSpacing="0" ColumnSpacing="0">
+                    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
                         <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -41,7 +41,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                        <Grid RowSpacing="0" ColumnSpacing="2" >
+                        <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="2" >
                             <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -69,7 +69,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding validate}" ></Button>
+                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter"  Command="{Binding validate}" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -83,7 +83,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#665978" EndColor="#706482" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer" IsVisible="{Binding isEnabled}" Command="{Binding delete}" ></Button>
+                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer" Command="{Binding delete}" ></Button>
         </local:GradientButton>
         </Frame>
 

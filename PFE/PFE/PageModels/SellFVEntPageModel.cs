@@ -129,16 +129,22 @@ namespace PFE.PageModels
                 affaire = affaires,
                 tiers = Tiers
             };
-            _dataService.addSellElementAsync(sell);
+            //_dataService.addSellElementAsync(sell);
+            Task.Run(async () =>
+            {
+                if (await _dataService.addSellElementAsync(sell))
+                    _dialogService.ShowMessage("Ajouter au details avec success", false);
+            });
         }
 
         private IDataServices _dataService;
+        private IDialogService _dialogService;
 
-
-        public SellFVEntPageModel(IRestServices _restService, IDataServices _dataService)
+        public SellFVEntPageModel(IRestServices _restService, IDataServices _dataService, IDialogService _dialogService)
         {
             this._restService = _restService;
             this._dataService = _dataService;
+            this._dialogService = _dialogService;
         }
         public override void Init(object initData)
         {

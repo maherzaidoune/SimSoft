@@ -37,6 +37,15 @@ namespace PFE.Services
         Task<bool> removeSellElementsAsync(SellElements obj);
         bool RemoveSellElements();
 
+        //buy element
+
+        Task<bool> addBuyElementAsync(Buyelement obj);
+        bool addBuyElementsAsync(IList<Buyelement> obj);
+        Task<IList<Buyelement>> getBuyElementAsync();
+        Task<bool> updateAsyncBuyElement(Buyelement obj);
+        Task<bool> removeBuyElementsAsync(Buyelement obj);
+        bool RemoveBuyElements();
+
 
     }
 }

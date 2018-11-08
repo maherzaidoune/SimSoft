@@ -492,5 +492,34 @@ namespace PFE.Services
             }
         }
 
+        public Task<bool> addBuyElementAsync(Buyelement obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool addBuyElementsAsync(IList<Buyelement> obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Buyelement>> getBuyElementAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> updateAsyncBuyElement(Buyelement obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> removeBuyElementsAsync(Buyelement obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveBuyElements()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

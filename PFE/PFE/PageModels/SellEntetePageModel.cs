@@ -78,6 +78,7 @@ namespace PFE.PageModels
             {
                 Codeaffaire = arg2.AFFCODE;
                 affaireintitule = arg2.AFFINTITULE;
+                affaires = arg2;
             });
         }
 
@@ -88,6 +89,7 @@ namespace PFE.PageModels
                 await CoreMethods.PushPageModel<CTieresPageModel>();
                 RaisePropertyChanged();
             });
+
             MessagingCenter.Subscribe<CTieresPageModel,TIERS>(this, "tiers", getTiers);
         }
 
@@ -98,13 +100,49 @@ namespace PFE.PageModels
             {
                 numerofournisseur = arg2.TIRCODE;
                 fournisseurintitule = arg2.TIRSOCIETE;
+                Tiers = arg2;
             });
 
         }
+        public AFFAIRE affaires
+        {
+            get;
+            set;
+        }
 
-        public SellEntetePageModel(IRestServices _restService)
+        public TIERS Tiers
+        {
+            get;
+            set;
+        }
+
+
+        public ICommand validate => new Command(_validate);
+
+        private IDataServices _dataService;
+        private IDialogService _dialogService;
+
+        private void _validate(object obj)
+        {
+            SellElements sell = new SellElements
+            {
+                pIECE_NATURE = selectednature,
+                type = "SBC",
+                affaire = affaires,
+                tiers = Tiers
+            };
+            Task.Run(async () =>
+            {
+                if (await _dataService.addSellElementAsync(sell))
+                    _dialogService.ShowMessage("Ajouter au details avec success", false);
+            });
+        }
+
+        public SellEntetePageModel(IRestServices _restService , IDataServices _dataService , IDialogService _dialogService)
         {
             date = DateTime.Today;
+            this._dataService = _dataService;
+            this._dialogService = _dialogService;
             this._restService = _restService;
         }
         public override void Init(object initData)
