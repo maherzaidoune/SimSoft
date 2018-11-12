@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:PFE.Rendereres"
@@ -29,8 +29,10 @@
                     </controls:CustomPicker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Numero piece  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Numero piece.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
+                    <Label Text="N°Piéce
+  " VerticalOptions="Center"/>
+                    <Entry Placeholder="N°Piéce
+" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                     <Button WidthRequest="150" TextColor="White" HorizontalOptions="FillAndExpand" Image="info.png" Text="Compte tier" Command="{Binding tiers}" />
@@ -41,16 +43,14 @@
                 </StackLayout>
                 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Numero Fournisseur  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Numero Fournisseur.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numerofournisseur , Mode=TwoWay}"  />
+                    <Label Text="N°fournisseur
+  " VerticalOptions="Center"/>
+                    <Entry Placeholder="N°fournisseur
+.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numerofournisseur , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Intitulé  " VerticalOptions="Center"/>
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding fournisseurintitule , Mode=TwoWay}"  />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Code affaire " VerticalOptions="Center"/>
-                    <Entry Placeholder="Code affairer.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding Codeaffaire , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Intitulé  " VerticalOptions="Center"/>

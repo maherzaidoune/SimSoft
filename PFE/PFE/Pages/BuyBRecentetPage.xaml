@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
@@ -17,7 +17,7 @@
         <ScrollView Grid.Row="0" Grid.ColumnSpan="2" Padding="0,5,0,0" >
             <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill" >
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="status "  VerticalOptions="Center"/>
+                    <Label Text="Nature  "  VerticalOptions="Center"/>
                     <controls:CustomPicker 
                     HorizontalOptions="EndAndExpand"
                      HeightRequest="40" 
@@ -31,8 +31,10 @@
                     </controls:CustomPicker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Numero piece  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Numero piece.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
+                    <Label Text="N°Piéce
+  " VerticalOptions="Center"/>
+                    <Entry Placeholder="N°Piéce
+" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Date  " VerticalOptions="Center"/>
@@ -47,8 +49,8 @@
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding fournisseurintitule , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Designation  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Designation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
+                    <Label Text="Désignation  " VerticalOptions="Center"/>
+                    <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Acheteur " VerticalOptions="Center"/>

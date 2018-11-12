@@ -492,19 +492,69 @@ namespace PFE.Services
             }
         }
 
-        public Task<bool> addBuyElementAsync(Buyelement obj)
+
+
+        public async Task<bool> addBuyElementAsync(Buyelement obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                return false;
+            try
+            {
+                var stocks = await getBuyElementAsync();
+                if (stocks == null)
+                {
+                    stocks = new List<Buyelement>();
+                }
+                else
+                    if (stocks.Count > 0)
+                {
+                    if (!stocks[0].type.Equals(obj.type))
+                    {
+                        RemoveSellElements();
+                        stocks = new List<Buyelement>();
+                    }
+                }
+                stocks.Add(obj);
+                return addBuyElementsAsync(stocks);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error adding to sell element list" + e.StackTrace);
+                return false;
+            }
         }
 
         public bool addBuyElementsAsync(IList<Buyelement> obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                BlobCache.UserAccount.Invalidate("BuyElements");
+                BlobCache.UserAccount.InsertObject("BuyElements", obj);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error saving list of BUY elements");
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
         }
 
-        public Task<IList<Buyelement>> getBuyElementAsync()
+        public async Task<IList<Buyelement>> getBuyElementAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                // need much test
+                var Stocks = await BlobCache.UserAccount.GetObject<IList<Buyelement>>("BuyElements");
+                return Stocks;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error getting list of buy elements ");
+                Console.WriteLine(e.StackTrace);
+                return null;
+
+            }
         }
 
         public Task<bool> updateAsyncBuyElement(Buyelement obj)
@@ -512,14 +562,49 @@ namespace PFE.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> removeBuyElementsAsync(Buyelement obj)
+        public async Task<bool> removeBuyElementsAsync(Buyelement obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                return false;
+            IList<Buyelement> stocks = new List<Buyelement>();
+            try
+            {
+                stocks = await getBuyElementAsync();
+                if (stocks == null)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < stocks.Count; i++)
+                {
+                    if (obj.articles.ARTID.Equals(stocks[i].articles.ARTID) && obj.LivredQuantity.Equals(stocks[i].LivredQuantity) && obj.depot.DEPID == stocks[i].depot.DEPID)
+                    {
+                        stocks.RemoveAt(i);
+                    }
+                }
+                return addBuyElementsAsync(stocks);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
+                return false;
+            }
         }
 
         public bool RemoveBuyElements()
         {
-            throw new NotImplementedException();
+            var stocks = new List<SellElements>();
+            try
+            {
+                BlobCache.UserAccount.Invalidate("BuyElements");
+                BlobCache.UserAccount.InsertObject("BuyElements", stocks);
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
         }
     }
 }

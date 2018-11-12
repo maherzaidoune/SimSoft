@@ -15,8 +15,8 @@
         </Grid.ColumnDefinitions>
         <StackLayout Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="Fill">
             <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" >
-                <Label Text="CB  " VerticalOptions="Center"/>
-                <Entry Placeholder="CB" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding barreCode , Mode=TwoWay}"  />
+                <Label Text="Code a barre" VerticalOptions="Center"/>
+                <Entry Placeholder="Code a barre" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"   Text="{Binding barreCode , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                 
@@ -54,11 +54,11 @@
                         <ColumnDefinition Width="*"/>
                         
                         </Grid.ColumnDefinitions>
-                           <Label BackgroundColor="#bdbdbd" Grid.Column="0" Text="code " />
-                           <Label BackgroundColor="#eceff1" Grid.Column="1" Text="DEPID " />
-                           <Label BackgroundColor="#fafafa" Grid.Column="4" Text="Q°" />
-                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Q° reel" />
-                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Q° res" />
+                           <Label BackgroundColor="#bdbdbd" Grid.Column="0" Text="Code" />
+                           <Label BackgroundColor="#eceff1" Grid.Column="1" Text="Dépôt " />
+                           <Label BackgroundColor="#fafafa" Grid.Column="4" Text="Qté reél" />
+                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Qté Cmd" />
+                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Qté Rsv" />
                            
                         </Grid>
                  </ListView.Header>

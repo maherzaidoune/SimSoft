@@ -23,7 +23,7 @@
                 ItemsSource="{Binding affaireList,Mode=TwoWay}"
                 RowHeight="30"
                 SeparatorColor="LightGray"
-        SelectedItem="{Binding affaire,Mode=TwoWay}"
+                SelectedItem="{Binding affaire,Mode=TwoWay}"
                 VerticalOptions="Fill"
                 HorizontalOptions="Fill"
                 HasUnevenRows="True" >

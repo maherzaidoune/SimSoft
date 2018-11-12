@@ -28,8 +28,8 @@
                 <Entry Placeholder="Login" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding login , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                <Label Text="Password  " VerticalOptions="Center"/>
-                <Entry Placeholder="Password" WidthRequest="195" PlaceholderColor="Gray" IsPassword="True" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding pass , Mode=TwoWay}"  />
+                <Label Text="Mot de passe  " VerticalOptions="Center"/>
+                <Entry Placeholder="Mot de passe" WidthRequest="195" PlaceholderColor="Gray" IsPassword="True" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding pass , Mode=TwoWay}"  />
             </StackLayout>
             <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" >
                 <Label Text="Groupe  " VerticalOptions="Center"/>

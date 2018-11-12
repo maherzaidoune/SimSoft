@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:local="clr-namespace:PFE"
              xmlns:controls="clr-namespace:PFE.Rendereres" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="PFE.Pages.StockMTPage">
@@ -26,8 +26,10 @@
                     </controls:CustomPicker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Numero piece  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Numero piece.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
+                    <Label Text="N°Piéce
+  " VerticalOptions="Center"/>
+                    <Entry Placeholder="N°Piéce
+" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
                 </StackLayout>
                
                 
@@ -54,7 +56,7 @@
                     <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Depot d'entrer  "  VerticalOptions="Center"/>
+                    <Label Text="Dépôt d'entrer  "  VerticalOptions="Center"/>
                     <controls:CustomPicker HorizontalOptions="EndAndExpand"
                      HeightRequest="40" 
                      WidthRequest="200"
@@ -62,11 +64,11 @@
                      ItemDisplayBinding="{Binding DEPINTITULE}"
                      SelectedItem="{Binding _selectedDepoin,Mode=TwoWay}"
                      Image="down"
-                     Title="depot">
+                     Title="Dépôt">
                     </controls:CustomPicker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Depot de sortir  "  VerticalOptions="Center"/>
+                    <Label Text="Dépôt de sortir  "  VerticalOptions="Center"/>
                     <controls:CustomPicker HorizontalOptions="EndAndExpand"
                      HeightRequest="40" 
                      WidthRequest="200"
@@ -74,7 +76,7 @@
                      ItemDisplayBinding="{Binding DEPINTITULE}"
                      SelectedItem="{Binding selectedDepotout,Mode=TwoWay}"
                      Image="down"
-                     Title="depot">
+                     Title="Dépôt">
                     </controls:CustomPicker>
                 </StackLayout>
                

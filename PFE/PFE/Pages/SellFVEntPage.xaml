@@ -33,8 +33,10 @@
                     <DatePicker Date="{Binding date,Mode=TwoWay}" TextColor="Black" WidthRequest="195" BackgroundColor="Transparent"  HorizontalOptions="EndAndExpand" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Numero piece  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Numero piece.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
+                    <Label Text="N°Piéce
+  " VerticalOptions="Center"/>
+                    <Entry Placeholder="N°Piéce
+" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding numeroPiece , Mode=TwoWay}"  />
                 </StackLayout>
                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                     <Button WidthRequest="150" TextColor="White" HorizontalOptions="FillAndExpand" Image="info.png" Text="Compte tier" Command="{Binding tiers}" />
@@ -44,13 +46,13 @@
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding intitule , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Reference  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Reference.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding reference , Mode=TwoWay}"  />
+                    <Label Text="Référence  " VerticalOptions="Center"/>
+                    <Entry Placeholder="Référence.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding reference , Mode=TwoWay}"  />
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Representant " VerticalOptions="Center"/>
-                    <Entry Placeholder="Representant.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding representant , Mode=TwoWay}"  />
+                    <Label Text="Représentant " VerticalOptions="Center"/>
+                    <Entry Placeholder="Représentant.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding Representant , Mode=TwoWay}"  />
                 </StackLayout>
              
             </StackLayout>

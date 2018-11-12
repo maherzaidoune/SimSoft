@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:local="clr-namespace:PFE"
              xmlns:controls="clr-namespace:PFE.Rendereres"
@@ -30,7 +30,7 @@
                     <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Depot  "  VerticalOptions="Center"/>
+                    <Label Text="Dépôt  "  VerticalOptions="Center"/>
                     <controls:CustomPicker HorizontalOptions="EndAndExpand"
                      HeightRequest="40" 
                      WidthRequest="200"
@@ -38,7 +38,7 @@
                      ItemDisplayBinding="{Binding DEPINTITULE}"
                      SelectedItem="{Binding selectedDepot,Mode=TwoWay}"
                      Image="down"
-                     Title="depot">
+                     Title="Dépôt">
                     </controls:CustomPicker>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
