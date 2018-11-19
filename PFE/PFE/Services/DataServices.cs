@@ -557,9 +557,46 @@ namespace PFE.Services
             }
         }
 
-        public Task<bool> updateAsyncBuyElement(Buyelement obj)
+        public async Task<bool> updateAsyncBuyElement(Buyelement obj)
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                return false;
+            IList<Buyelement> stocks = new List<Buyelement>();
+            try
+            {
+                stocks = await getBuyElementAsync();
+                var newLIst = new List<Buyelement>();
+
+                if (stocks == null)
+                {
+                    return false;
+                }
+
+                foreach (Buyelement s in stocks)
+                {
+                    if (s.ligneUpdated != true)
+                    {
+                        s.depot = obj.depot;
+                        s.tva = obj.tva;
+                        s.articles = obj.articles;
+                        s.artarifligne = obj.artarifligne;
+                        s.LivredQuantity = obj.LivredQuantity;
+                        //s.mutht = obj.mutht;
+                        //s.mtht = obj.mtht;
+                        //s.mttc = obj.mttc;
+                        //s.artarifligne = obj.artarifligne;
+                        s.ligneUpdated = obj.ligneUpdated;
+                    }
+                    newLIst.Add(s);
+                }
+                Console.WriteLine(newLIst);
+                return addBuyElementsAsync(newLIst);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("update bl" + e.StackTrace);
+                return false;
+            }
         }
 
         public async Task<bool> removeBuyElementsAsync(Buyelement obj)

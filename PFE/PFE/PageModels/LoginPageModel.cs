@@ -149,7 +149,7 @@ namespace PFE.PageModels
                     catch (Exception ex)
                     {
                         //Console.WriteLine(e.Message);
-                        _dialogService.ShowMessage("ERROR" + ex.StackTrace, true);
+                        _dialogService.ShowMessage("erreur : " + ex.StackTrace, true);
                         _role = null;
                         _user = null;
                         isEnabled = false;

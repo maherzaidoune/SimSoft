@@ -60,6 +60,17 @@ namespace PFE.PageModels
             });
             MessagingCenter.Subscribe<AffEntetePageModel, AFFAIRE>(this, "affaire", getAff);
         }
+        public AFFAIRE affaires
+        {
+            get;
+            set;
+        }
+
+        public TIERS Tiers
+        {
+            get;
+            set;
+        }
 
         private void getAff(AffEntetePageModel arg1, AFFAIRE arg2)
         {
@@ -68,6 +79,7 @@ namespace PFE.PageModels
             {
                 Codeaffaire = arg2.AFFCODE;
                 affaireintitule = arg2.AFFINTITULE;
+                affaires = arg2;
             });
         }
 
@@ -88,6 +100,7 @@ namespace PFE.PageModels
             {
                 numerofournisseur = arg2.TIRCODE;
                 fournisseurintitule = arg2.TIRSOCIETE;
+                Tiers = arg2;
             });
 
         }
@@ -113,12 +126,33 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
-                nature = await _restService.GetPieceNature("A", "f", "%Facture%",null,true);
+                nature = await _restService.GetPieceNature("A", "f", null,"0",true);
             });
         }
-        public BuyFAentPageModel(IRestServices _restService)
+        private IDataServices _dataService;
+        private IDialogService _dialogService;
+
+        private void _validate(object obj)
+        {
+            Buyelement buy = new Buyelement
+            {
+                pIECE_NATURE = selectednature,
+                type = "BFA",
+                affaire = affaires,
+                tiers = Tiers
+            };
+            Task.Run(async () =>
+            {
+                if (await _dataService.addBuyElementAsync(buy))
+                    _dialogService.ShowMessage("Ajouter au details avec success", false);
+            });
+        }
+
+        public BuyFAentPageModel(IRestServices _restService, IDataServices _dataService, IDialogService _dialogService)
         {
             date = DateTime.Today;
+            this._dataService = _dataService;
+            this._dialogService = _dialogService;
             this._restService = _restService;
         }
 

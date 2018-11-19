@@ -17,7 +17,7 @@ namespace PFE.Helper
             tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initTabsSellBL()
@@ -28,7 +28,7 @@ namespace PFE.Helper
             tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
 
@@ -40,7 +40,7 @@ namespace PFE.Helper
             tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
 
@@ -52,7 +52,7 @@ namespace PFE.Helper
             tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
 
@@ -64,7 +64,7 @@ namespace PFE.Helper
             tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
 
@@ -73,10 +73,10 @@ namespace PFE.Helper
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
             tabs.AddTab<BuyBCEntPageModel>("Entete", "add.png");
             tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
-            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            tabs.AddTab<BuyDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initTabsBuyBRC()
@@ -84,10 +84,10 @@ namespace PFE.Helper
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
             tabs.AddTab<BuyBRecentetPageModel>("Entete", "add.png");
             tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
-            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            tabs.AddTab<BuyDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initTabsBuyBRT()
@@ -95,10 +95,10 @@ namespace PFE.Helper
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
             tabs.AddTab<BuyBRetEntetPageModel>("Entete", "add.png");
             tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
-            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            tabs.AddTab<BuyDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initTabsBuyBFR()
@@ -106,10 +106,10 @@ namespace PFE.Helper
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
             tabs.AddTab<BuyFRentPageModel>("Entete", "add.png");
             tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
-            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            tabs.AddTab<BuyDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initTabsBuyBFA()
@@ -117,10 +117,10 @@ namespace PFE.Helper
             var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
             tabs.AddTab<BuyFAentPageModel>("Entete", "add.png");
             tabs.AddTab<BuyBCLigPageModel>("Ligne", "details.png");
-            tabs.AddTab<SellDetailsPageModel>("Details", "valid.png");
+            tabs.AddTab<BuyDetailsPageModel>("Details", "valid.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initStockME()
@@ -130,7 +130,7 @@ namespace PFE.Helper
             tabs.AddTab<StockLignePageModel>("Ligne", "details.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initStockMS()
@@ -140,7 +140,7 @@ namespace PFE.Helper
             tabs.AddTab<StockLignePageModel>("Ligne", "details.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
             });
         }
         public static void initStockMT()
@@ -150,7 +150,17 @@ namespace PFE.Helper
             tabs.AddTab<StockLignePageModel>("Ligne", "details.png");
             Device.BeginInvokeOnMainThread(() =>
             {
-                App.Current.MainPage = tabs;
+                Application.Current.MainPage = tabs;
+            });
+        }
+        public static void initStockMSI()
+        {
+            var tabs = new FreshMvvm.FreshTabbedNavigationContainer() { BarTextColor = Color.Black, BarBackgroundColor = Color.White };
+            tabs.AddTab<StockSEentPageModel>("Entete", "add.png");
+            tabs.AddTab<StockLignePageModel>("Ligne", "details.png");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Application.Current.MainPage = tabs;
             });
         }
     }

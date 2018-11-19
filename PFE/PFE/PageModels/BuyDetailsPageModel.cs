@@ -1,21 +1,20 @@
-﻿using PFE.Models;
-using PFE.Services;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using PFE.Models;
+using PFE.Services;
+using PropertyChanged;
 using Xamarin.Forms;
 
 namespace PFE.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class SellDetailsPageModel : FreshMvvm.FreshBasePageModel
+    public class BuyDetailsPageModel : FreshMvvm.FreshBasePageModel
     {
-        public ObservableCollection<SellElements> productList { get; set; }
-        public SellElements selectedProdut { get; set; }
+        public ObservableCollection<Buyelement> productList { get; set; }
+        public Buyelement selectedProdut { get; set; }
         private IDataServices _dataService;
         private IRestServices _restservices;
         private IDialogService _dialogService;
@@ -30,9 +29,10 @@ namespace PFE.PageModels
         {
 
 
-            if(_restservices.PostSellLignes(productList)){
+            if (_restservices.PostBuyElements(productList))
+            {
 
-                if (_dataService.RemoveSellElements())
+                if (_dataService.RemoveBuyElements())
                 {
                     productList.Clear();
                     _dialogService.ShowMessage("Done", false);
@@ -47,12 +47,13 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("liste vide !", true);
             else if (productList == null)
                 _dialogService.ShowMessage("choisissez l'element a supprimer", true);
-            else{
+            else
+            {
                 Task.Run(async () =>
                 {
                     try
                     {
-                        if (await _dataService.removeSellElementsAsync(selectedProdut))
+                        if (await _dataService.removeBuyElementsAsync(selectedProdut))
                         {
                             productList.Remove(selectedProdut);
                             _dialogService.ShowMessage("name : " + selectedProdut.articles.ARTDESIGNATION + " type : " + selectedProdut.type + " effacer avec succes !", false);
@@ -60,7 +61,7 @@ namespace PFE.PageModels
                     }
                     catch (Exception e)
                     {
-                        _dialogService.ShowMessage("Error " + e.Message, true);
+                        _dialogService.ShowMessage("Erreur " + e.Message, true);
                     }
                 });
             }
@@ -69,24 +70,21 @@ namespace PFE.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            IList<SellElements> list = new List<SellElements>();
-            Task.Run(async() =>
+            IList<Buyelement> list = new List<Buyelement>();
+            Task.Run(async () =>
             {
-                list = await _dataService.getSellElementAsync();
+                list = await _dataService.getBuyElementAsync();
             }).Wait();
-            if(list != null)
-                productList = new ObservableCollection<SellElements>(list);
+            if (list != null)
+                productList = new ObservableCollection<Buyelement>(list);
         }
 
-        public SellDetailsPageModel(IDataServices _dataService, IDialogService _dialogService, IRestServices _restservices)
+
+        public BuyDetailsPageModel(IDataServices _dataService, IDialogService _dialogService, IRestServices _restservices)
         {
             this._dataService = _dataService;
             this._dialogService = _dialogService;
             this._restservices = _restservices;
-        }
-        public override void Init(object initData)
-        {
-            base.Init(initData);
         }
     }
 }

@@ -242,12 +242,7 @@ namespace PFE.PageModels
 
         }
 
-        public StockMSPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
-        {
-            this._restService = _restService;
-            this._dataServices = _dataServices;
-            this._dialogService = _dialogService;
-        }
+
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -256,6 +251,13 @@ namespace PFE.PageModels
                 nature = await _restService.GetPieceNaturebyPINID("20");
                 depo = await _restService.GetDepot("o");
             });
+        }
+
+        public StockMSPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
+        {
+            this._restService = _restService;
+            this._dataServices = _dataServices;
+            this._dialogService = _dialogService;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace PFE.Models
     public partial class OPERATIONSTOCK
     {
         
-        public int? OPEID { get; set; }
+        public float? OPEID { get; set; }
 
         public DateTime? DATECREATE { get; set; }
 
@@ -17,22 +17,22 @@ namespace PFE.Models
 
         public DateTime OPEDATE { get; set; }
 
-        public int? PCID { get; set; }
+        public float? PCID { get; set; }
 
-        public int? PLID { get; set; }
+        public float? PLID { get; set; }
 
      
         public string OPEREFPIECE { get; set; }
 
         public string PICCODE { get; set; }
 
-        public int? PINID { get; set; }
+        public float? PINID { get; set; }
 
-        public int? ARTID { get; set; }
+        public float? ARTID { get; set; }
 
-        public int? DEPID { get; set; }
+        public float? DEPID { get; set; }
 
-        public int? PROID { get; set; }
+        public float? PROID { get; set; }
 
         public string OPENATURESTOCK { get; set; }
 
@@ -47,7 +47,7 @@ namespace PFE.Models
        
         public decimal OPEQUANTITE { get; set; }
 
-        public short OPESENS { get; set; }
+        public int OPESENS { get; set; }
 
        
         public decimal OPELASTPA { get; set; }
@@ -61,9 +61,9 @@ namespace PFE.Models
      
         public string OPEISCLOS { get; set; }
 
-        public int? OPEIDORG { get; set; }
+        public float? OPEIDORG { get; set; }
 
-        public int? TIRID { get; set; }
+        public float? TIRID { get; set; }
 
         public decimal? OPESTOCKAVANT { get; set; }
 
@@ -72,7 +72,7 @@ namespace PFE.Models
     
         public string OPEINTITULE { get; set; }
 
-        public int? SOCID { get; set; }
+        public float? SOCID { get; set; }
 
         public DateTime? OPEFEFOFABRICATION { get; set; }
 
@@ -90,7 +90,7 @@ namespace PFE.Models
       
         public string OPEISMAJPA { get; set; }
 
-        public int? CTMID { get; set; }
+        public float? CTMID { get; set; }
 
   
         public decimal OPEFRAIS { get; set; }

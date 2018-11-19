@@ -34,6 +34,13 @@ namespace PFE.PageModels
             Navigation.initStockMT();
         }
 
+        public ICommand ssi => new Command(_ssi);
+
+        private void _ssi(object obj)
+        {
+            Navigation.initStockMSI();
+        }
+
         private void _stockInfo(object obj)
         {
             Device.BeginInvokeOnMainThread(async () =>

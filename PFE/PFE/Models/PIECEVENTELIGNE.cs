@@ -3,97 +3,97 @@ namespace PFE.Models
 {
     public class PIECEVENTELIGNE
     {
-        public int? PLVID { get; set; }
-        public int? PCVID { get; set; }
-        public int? PLVNUMLIGNE { get; set; }
+        public float? PLVID { get; set; }
+        public float? PCVID { get; set; }
+        public float? PLVNUMLIGNE { get; set; }
         public string PLVTYPE { get; set; }
         public DateTime? PLVDATE { get; set; }
-        public int? DEPID { get; set; }
-        public int? AFFID { get; set; }
-        public int? TIRIDREP { get; set; }
-        public int? TIRIDFOU { get; set; }
-        public int? PROID { get; set; }
-        public int? ARTID { get; set; }
+        public float? DEPID { get; set; }
+        public float? AFFID { get; set; }
+        public float? TIRIDREP { get; set; }
+        public float? TIRIDFOU { get; set; }
+        public float? PROID { get; set; }
+        public float? ARTID { get; set; }
         public string ARTTYPE { get; set; }
         public string PLVISFORFAIT { get; set; }
         public string PLVISSOUMISESC { get; set; }
         public string PLVDESIGNATION { get; set; }
-        public int? TVACODE { get; set; }
-        public int? TPFCODE { get; set; }
-        public int? CPTID { get; set; }
-        public int? ANSID { get; set; }
-        public int? PLVQTE { get; set; }
-        public int? PLVQTEUS { get; set; }
-        public int? PLVQTETRANSFO { get; set; }
-        public int? PLVCOEFFUV { get; set; }
-        public int? PLVIDORG { get; set; }
-        public int? PLVPUBRUT { get; set; }
-        public int? PLVPUNET { get; set; }
-        public int? PLVMNTNET { get; set; }
-        public int? PLVMNTNETHT { get; set; }
-        public int? PLVLASTPA { get; set; }
-        public int? PLVPMP { get; set; }
-        public int? PLVCUMP { get; set; }
+        public float? TVACODE { get; set; }
+        public float? TPFCODE { get; set; }
+        public float? CPTID { get; set; }
+        public float? ANSID { get; set; }
+        public float? PLVQTE { get; set; }
+        public float? PLVQTEUS { get; set; }
+        public float? PLVQTETRANSFO { get; set; }
+        public float? PLVCOEFFUV { get; set; }
+        public float? PLVIDORG { get; set; }
+        public float? PLVPUBRUT { get; set; }
+        public float? PLVPUNET { get; set; }
+        public float PLVMNTNET { get; set; }
+        public float PLVMNTNETHT { get; set; }
+        public float? PLVLASTPA { get; set; }
+        public float? PLVPMP { get; set; }
+        public float? PLVCUMP { get; set; }
         public string PLVREMISE_F { get; set; }
         public string PLVREMISE_T { get; set; }
-        public int? PLVREMISE_MNT { get; set; }
-        public int? PLVSTOTID { get; set; }
-        public int? PLVFRAIS1 { get; set; }
+        public float? PLVREMISE_MNT { get; set; }
+        public float? PLVSTOTID { get; set; }
+        public float? PLVFRAIS1 { get; set; }
         public string PLVFRAIS1T { get; set; }
-        public int? PLVFRAIS2 { get; set; }
+        public float? PLVFRAIS2 { get; set; }
         public string PLVFRAIS2T { get; set; }
-        public int? PLVFRAIS3 { get; set; }
+        public float? PLVFRAIS3 { get; set; }
         public string PLVFRAIS3T { get; set; }
-        public int? PLVFRAISTOTAL { get; set; }
-        public int? PLVPOIDS { get; set; }
-        public int? PLVUNITEPOIDS { get; set; }
+        public float? PLVFRAISTOTAL { get; set; }
+        public float? PLVPOIDS { get; set; }
+        public float? PLVUNITEPOIDS { get; set; }
         public string PLVDIVERS { get; set; }
         public string PLVCOMMENTAIRE { get; set; }
         public string PLVNUMLOT { get; set; }
         public string PLVNUMSERIE { get; set; }
-        public int? PLVPUBRUTREF { get; set; }
+        public float? PLVPUBRUTREF { get; set; }
         public string PLVARTCODE { get; set; }
         public string PLVISIMPRIMABLE { get; set; }
-        public int? PVOID { get; set; }
+        public float? PVOID { get; set; }
         public string PLVSTYLEISGRAS { get; set; }
         public string PLVSTYLEISITALIC { get; set; }
         public string PLVSTYLEISIMPPARTIEL { get; set; }
         public string PLVSTYLEISSOULIGNE { get; set; }
-        public int? TRFID { get; set; }
+        public float? TRFID { get; set; }
         public DateTime? PLVFEFOFABRICATION { get; set; }
         public DateTime? PLVFEFOPEREMPTION { get; set; }
         public string PLVFEFODIVERS { get; set; }
-        public int? TPFCODE1 { get; set; }
-        public int? TPFCODE2 { get; set; }
-        public int? TPFCODE3 { get; set; }
-        public int? TPFCODE4 { get; set; }
-        public int? TPFCODE5 { get; set; }
-        public int? TPFCODE6 { get; set; }
-        public int? TPFCODE7 { get; set; }
-        public int? TPFCODE8 { get; set; }
-        public int? TPFCODE9 { get; set; }
-        public int? PLVD1 { get; set; }
-        public int? PLVD2 { get; set; }
-        public int? PLVD3 { get; set; }
-        public int? PLVD4 { get; set; }
-        public int? PLVD5 { get; set; }
-        public int? PLVD6 { get; set; }
-        public int? PLVD7 { get; set; }
-        public int? PLVD8 { get; set; }
-        public int? PLVVOLUME { get; set; }
-        public int? PLVUNITEVOLUME { get; set; }
-        public int? PLVDENSITE { get; set; }
-        public int? CTMID { get; set; }
-        public int? PIFID { get; set; }
-        public int? PLVLASTPR { get; set; }
-        public int? PLVPRMP { get; set; }
-        public int? PLVCRUMP { get; set; }
+        public float? TPFCODE1 { get; set; }
+        public float? TPFCODE2 { get; set; }
+        public float? TPFCODE3 { get; set; }
+        public float? TPFCODE4 { get; set; }
+        public float? TPFCODE5 { get; set; }
+        public float? TPFCODE6 { get; set; }
+        public float? TPFCODE7 { get; set; }
+        public float? TPFCODE8 { get; set; }
+        public float? TPFCODE9 { get; set; }
+        public float? PLVD1 { get; set; }
+        public float? PLVD2 { get; set; }
+        public float? PLVD3 { get; set; }
+        public float? PLVD4 { get; set; }
+        public float? PLVD5 { get; set; }
+        public float? PLVD6 { get; set; }
+        public float? PLVD7 { get; set; }
+        public float? PLVD8 { get; set; }
+        public float? PLVVOLUME { get; set; }
+        public float? PLVUNITEVOLUME { get; set; }
+        public float? PLVDENSITE { get; set; }
+        public float? CTMID { get; set; }
+        public float? PIFID { get; set; }
+        public float? PLVLASTPR { get; set; }
+        public float? PLVPRMP { get; set; }
+        public float? PLVCRUMP { get; set; }
         public string PLVFEFODIVERS1 { get; set; }
         public string PLVFEFODIVERS2 { get; set; }
         public string PLVFEFODIVERS3 { get; set; }
-        public int? PLVIDNOMC { get; set; }
-        public int? PLVIDNOMCPERE { get; set; }
-        public int? TCKID { get; set; }
+        public float? PLVIDNOMC { get; set; }
+        public float? PLVIDNOMCPERE { get; set; }
+        public float? TCKID { get; set; }
         public string PLVISSTK { get; set; }
         public string PLVCLF { get; set; }
     }

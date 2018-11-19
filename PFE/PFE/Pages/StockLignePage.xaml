@@ -4,15 +4,20 @@
               xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.StockLignePage">
     <AbsoluteLayout VerticalOptions="Fill" HorizontalOptions="Fill" >
+        
         <ActivityIndicator 
             AbsoluteLayout.LayoutBounds="0.5,0.5,1,1"
             AbsoluteLayout.LayoutFlags="All"
             VerticalOptions="Center" HorizontalOptions="Center" 
             Color="Orange" HeightRequest="50" WidthRequest="50" 
-            IsRunning="{Binding refresh ,  Mode=TwoWay}" IsVisible="{Binding refresh , Mode=TwoWay}" IsEnabled="{Binding refresh}" />
+            IsRunning="{Binding refresh ,  Mode=OneWay}" 
+            IsVisible="{Binding refresh , Mode=OneWay}" IsEnabled="{Binding refresh}" />
         
-        <Grid RowSpacing="0" ColumnSpacing="0" BackgroundColor="White" Padding="5,0,5,10"  AbsoluteLayout.LayoutBounds="0,0,1,1"
-            AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding grid , Mode=TwoWay}" IsEnabled="{Binding grid , Mode=TwoWay}" >
+        <Grid RowSpacing="0" ColumnSpacing="0"
+              BackgroundColor="White" Padding="5,0,5,10"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding grid , Mode=OneWay}" 
+              IsEnabled="{Binding grid , Mode=OneWay}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="*"/>
@@ -41,7 +46,7 @@
                         </Grid.ColumnDefinitions>
                            <Label BackgroundColor="#eceff1" Grid.Column="0" Text="Code " />
                            <Label BackgroundColor="#fafafa" Grid.Column="1" Text="Designation " />
-                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Qunt physic " />
+                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Qté phy " />
                            <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Prix HT " />
                         </Grid>
                  </ListView.Header>

@@ -28,10 +28,21 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public string selectedDepot
+        private depot _selectedDepo;
+        public depot selectedDepot
         {
-            get;
-            set;
+            get
+            {
+                return _selectedDepo;
+            }
+            set
+            {
+                _selectedDepo = value;
+                Task.Run(() =>
+                {
+                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                });
+            }
         }
         public string storeQuantity
         {
@@ -83,7 +94,37 @@ namespace PFE.PageModels
             get;
             set;
         }
+        public ARTICLE article
+        {
+            get;
+            set;
+        }
+        public ARTUNITE artunite
+        {
+            get;
+            set;
+        }
+        public ARTFAMILLES_CPT artfamilles_cpt
+        {
+            get;
+            set;
+        }
+        public ARTTARIFLIGNE artarifligne
+        {
+            get;
+            set;
+        }
+        public TVA tva
+        {
+            get;
+            set;
+        }
 
+        //save
+        public ICommand validate => new Command(_validate);
+        //get data by bc
+        public ICommand valid => new Command(_valid);
+        //scan br
         public ICommand scan => new Command(_Scan);
 
         private void _Scan(object obj)
@@ -100,8 +141,7 @@ namespace PFE.PageModels
                     if (result != null)
                     {
                         barreCode = result.Text;
-                        //_valid(null);
-                        Console.WriteLine("Scanned Barcode: " + result.Text);
+                        _valid(null);
                     }
                 }
                 catch (Exception e)
@@ -112,6 +152,52 @@ namespace PFE.PageModels
 
             });
 
+        }
+
+        private void _valid(object obj)
+        {
+            if (!string.IsNullOrEmpty(barreCode))
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        article = _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+
+                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        tva = _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
+                        if (selectedDepot != null)
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).ARDSTOCKREEL.ToString();
+
+                        artunite = _restService.GetRTUNITE("v");
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+
+                    designation = article.ARTDESIGNATION;
+                    //unite = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                    //pht = artarifligne.ATFPRIX.ToString();
+                });
+            }
+
+        }
+
+        private void _validate(object obj)
+        {
+            //mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
+            //mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+            Buyelement buy = new Buyelement
+            {
+                depot = selectedDepot,
+                tva = tva,
+                articles = article,
+                artarifligne = artarifligne,
+                ligneUpdated = true
+            };
+            _dataService.updateAsyncBuyElement(buy);
         }
 
         public ICommand quit => new Command(_quit);

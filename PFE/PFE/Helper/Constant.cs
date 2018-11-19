@@ -242,6 +242,44 @@ namespace PFE.Helper
             }
         }
 
+        public static string PIECEACHATLIGNE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEACHATLIGNEs";
+            }
+        }
+        public static string PIECEACHAT_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEACHATs";
+            }
+        }
+        public static string PIECEACHATTAXES_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEACHATTAXES";
+            }
+        }
+        public static string PIECEACHATECHEANCE_url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_baseUrl))
+                    throw new Exception(" _baseUr is null ");
+                return _baseUrl + "/api/PIECEACHATECHEANCEs";
+            }
+        }
+
+
 
     }
 }

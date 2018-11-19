@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:local="clr-namespace:PFE"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PFE.Pages.BuyDetailsPage">
+    <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+             <RowDefinition Height="6*" />
+             <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListView
+            Grid.Row="0" Grid.ColumnSpan="2"
+            ItemsSource="{Binding productList}"
+            RowHeight="30"
+            SelectedItem="{Binding selectedProdut, Mode=TwoWay}"
+            SeparatorColor="LightGray"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+            HasUnevenRows="True" >
+             <ListView.Header>
+                    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                           <Label BackgroundColor="#eceff1" Grid.Column="0" Text="Code " />
+                           <Label BackgroundColor="#fafafa" Grid.Column="1" Text="Qté phy " />
+                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Prix unitaire " />
+                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Prix Total " />
+                        </Grid>
+                 </ListView.Header>
+                
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                        <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="2" >
+                            <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                               <Label BackgroundColor="#eceff1" Grid.Column="0" Text="{Binding articles.ARTID} " />
+                               <Label BackgroundColor="#fafafa" Grid.Column="1" Text="{Binding LivredQuantity} " />
+                               <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="{Binding mutht}" />
+                               <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="{Binding mttc}" />
+                        </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+        </ListView>
+        
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="0"
+        Grid.Row="1"
+        CornerRadius="10"
+        Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter"  Command="{Binding validate}" ></Button>
+        </local:GradientButton>
+        </Frame>
+        
+        <Frame
+        AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+        IsClippedToBounds="False"
+        Grid.Column="1"
+        Grid.Row="1"
+        CornerRadius="10"
+         Margin="10,10,10,10"
+        Padding="0"
+        HorizontalOptions="Fill">
+        <local:GradientButton  StartColor="#665978" EndColor="#706482" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer" Command="{Binding delete}" ></Button>
+        </local:GradientButton>
+        </Frame>
+
+    </Grid>
+</ContentPage>

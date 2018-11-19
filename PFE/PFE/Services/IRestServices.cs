@@ -32,17 +32,26 @@ namespace PFE.Services
         Task<IList<PIECE_NATURE>> GetPieceNature(string PICCODE = null, string PITCODE = null, string PINLIBELLE = null, string PINSENSSTOCK = null , bool like = false);
         bool PostToStock(IList<StockLigne> stocks);
         bool PostStockElement(StockLigne obj);
+
         bool PostSellLignes(IList<SellElements> sells);
         bool PostSellLigne(SellElements sell, int num);
 
+        bool PostBuyElement(Buyelement buy, int num);
+        bool PostBuyElements(IList<Buyelement> buy);
+
         bool PostPIECEVENTELIGNE(PIECEVENTELIGNE pIECEVENTELIGNE);
         bool PostPIECEVENTE(PIECEVENTE pIECEVENTE);
+
+        bool PostPIECEACHATLIGNE(PIECEACHATLIGNE pIECEACHATLIGNE);
+        bool PostPIECEACHAT(PIECEACHAT pIECEACHAT);
 
         bool PostPiecedivers(PIECEDIVERS piecediverse);
         bool PostPiecediversLigne(PIECEDIVERSLIGNES piecediverseligne);
         bool PostOperationStock(OPERATIONSTOCK operationStock);
         bool PostPieceVenteEcheace(PIECEVENTEECHEANCE pIECEVENTEECHEANCE);
         bool PostPieceVenteTaxe(PIECEVENTETAXES pIECEVENTETAXES);
+        bool PostPieceAchatEcheace(PIECEACHATECHEANCE pIECEACHATECHEANCE);
+        bool PostPieceAchatTaxe(PIECEACHATTAXES pIECEACHATTAXES);
         bool PostReglementEcheace(REGLEMENTECHEANCE rEGLEMENTECHEANCE);
         bool PostMemos(MEMOS memos);
         IDENTIFIANTTABLE GetIDENTIFIANTTABLE(string idTable);
@@ -52,9 +61,12 @@ namespace PFE.Services
         int getOperationStockNumber();
         int getMemosNumber();
         int getPieceVente();
+        int getPieceAchat();
+        int getPieceAchatLigne();
         int getEXERCICE();
         int getPieceVenteLigne();
         int getPIECEVENTEECHEANCE_PEVID();
+        int getPIECEACHATECHEANCE_PEAID();
         int getREGLEMENTECHEANCE_ECHID();
         PRODUIT getProduit(String PROCODE,String PROISPRINCIPAL);
         PRODUIT getProduitbyARTID(string ARTID, string PROISPRINCIPAL);
@@ -62,5 +74,6 @@ namespace PFE.Services
         //PIECEVENTELIGNE GetPIECEVENTELIGNEbyARTID(string artid);
         bool testServer(string uri = null);
         float get_PCVMNTTTC(string PCVID);
+        float get_PEAMONTANT(string PCAID);
     }
 }

@@ -46,6 +46,16 @@ namespace PFE.PageModels
 
         public ICommand tiers => new Command(_tiers);
         public ICommand affairs => new Command(_affairs);
+       
+
+        public string numeroPiece { get; set; }
+        public DateTime date { get; set; }
+
+        public string numerofournisseur { get; set; }
+        public string fournisseurintitule { get; set; }
+        public string Codeaffaire { get; set; }
+        public string affaireintitule { get; set; }
+
         public NUMAUTO numauto
         {
             get;
@@ -60,6 +70,17 @@ namespace PFE.PageModels
             });
             MessagingCenter.Subscribe<AffEntetePageModel, AFFAIRE>(this, "affaire", getAff);
         }
+        public AFFAIRE affaires
+        {
+            get;
+            set;
+        }
+
+        public TIERS Tiers
+        {
+            get;
+            set;
+        }
 
         private void getAff(AffEntetePageModel arg1, AFFAIRE arg2)
         {
@@ -68,6 +89,7 @@ namespace PFE.PageModels
             {
                 Codeaffaire = arg2.AFFCODE;
                 affaireintitule = arg2.AFFINTITULE;
+                affaires = arg2;
             });
         }
 
@@ -88,19 +110,10 @@ namespace PFE.PageModels
             {
                 numerofournisseur = arg2.TIRCODE;
                 fournisseurintitule = arg2.TIRSOCIETE;
+                Tiers = arg2;
             });
 
         }
-
-        public string numeroPiece { get; set; }
-        public DateTime date { get; set; }
-
-        public string numerofournisseur { get; set; }
-        public string fournisseurintitule { get; set; }
-        public string Codeaffaire { get; set; }
-        public string affaireintitule { get; set; }
-
-
         public ICommand quit => new Command(_quit);
 
         private void _quit(object obj)
@@ -113,12 +126,34 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
-                nature = await _restService.GetPieceNature("A", "f", "%avoir%", null,true);
+                nature = await _restService.GetPieceNature("A", "f", null, "0",true);
             });
         }
-        public BuyFRentPageModel(IRestServices _restService)
+        private IDataServices _dataService;
+        private IDialogService _dialogService;
+
+        private void _validate(object obj)
+        {
+            Buyelement buy = new Buyelement
+            {
+                pIECE_NATURE = selectednature,
+                type = "BFR",
+                affaire = affaires,
+                tiers = Tiers
+            };
+            Task.Run(async () =>
+            {
+                if (await _dataService.addBuyElementAsync(buy))
+                    _dialogService.ShowMessage("Ajouter au details avec success", false);
+            });
+        }
+
+
+        public BuyFRentPageModel(IRestServices _restService, IDataServices _dataService, IDialogService _dialogService)
         {
             date = DateTime.Today;
+            this._dataService = _dataService;
+            this._dialogService = _dialogService;
             this._restService = _restService;
         }
     }

@@ -26,7 +26,7 @@ namespace PFE.Models
         public int? PLAPUBRUT { get; set; }
         public int? PLAPUNET { get; set; }
         public int? PLAMNTNET { get; set; }
-        public int? PLAMNTNETHT { get; set; }
+        public float? PLAMNTNETHT { get; set; }
         public string PLAREMISE_F { get; set; }
         public string PLAREMISE_T { get; set; }
         public int? PLAREMISE_MNT { get; set; }

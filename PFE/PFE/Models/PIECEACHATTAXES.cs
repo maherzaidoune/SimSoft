@@ -4,14 +4,14 @@ namespace PFE.Models
     public class PIECEACHATTAXES
     {
         public int?  PCAID { get; set; }
-        public int?  CODETAXE { get; set; }
-        public int?  PTABASETVA { get; set; }
-        public int?  PTABASETVAESC { get; set; }
-        public int?  PTAMNTTVA { get; set; }
-        public int?  PTATAUXTVA { get; set; }
-        public int?  PTABASETPF { get; set; }
-        public int?  PTABASETPFESC { get; set; }
-        public int?  PTAMNTTPF { get; set; }
-        public int?  PTATAUXTPF { get; set; }
+        public float?  CODETAXE { get; set; }
+        public float?  PTABASETVA { get; set; }
+        public float?  PTABASETVAESC { get; set; }
+        public float?  PTAMNTTVA { get; set; }
+        public float?  PTATAUXTVA { get; set; }
+        public float?  PTABASETPF { get; set; }
+        public float?  PTABASETPFESC { get; set; }
+        public float?  PTAMNTTPF { get; set; }
+        public float?  PTATAUXTPF { get; set; }
     }
 }

@@ -29,11 +29,14 @@ namespace PFE.PageModels
 
         private void _save(object obj)
         {
-           refresh = true;
+            Task.Run(() =>
+            {
+                refresh = true;
+            });
            try{
                 if (_restService.PostToStock(stockLigne))
                 {
-                    _dialogService.ShowMessage("Done", false);
+                    //_dialogService.ShowMessage("L'aj", false);
                     if(_dataServices.RemoveStockLigne()){
                         stockLigne.Clear();
                     }else{
@@ -114,6 +117,9 @@ namespace PFE.PageModels
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
             MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "ME", updateME);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MS", updateMS);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MT", updateMT);
         }
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
@@ -121,6 +127,9 @@ namespace PFE.PageModels
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "ME", updateME);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MS", updateMS);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MT", updateMT);
         }
 
         private void updateMT(StockMTPageModel obj)
@@ -134,6 +143,21 @@ namespace PFE.PageModels
         }
 
         private void updateME(StockMEPageModel obj)
+        {
+            refreshPageME();
+        }
+
+        private void updateMT(StockSEentPageModel obj)
+        {
+            refreshPageMT();
+        }
+
+        private void updateMS(StockSEentPageModel obj)
+        {
+            refreshPageMS();
+        }
+
+        private void updateME(StockSEentPageModel obj)
         {
             refreshPageME();
         }

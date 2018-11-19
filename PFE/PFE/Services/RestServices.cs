@@ -493,57 +493,57 @@ namespace PFE.Services
                 string PCDNUMEXT = "";
                 string type = "";
                 int PCDID = getPieceDiversNumber() + 1;
-                ARTDEPOT artdepo = null ;
-                ARTDEPOT deptransfer = null;
+                //ARTDEPOT artdepo = null ;
+                //ARTDEPOT deptransfer = null;
 
-                if (obj.depin != null && obj.depout != null){
-                    PCDNUMEXT = "Bon de transfert de dépot";
-                    type = "BTR";
-                    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
-                    deptransfer = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
+                //if (obj.depin != null && obj.depout != null){
+                //    PCDNUMEXT = "Bon de transfert de dépot";
+                //    type = "BTR";
+                //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
+                //    deptransfer = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
 
-                }
-                else if (obj.depin != null){
-                    PCDNUMEXT = "Bon entrée en stock";
-                    type = "SIN";
-                    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
-                }
-                else if(obj.depout != null) {
-                    PCDNUMEXT = "Bon sortir en stock";
-                    type = "SOUT";
-                    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
-                }
+                //}
+                //else if (obj.depin != null){
+                //    PCDNUMEXT = "Bon entrée en stock";
+                //    type = "SIN";
+                //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
+                //}
+                //else if(obj.depout != null) {
+                //    PCDNUMEXT = "Bon sortir en stock";
+                //    type = "SOUT";
+                //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
+                //}
 
 
-                if (type.Equals( "SIN")){
-                    artdepo.DEPID = obj.depin.DEPID;
-                    artdepo.ARDSTOCKREEL += int.Parse(obj.quantite);
-                    if(PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depin.DEPID.ToString())){
-                        Console.WriteLine("artdepot updated");
-                    }
+                //if (type.Equals( "SIN")){
+                //    artdepo.DEPID = obj.depin.DEPID;
+                //    artdepo.ARDSTOCKREEL += int.Parse(obj.quantite);
+                //    if(PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depin.DEPID.ToString())){
+                //        Console.WriteLine("artdepot updated");
+                //    }
 
-                }
-                else if (type.Equals("SOUT"))
-                {
-                    try{
-                        artdepo.DEPID = obj.depout.DEPID;
-                        artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
-                        PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
-                    }catch(Exception e){
-                        Console.WriteLine(e.Message);
-                    }
+                //}
+                //else if (type.Equals("SOUT"))
+                //{
+                //    try{
+                //        artdepo.DEPID = obj.depout.DEPID;
+                //        artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
+                //        PatchArtdepot(artdepo, obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
+                //    }catch(Exception e){
+                //        Console.WriteLine(e.Message);
+                //    }
 
-                }
-                else if (type.Equals("BTR")){
+                //}
+                //else if (type.Equals("BTR")){
 
-                    artdepo.DEPID = obj.depout.DEPID;
-                    artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
-                    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depout.DEPID.ToString());
+                //    artdepo.DEPID = obj.depout.DEPID;
+                //    artdepo.ARDSTOCKREEL -= int.Parse(obj.quantite);
+                //    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depout.DEPID.ToString());
 
-                    deptransfer.DEPID = obj.depin.DEPID;
-                    artdepo.ARDSTOCKREEL +=  int.Parse(obj.quantite);
-                    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depin.DEPID.ToString());
-                }
+                //    deptransfer.DEPID = obj.depin.DEPID;
+                //    artdepo.ARDSTOCKREEL +=  int.Parse(obj.quantite);
+                //    PatchArtdepot(artdepo, obj.article.ARTID.ToString() , obj.depin.DEPID.ToString());
+                //}
 
 
                     PIECE_PREF prefs = GetPIECE_PREF(obj.pIECE_NATURE.PINID.ToString() , "o");
@@ -624,8 +624,8 @@ namespace PFE.Services
                     PICCODE = "S",
                     PINID = obj.pIECE_NATURE.PINID,
                     OPENATURESTOCK = "R",
-                    OPEQUANTITE = short.Parse(obj.quantite),
-                    OPESENS = short.Parse(obj.sense.ToString()),
+                    OPEQUANTITE = obj.sense.ToString().Equals("-1") ? - int.Parse(obj.quantite) : int.Parse(obj.quantite),
+                    OPESENS = int.Parse(obj.sense.ToString()),
                     OPETYPE = "N",
                     OPEISMAJPA = "O",
                     OPEISBLOQUE = "N",
@@ -640,7 +640,7 @@ namespace PFE.Services
 
                 return  PostPiecedivers(p) &&
                        PostPiecediversLigne(pl) &&
-                       //PostOperationStock(o) &&
+                       PostOperationStock(o) &&
                        PostIdentityTable("operationstock") &&
                        PostIdentityTable("piecedivers");
 
@@ -961,11 +961,12 @@ namespace PFE.Services
 
         public bool PostSellLigne(SellElements sell, int num)
         {
-            try{
+            try
+            {
                 PIECEVENTE pv = new PIECEVENTE
                 {
                     PCVID = getPieceVente() + 1,
-                    PCVNUM = Strings.increCode(getPieceVente() + 1, sell.type[0].ToString()), // a partir de piece nature 
+                    PCVNUM = Strings.increCode(getPieceVente() + 1, sell.type[0].ToString().ToUpper()), // a partir de piece nature 
                     PCVNUMEXT =  "test", // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
@@ -1066,7 +1067,7 @@ namespace PFE.Services
                 PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
                 {
                     PLVID = getPieceVenteLigne() + 1, // to be verified
-                    PCVID = getPieceVenteLigne() + 1,
+                    PCVID = pv.PCVID,
                     PLVNUMLIGNE = 0, // just added
                     PLVTYPE = "L",
                     PLVDATE = DateTime.Now,
@@ -1091,8 +1092,8 @@ namespace PFE.Services
                     //"PLVIDORG": 0,
                     PLVPUBRUT = (int?)sell.mutht,
                     PLVPUNET = (int?)(sell.mtht / sell.LivredQuantity),
-                    PLVMNTNET = (int?)(sell.mutht * sell.LivredQuantity),
-                    PLVMNTNETHT = (int?)sell.mtht,
+                    PLVMNTNET = (int)(sell.mutht * sell.LivredQuantity),
+                    PLVMNTNETHT = (float) sell.mtht,
                     PLVLASTPA = 0, // just added
                     PLVPMP = 0, // just added
                     PLVCUMP = 0, // just added
@@ -1161,7 +1162,7 @@ namespace PFE.Services
                 };
                 OPERATIONSTOCK o = new OPERATIONSTOCK
                 {
-                    OPEID = getOperationStockNumber() + 1,
+                    OPEID = getOperationStockNumber() + 20,
                     DATECREATE = DateTime.Now,
                     DATEUPDATE = DateTime.Now,
                     //USRMODIF = "ADM",
@@ -1172,8 +1173,8 @@ namespace PFE.Services
                     PICCODE = "S",
                     PINID = pv.PINID,
                     OPENATURESTOCK = "R",
-                    OPEQUANTITE = sell.type.Equals("BR")? sell.LivredQuantity : -sell.LivredQuantity,
-                    OPESENS = (short)(sell.type.Equals("BR") ? 1 : -1),
+                    OPEQUANTITE = sell.type.Equals("SBR")? sell.LivredQuantity : -sell.LivredQuantity,
+                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
                     OPETYPE = "N",
                     OPEISMAJPA = "O",
                     OPEISBLOQUE = "N",
@@ -1207,7 +1208,7 @@ namespace PFE.Services
                     CODETAXE = 10,
                     PTVBASETVA = pvl.PLVMNTNETHT,
                     PTVBASETVAESC = 0,
-                    //PTVMNTTVA = ,
+                    PTVMNTTVA = (int?)sell.tva.TVATAUX * pvl.PLVMNTNETHT,
                     PTVTAUXTVA = (int?)sell.tva.TVATAUX,
                     PTVBASETPF = 0,
                     PTVBASETPFESC = 0,
@@ -1231,11 +1232,11 @@ namespace PFE.Services
                     PITCODE = "F"
                 };
 
-                var result = PostPIECEVENTE(pv)
+                if(PostPIECEVENTE(pv)
                             &&
-                    PostPIECEVENTELIGNE(pvl);
-                if(result){
+                    PostPIECEVENTELIGNE(pvl)){
                     if(!sell.type.Equals("SBC")){
+                        PostOperationStock(o);
                         PostPieceVenteEcheace(pve);
                         PostPieceVenteTaxe(pvt);
                         PostReglementEcheace(re);
@@ -1293,7 +1294,6 @@ namespace PFE.Services
         {
             try
             {
-                
                 var count = (Constant.PIECEVENTE_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
                 return count.Result.count;
             }
@@ -1335,9 +1335,7 @@ namespace PFE.Services
         {
             try
             {
-                var res =  (Constant.PIECEVENTELIGNE_url + "?filter[order]=PLVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTELIGNE>>();
-                Console.WriteLine(res);
-                return (int) res.Result[0].PLVID;
+                return (int)(Constant.PIECEVENTELIGNE_url + "?filter[order]=PLVID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEVENTELIGNE>>().Result[0].PLVID;
             }
             catch (FlurlHttpException e)
 
@@ -1400,17 +1398,17 @@ namespace PFE.Services
                 ServerResponce res = uri.WithTimeout(3).GetJsonAsync<ServerResponce>().Result;
                 if(res != null){
                     var _dialog = new DialogService();
-                    _dialog.ShowMessage("started : " + res.started + "uptime : " + res.uptime, false);
+                    _dialog.ShowMessage("connectee : " + res.started + "a partir de : " + res.uptime, false);
                     return true;
                 }else{
                     var _dialog = new DialogService();
-                    _dialog.ShowMessage("Can't reach server ", true);
+                    _dialog.ShowMessage("le serveur ne repond pas ", true);
                     return false;
                 }
             }
             catch{
                 var _dialog = new DialogService();
-                _dialog.ShowMessage("Error make sure you use http:// and you type a valid port " , true);
+                _dialog.ShowMessage("verifier les donnee du serveur " , true);
                 return false;
             }
 		}
@@ -1519,6 +1517,441 @@ namespace PFE.Services
             {
 
                 return (Constant.REGLEMENTECHEANCE_url).WithTimeout(7).PostJsonAsync(rEGLEMENTECHEANCE).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+
+
+        public bool PostBuyElement(Buyelement buy, int num)
+        {
+                try
+                {
+                    PIECEACHAT pv = new PIECEACHAT
+                    {
+                        //working
+                        PCACOLISAGE = 1, // fix ?
+                        PCAPOIDS = 0, // fix ?
+                        PCAUNITEPOIDS = 1000, // fix ?
+                        JORID = 2, // fix ?
+                        ECRSEQUENCE = 0, // fix ?
+                        DEVID = 1, // fix ?
+                        PCACOURSDEV = 1, // fix ?
+                        PCADATEEFFET = DateTime.Now,
+                        PCAISSOLDE = "N", // fix ?
+                        PCAISCOMPTABILISE = "N", // fix ?
+                        PCAISCLOS = "N", // fix ?
+                        PCAISPRINT = "N",// fix ?
+                        PCANBPRINT = 1,
+                        MODID = 15, // fix ?
+                        PCAMNTHT = (int?)buy.mtht,
+                        PCAMNTTTC = (int?)buy.mttc,
+                        PCAMNTAREGLER = (int?)buy.mttc,
+                        PCAMNTACOMPTE = 0,
+                        PCAMNTTVA = ((int?)(buy.mttc - buy.mtht)),
+                        PCAMNTTPF = 0,
+                        PCAMNTESCOMPTE = 0,
+                        PCAMNTPORT = 0,
+                        PCATAUXESCOMPTE = 0,
+                        PCACONDREGLEMENT = "Chèque à réception de facture",
+                        //USRMODIF = Helper.Session.user.USRNOM,
+                        DATEUPDATE = DateTime.Now,
+                        DATECREATE = DateTime.Now,
+                        MEMOID = 0,//sell.tiers.MEMOID,
+                        PCANBIMPRESSION = 0,
+                        SOCID = 67,
+                        PCADATELIVRAISON = DateTime.Now,
+                        PCAISDEB = "N",
+                        PCADEBREGIME = "t", //test
+                        PCADEBTRANSACTION = "t", //test
+                        PCADEBLIVRAISON = "t", //test
+                        PCADEBTRANSPORT = "t", //test
+                        PCAVOLUME = 0,
+                        PCAUNITEVOLUME = 1,
+                        PCAISPIECEFRAIS = "N",
+                        TYNCODE = "t", //test
+                        PCAID = getPieceAchat() + 1,
+                        PCANUM = Strings.increCode(getPieceAchat() + 1, buy.type[0].ToString().ToUpper()),
+                        PCANUMEXT = "string",
+                        PITCODE = buy.pIECE_NATURE.PITCODE,
+                        PINID = buy.pIECE_NATURE.PINID,
+                        PINCODE = buy.pIECE_NATURE.PINCODE,
+                        EXEID = getEXERCICE() + 1,
+                        NUMID = GetPIECE_PREF(buy.pIECE_NATURE.PINID.ToString()).NUMID,
+                        AFFID = 0,
+                        TIRID = buy.tiers.TIRID,
+                        TIRID_FAC = 0,
+                        ADRID_FAC = 0,
+                        ADRID_LIV = 0,
+                        DEPID = 0,
+                        EXPID = 0,
+                        PCADATEPRINT = DateTime.Now,
+                        USRMODIF = "ADM",
+                        ANSID = 0,
+                        USRCREATE = "string",
+                        PCAOBJET = "string",
+                        TIRID_CPT = 0
+                    };
+                    PRODUIT produit = getProduitbyARTID(buy.articles.ARTID.ToString(), "O");
+                    ARTFAMILLES_CPT artfamilles = GetARTFAMILLES_CPTbyARFID("36", "ART");
+
+                    PIECEACHATLIGNE pvl = new PIECEACHATLIGNE
+                    {
+
+                        PLAID = getPieceAchatLigne() + 1, // to be verified
+                        PCAID = pv.PCAID,
+                        PLANUMLIGNE = 0, // just added
+                        PLATYPE = "L",
+                        PLADATE = DateTime.Now,
+                        DEPID = buy.depot.DEPID,
+                        AFFID = 0,//sell.affaire.AFFID,
+                        PROID = 0,//produit.PROID,
+                        ARTID = buy.articles.ARTID,
+                        PLAISSOUMISESC = "N",
+                        PLADESIGNATION = buy.articles.ARTDESIGNATION,
+                        TVACODE = 0,//artfamilles.TVACODE_FR,
+                        TPFCODE = 0,
+                        CPTID = 0,//artfamilles.CPTID_FR,
+                        ANSID = 7,
+                        PLAQTE = buy.LivredQuantity,
+                        PLAQTEUS = buy.LivredQuantity,
+                        PLAQTETRANSFO = 0,
+                        //"PLVIDORG": 0,
+                        PLAPUBRUT = (int?)buy.mutht,
+                        PLAPUNET = (int?)(buy.mtht / buy.LivredQuantity),
+                        PLAMNTNET = (int)(buy.mutht * buy.LivredQuantity),
+                        PLAMNTNETHT = (float)buy.mtht,
+                        PLAREMISE_F = "0",//sell.remise,
+                        PLAREMISE_T = "P",
+                        PLAREMISE_MNT = 0,
+                        PLAISIMPRIMABLE = "o",
+                        PLASTYLEISGRAS = "N",
+                        PLASTYLEISITALIC = "N",
+                        PLASTYLEISIMPPARTIEL = "N",
+                        PLASTYLEISSOULIGNE = "N",
+                        PLAD1 = 0,
+                        PLAD2 = 0,
+                        PLAD3 = 0,
+                        PLAD4 = 0,
+                        PLAD5 = 0,
+                        PLAD6 = 0,
+                        PLAD7 = 0,
+                        PLAD8 = 0,
+                        PLAVOLUME = 0,
+                        PLAUNITEVOLUME = 1,
+                        PLADENSITE = 0,
+                        PIFID = 0,
+
+                     
+                        PROTYPE = "string",
+                       
+                        PLACOEFFUA = 0,
+                        PLAIDORG = 0,
+                       
+                        PLASTOTID = 0,
+                        PLAPOIDS = 0,
+                        PLAUNITEPOIDS = 0,
+                        PLADIVERS = "string",
+                        PLACOMMENTAIRE = "string",
+                        PLANUMLOT = "string",
+                        PLANUMSERIE = "string",
+                        
+                        PLAFEFOFABRICATION = DateTime.Now    ,
+                        PLAFEFOPEREMPTION = DateTime.Now,
+                        PLAFEFODIVERS = "string",
+                        TPFCODE1 = 0,
+                        TPFCODE2 = 0,
+                        TPFCODE3 = 0,
+                        TPFCODE4 = 0,
+                        TPFCODE5 = 0,
+                        TPFCODE6 = 0,
+                        //"TPFCODE7": 0,
+                        //"TPFCODE8": 0,
+                        //"TPFCODE9": 0,
+                        //"PLAPROCODE": "string",
+                        //"PLAD1": 0,
+                        //"PLAD2": 0,
+                        //"PLAD3": 0,
+                        //"PLAD4": 0,
+                        //"PLAD5": 0,
+                        //"PLAD6": 0,
+                        //"PLAD7": 0,
+                        //"PLAD8": 0,
+                        
+                        PLAFRAIS = 0,
+                        PLAFRAISLG = 0,
+                        PLAFRAISPC = 0,
+                        PLAFEFODIVERS1 = "string",
+                        PLAFEFODIVERS2 = "string",
+                        PLAFEFODIVERS3 = "string",
+                    };
+                    OPERATIONSTOCK o = new OPERATIONSTOCK
+                    {
+                        OPEID = getOperationStockNumber() + 1,
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        USRMODIF = "ADM",
+                        OPEDATE = DateTime.Now,
+                        ARTID = buy.articles.ARTID,
+                        DEPID = buy.depot.DEPID,
+                        //USRMODIF = Helper.Session.user.USRNOM,
+                        PICCODE = "A",
+                        PINID = pv.PINID,
+                        OPENATURESTOCK = "R",
+                        OPEQUANTITE = buy.type.Equals("BBR") ? buy.LivredQuantity : -buy.LivredQuantity,
+                        OPESENS = (int)(buy.type.Equals("BBR") ? 1 : -1),
+                        OPETYPE = "N",
+                        OPEISMAJPA = "O",
+                        OPEISBLOQUE = "N",
+                        SOCID = 1,
+                        OPEISCLOS = "N",
+                        PCID = pvl.PCAID,
+                        PLID = pvl.PLAID,
+                        CTMID = 0,
+                        TIRID = pv.TIRID,
+                        OPEINTITULE = buy.tiers.TIRSOCIETE,
+                        //opuint
+
+                    };
+
+                    PIECEACHATECHEANCE pve = new PIECEACHATECHEANCE
+                    {
+                        PCAID = pvl.PCAID,
+                        PEAID = getPIECEACHATECHEANCE_PEAID() + 1,
+                        PEADATE = DateTime.Now,
+                        PEAMONTANT = get_PEAMONTANT((pvl.PCAID).ToString()),
+                        PEATAUX = 1,
+                        RGTID = 2,
+                        PEAISREGLE = "N",
+                        PEAMNTREGLE = 0,
+                        PITCODE = "F"
+                    };
+
+                    PIECEACHATTAXES pvt = new PIECEACHATTAXES
+                    {
+                       PCAID = pvl.PCAID,
+                       CODETAXE = 10,
+                       PTABASETVA = pvl.PLAMNTNETHT,
+                       PTABASETVAESC = 0,
+                       PTAMNTTVA = pvl.PLAMNTNETHT * (int?)buy.tva.TVATAUX,
+                       PTATAUXTVA = (int?)buy.tva.TVATAUX,
+                       PTABASETPF = 0,
+                       PTABASETPFESC = 0,
+                       PTAMNTTPF = 0,
+                       PTATAUXTPF = 0
+                    };
+                    REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
+                    {
+                        ECHID = getREGLEMENTECHEANCE_ECHID() + 1,
+                        PEREID = pvl.PCAID,
+                        PERECLASSE = "PCV",
+                        ECHNUMERO = 1,
+                        RGTID = 2,
+                        ECHLIBELLE = "Chèque à réception de facture",
+                        ECHISLIBELLEAUTO = "N",
+                        ECHJOUR = 0,
+                        //ECHTYPE": "string",
+                        ECHLE = 0,
+                        ECHTAUX = 1,
+                        ECHDATE = DateTime.Now,
+                        PITCODE = "F"
+                    };
+
+                if (PostPIECEACHAT(pv)
+                                &&
+                    PostPIECEACHATLIGNE(pvl))
+                {
+                    if (!buy.type.Equals("BBC"))
+                    {
+                        PostOperationStock(o);
+                        PostPieceAchatEcheace(pve);
+                        PostPieceAchatTaxe(pvt);
+                        PostReglementEcheace(re);
+                    }
+                    return true;
+                }
+            }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    noInternetConnection();
+                    return false;
+                }
+            return false;
+        }
+
+        public bool PostBuyElements(IList<Buyelement> buy)
+        {
+            try
+            {
+                foreach (Buyelement s in buy)
+                {
+                    if (PostBuyElement(s, buy.Count))
+                        Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                noInternetConnection();
+                return false;
+            }
+        }
+
+        public int getPieceAchat()
+        {
+            try
+            {
+                return (int)(Constant.PIECEACHAT_url + "?filter[order]=PCAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHAT>>().Result[0].PCAID;
+            }
+            catch (FlurlHttpException e)
+
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public int getPieceAchatLigne()
+        {
+            try
+            {
+                return (int)(Constant.PIECEVENTELIGNE_url + "?filter[order]=PLAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHATLIGNE>>().Result[0].PLAID;
+            }
+            catch (FlurlHttpException e)
+
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public int getPIECEACHATECHEANCE_PEAID()
+        {
+            try
+            {
+
+                return (int)(Constant.PIECEACHATECHEANCE_url + "?filter[order]=PEAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHATECHEANCE>>().Result[0].PEAID;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public float get_PEAMONTANT(string PCAID)
+        {
+            try
+            {
+                var list = (Constant.PIECEACHAT_url + "?filter[where][PCAID]=" + PCAID).WithTimeout(10).GetJsonAsync<IList<PIECEACHAT>>().Result;
+                float sum = 0;
+                foreach (PIECEACHAT P in list)
+                {
+                    sum += (float)P.PCAMNTTTC;
+                }
+                return sum;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
+
+        public bool PostPIECEACHATLIGNE(PIECEACHATLIGNE pIECEACHATLIGNE)
+        {
+            try
+            {
+                var result = (Constant.PIECEACHATLIGNE_url).PostJsonAsync(pIECEACHATLIGNE);
+                return result.Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostPIECEACHAT(PIECEACHAT pIECEACHAT)
+        {
+            try
+            {
+                var result = (Constant.PIECEACHAT_url).WithTimeout(7).PostJsonAsync(pIECEACHAT);
+                var res = result.Result;
+                return res.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostPieceAchatEcheace(PIECEACHATECHEANCE pIECEACHATECHEANCE)
+        {
+            try
+            {
+                return (Constant.PIECEACHATECHEANCE_url).WithTimeout(7).PostJsonAsync(pIECEACHATECHEANCE).Result.IsSuccessStatusCode;
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
+        }
+
+        public bool PostPieceAchatTaxe(PIECEACHATTAXES pIECEACHATTAXES)
+        {
+            try
+            {
+
+                return (Constant.PIECEACHATTAXES_url).WithTimeout(7).PostJsonAsync(pIECEACHATTAXES).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
