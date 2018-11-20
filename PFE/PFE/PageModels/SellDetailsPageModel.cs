@@ -32,11 +32,11 @@ namespace PFE.PageModels
 
             Task.Run(async() =>
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isEnabled = false;
-                    isBusy = true;
-                });
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    isEnabled = false;
+                //    isBusy = true;
+                //});
                 await Task.Run(() =>
                 {
                     if (_restservices.PostSellLignes(productList))
@@ -53,11 +53,11 @@ namespace PFE.PageModels
                         _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
                     }
                 });
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-                });
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    isBusy = false;
+                //    isEnabled = true;
+                //});
                 
             });
 

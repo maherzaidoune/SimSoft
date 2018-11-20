@@ -30,11 +30,11 @@ namespace PFE.PageModels
         {
             Task.Run(async() =>
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isEnabled = false;
-                    isBusy = true;
-                });
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    isEnabled = false;
+                //    isBusy = true;
+                //});
 
                 await Task.Run(() =>
                 {
@@ -53,11 +53,11 @@ namespace PFE.PageModels
                     }
 
                 });
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-                });
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    isBusy = false;
+                //    isEnabled = true;
+                //});
             });
             
 
