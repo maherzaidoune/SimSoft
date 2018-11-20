@@ -5,7 +5,7 @@ namespace PFE.Models
     {
         public int? PLAID { get; set; }
         public int? PCAID { get; set; }
-        public int? PLANUMLIGNE { get; set; }
+        public float? PLANUMLIGNE { get; set; }
         public string PLATYPE { get; set; }
         public DateTime? PLADATE { get; set; }
         public int? DEPID { get; set; }
@@ -15,24 +15,24 @@ namespace PFE.Models
         public string PROTYPE { get; set; }
         public string PLADESIGNATION { get; set; }
         public int? TVACODE { get; set; }
-        public int? TPFCODE { get; set; }
-        public int? CPTID { get; set; }
-        public int? ANSID { get; set; }
-        public int? PLAQTE { get; set; }
-        public int? PLAQTEUS { get; set; }
-        public int? PLAQTETRANSFO { get; set; }
-        public int? PLACOEFFUA { get; set; }
-        public int? PLAIDORG { get; set; }
-        public int? PLAPUBRUT { get; set; }
-        public int? PLAPUNET { get; set; }
-        public int? PLAMNTNET { get; set; }
+        public float? TPFCODE { get; set; }
+        public float? CPTID { get; set; }
+        public float? ANSID { get; set; }
+        public float? PLAQTE { get; set; }
+        public float? PLAQTEUS { get; set; }
+        public float? PLAQTETRANSFO { get; set; }
+        public float? PLACOEFFUA { get; set; }
+        public float? PLAIDORG { get; set; }
+        public float? PLAPUBRUT { get; set; }
+        public float? PLAPUNET { get; set; }
+        public float? PLAMNTNET { get; set; }
         public float? PLAMNTNETHT { get; set; }
         public string PLAREMISE_F { get; set; }
         public string PLAREMISE_T { get; set; }
-        public int? PLAREMISE_MNT { get; set; }
-        public int? PLASTOTID { get; set; }
-        public int? PLAPOIDS { get; set; }
-        public int? PLAUNITEPOIDS { get; set; }
+        public float? PLAREMISE_MNT { get; set; }
+        public float? PLASTOTID { get; set; }
+        public float? PLAPOIDS { get; set; }
+        public float? PLAUNITEPOIDS { get; set; }
         public string PLADIVERS { get; set; }
         public string PLACOMMENTAIRE { get; set; }
         public string PLANUMLOT { get; set; }
@@ -45,31 +45,31 @@ namespace PFE.Models
         public DateTime? PLAFEFOFABRICATION { get; set; }
         public DateTime? PLAFEFOPEREMPTION { get; set; }
         public string PLAFEFODIVERS { get; set; }
-        public int? TPFCODE1 { get; set; }
-        public int? TPFCODE2 { get; set; }
-        public int? TPFCODE3 { get; set; }
-        public int? TPFCODE4 { get; set; }
-        public int? TPFCODE5 { get; set; }
-        public int? TPFCODE6 { get; set; }
-        public int? TPFCODE7 { get; set; }
-        public int? TPFCODE8 { get; set; }
-        public int? TPFCODE9 { get; set; }
+        public float? TPFCODE1 { get; set; }
+        public float? TPFCODE2 { get; set; }
+        public float? TPFCODE3 { get; set; }
+        public float? TPFCODE4 { get; set; }
+        public float? TPFCODE5 { get; set; }
+        public float? TPFCODE6 { get; set; }
+        public float? TPFCODE7 { get; set; }
+        public float? TPFCODE8 { get; set; }
+        public float? TPFCODE9 { get; set; }
         public string PLAPROCODE { get; set; }
-        public int? PLAD1 { get; set; }
-        public int? PLAD2 { get; set; }
-        public int? PLAD3 { get; set; }
-        public int? PLAD4 { get; set; }
-        public int? PLAD5 { get; set; }
-        public int? PLAD6 { get; set; }
-        public int? PLAD7 { get; set; }
-        public int? PLAD8 { get; set; }
-        public int? PLAVOLUME { get; set; }
-        public int? PLAUNITEVOLUME { get; set; }
-        public int? PLADENSITE { get; set; }
-        public int? PIFID { get; set; }
-        public int? PLAFRAIS { get; set; }
-        public int? PLAFRAISLG { get; set; }
-        public int? PLAFRAISPC { get; set; }
+        public float? PLAD1 { get; set; }
+        public float? PLAD2 { get; set; }
+        public float? PLAD3 { get; set; }
+        public float? PLAD4 { get; set; }
+        public float? PLAD5 { get; set; }
+        public float? PLAD6 { get; set; }
+        public float? PLAD7 { get; set; }
+        public float? PLAD8 { get; set; }
+        public float? PLAVOLUME { get; set; }
+        public float? PLAUNITEVOLUME { get; set; }
+        public float? PLADENSITE { get; set; }
+        public float? PIFID { get; set; }
+        public float? PLAFRAIS { get; set; }
+        public float? PLAFRAISLG { get; set; }
+        public float? PLAFRAISPC { get; set; }
         public string PLAFEFODIVERS1 { get; set; }
         public string PLAFEFODIVERS2 { get; set; }
         public string PLAFEFODIVERS3 { get; set; }

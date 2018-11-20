@@ -15,7 +15,8 @@ namespace PFE.PageModels
     {
 
         public IList<PIECE_NATURE> nature { get; set; }
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         private PIECE_NATURE _selectednature
         {
             get;
@@ -30,18 +31,32 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-
-                try
+                Task.Run(() =>
                 {
-                    numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
-                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    try
+                    {
+                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        var comp = numauto.NUMCOMPTEUR + 1;
+                        numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+
+                });
+
             }
         }
 
@@ -88,7 +103,7 @@ namespace PFE.PageModels
         private void _tiers(object obj)
         {
             Device.BeginInvokeOnMainThread(async () => {
-                await CoreMethods.PushPageModel<CTieresPageModel>();
+                await CoreMethods.PushPageModel<CTieresPageModel>("F");
                 RaisePropertyChanged();
             });
             MessagingCenter.Subscribe<CTieresPageModel, TIERS>(this, "tiers", getTiers);
@@ -129,6 +144,8 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNature("A", "C",null,"1");
             });
+            isBusy = false;
+            isEnabled = true;
         }
         public ICommand validate => new Command(_validate);
 

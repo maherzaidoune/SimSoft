@@ -20,7 +20,8 @@ namespace PFE.PageModels
         private IRestServices _restservices;
         private IDialogService _dialogService;
 
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
 
         public ICommand delete => new Command(_delete);
 
@@ -29,15 +30,36 @@ namespace PFE.PageModels
         private void _validate(object obj)
         {
 
-
-            if(_restservices.PostSellLignes(productList)){
-
-                if (_dataService.RemoveSellElements())
+            Task.Run(async() =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    productList.Clear();
-                    _dialogService.ShowMessage("Done", false);
-                }
-            }
+                    isEnabled = false;
+                    isBusy = true;
+                });
+                await Task.Run(() =>
+                {
+                    if (_restservices.PostSellLignes(productList))
+                    {
+
+                        if (_dataService.RemoveSellElements())
+                        {
+                            productList.Clear();
+                            _dialogService.ShowMessage("succes", false);
+                        }
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                    }
+                });
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
+                
+            });
 
         }
 
@@ -87,6 +109,8 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

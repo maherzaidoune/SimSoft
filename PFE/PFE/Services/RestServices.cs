@@ -58,7 +58,6 @@ namespace PFE.Services
         {
             try
             {
-                
                 return Constant.user_uri.WithTimeout(7).GetJsonAsync<IList<UTILISATEUR>>();
             }
             catch (FlurlHttpException)
@@ -92,17 +91,15 @@ namespace PFE.Services
             return false;
         }
 
-        public Task<IList<TIERS>> GetTiers(string info)
+        public Task<IList<TIERS>> GetTiers(string info , string type)
         {
             try
             {
-                
-
                 if (string.IsNullOrEmpty(info))
                 {
-                    return Constant.tiers_uri.WithTimeout(7).GetJsonAsync<IList<TIERS>>();
+                    return (Constant.tiers_uri + "?filter[where][TIRTYPE]=" + type).WithTimeout(7).GetJsonAsync<IList<TIERS>>();
                 }
-                return (Constant.tiers_uri + "?filter[where][or][0][TIRSOCIETE]=" + info + "&filter[where][or][1][TIRCODE]=" + info ).WithTimeout(7).GetJsonAsync<IList<TIERS>>();
+                return (Constant.tiers_uri + "?filter[where][and][0][TIRSOCIETE]=" + info + "&filter[where][and][1][TIRTYPE]=" + type).WithTimeout(7).GetJsonAsync<IList<TIERS>>();
             }
             catch (FlurlHttpException e)
             {
@@ -613,7 +610,7 @@ namespace PFE.Services
 
                 OPERATIONSTOCK o = new OPERATIONSTOCK
                 {
-                    OPEID = getOperationStockNumber() + 20,
+                    OPEID = getOperationStockNumber() + 1,
                     DATECREATE = DateTime.Now,
                     DATEUPDATE = DateTime.Now,
                     //USRMODIF = "ADM",
@@ -761,9 +758,7 @@ namespace PFE.Services
         {
             try
             {
-                
-                var count = (Constant.OPERATIONSTOCKs_url + "/count").WithTimeout(7).GetJsonAsync<Count>();
-                return count.Result.count;
+                return (int)(Constant.OPERATIONSTOCKs_url + "?filter[order]=OPEID DESC").WithTimeout(7).GetJsonAsync<List<OPERATIONSTOCK>>().Result[0].OPEID;
             }
             catch (FlurlHttpException e)
             {
@@ -1162,7 +1157,7 @@ namespace PFE.Services
                 };
                 OPERATIONSTOCK o = new OPERATIONSTOCK
                 {
-                    OPEID = getOperationStockNumber() + 20,
+                    OPEID = getOperationStockNumber() + 1,
                     DATECREATE = DateTime.Now,
                     DATEUPDATE = DateTime.Now,
                     //USRMODIF = "ADM",
@@ -1395,7 +1390,7 @@ namespace PFE.Services
                 if(string.IsNullOrEmpty(uri)){
                     uri = Config.URL + ':' + Config.port;
                 }
-                ServerResponce res = uri.WithTimeout(3).GetJsonAsync<ServerResponce>().Result;
+                ServerResponce res = uri.WithTimeout(5).GetJsonAsync<ServerResponce>().Result;
                 if(res != null){
                     var _dialog = new DialogService();
                     _dialog.ShowMessage("connectee : " + res.started + "a partir de : " + res.uptime, false);
@@ -1651,7 +1646,7 @@ namespace PFE.Services
                         PIFID = 0,
 
                      
-                        PROTYPE = "string",
+                        //PROTYPE = "string",
                        
                         PLACOEFFUA = 0,
                         PLAIDORG = 0,
@@ -1659,10 +1654,10 @@ namespace PFE.Services
                         PLASTOTID = 0,
                         PLAPOIDS = 0,
                         PLAUNITEPOIDS = 0,
-                        PLADIVERS = "string",
-                        PLACOMMENTAIRE = "string",
-                        PLANUMLOT = "string",
-                        PLANUMSERIE = "string",
+                        //PLADIVERS = "string",
+                        //PLACOMMENTAIRE = "string",
+                        //PLANUMLOT = "string",
+                        //PLANUMSERIE = "string",
                         
                         PLAFEFOFABRICATION = DateTime.Now    ,
                         PLAFEFOPEREMPTION = DateTime.Now,
@@ -1689,9 +1684,9 @@ namespace PFE.Services
                         PLAFRAIS = 0,
                         PLAFRAISLG = 0,
                         PLAFRAISPC = 0,
-                        PLAFEFODIVERS1 = "string",
-                        PLAFEFODIVERS2 = "string",
-                        PLAFEFODIVERS3 = "string",
+                        //PLAFEFODIVERS1 = "string",
+                        //PLAFEFODIVERS2 = "string",
+                        //PLAFEFODIVERS3 = "string",
                     };
                     OPERATIONSTOCK o = new OPERATIONSTOCK
                     {
@@ -1767,7 +1762,8 @@ namespace PFE.Services
 
                 if (PostPIECEACHAT(pv)
                                 &&
-                    PostPIECEACHATLIGNE(pvl))
+                    PostPIECEACHATLIGNE(pvl)
+                   )
                 {
                     if (!buy.type.Equals("BBC"))
                     {
@@ -1811,7 +1807,7 @@ namespace PFE.Services
         {
             try
             {
-                return (int)(Constant.PIECEACHAT_url + "?filter[order]=PCAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHAT>>().Result[0].PCAID;
+                return (int)(Constant.PIECEACHAT_url + "?filter[order]=PCAID DESC").WithTimeout(7).GetJsonAsync<List<PIECEACHAT>>().Result[0].PCAID;
             }
             catch (FlurlHttpException e)
 
@@ -1831,7 +1827,7 @@ namespace PFE.Services
         {
             try
             {
-                return (int)(Constant.PIECEVENTELIGNE_url + "?filter[order]=PLAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHATLIGNE>>().Result[0].PLAID;
+                return (int)(Constant.PIECEACHATLIGNE_url + "?filter[order]=PLAID DESC").WithTimeout(7).GetJsonAsync<List<PIECEACHATLIGNE>>().Result[0].PLAID;
             }
             catch (FlurlHttpException e)
 
@@ -1852,7 +1848,7 @@ namespace PFE.Services
             try
             {
 
-                return (int)(Constant.PIECEACHATECHEANCE_url + "?filter[order]=PEAID DESC").WithTimeout(7).GetJsonAsync<IList<PIECEACHATECHEANCE>>().Result[0].PEAID;
+                return (int)(Constant.PIECEACHATECHEANCE_url + "?filter[order]=PEAID DESC").WithTimeout(7).GetJsonAsync<List<PIECEACHATECHEANCE>>().Result[0].PEAID;
             }
             catch (FlurlHttpException e)
             {
@@ -1871,7 +1867,7 @@ namespace PFE.Services
         {
             try
             {
-                var list = (Constant.PIECEACHAT_url + "?filter[where][PCAID]=" + PCAID).WithTimeout(10).GetJsonAsync<IList<PIECEACHAT>>().Result;
+                var list = (Constant.PIECEACHAT_url + "?filter[where][PCAID]=" + PCAID).WithTimeout(10).GetJsonAsync<List<PIECEACHAT>>().Result;
                 float sum = 0;
                 foreach (PIECEACHAT P in list)
                 {
@@ -1962,6 +1958,21 @@ namespace PFE.Services
                 Console.WriteLine(ex.Message);
             }
             return false;
+        }
+
+        public bool UpdateUser(UTILISATEUR newUser, int id)
+        {
+            try{
+                return (Constant.user_uri + "/" + id).PatchJsonAsync(newUser).Result.IsSuccessStatusCode;
+            }
+            catch{
+                return false;
+            }
+        }
+
+        public bool DeleteUser(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 

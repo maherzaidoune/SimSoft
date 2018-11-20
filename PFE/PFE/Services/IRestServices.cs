@@ -9,10 +9,12 @@ namespace PFE.Services
     public interface IRestServices
     {
         Task<IList<UTILISATEUR>> GetUserAsync();
+        bool UpdateUser(UTILISATEUR newUser, int id);
+        bool DeleteUser(int id);
         Task<IList<UTILISATEURSGRP>> GetGroupAsync();
         Task<IList<UTILISATEUR>> GetUserByGroupIdAsync(string groupId);
         bool Login(UTILISATEUR user);
-        Task<IList<TIERS>> GetTiers(string info);
+        Task<IList<TIERS>> GetTiers(string info, string type);
         Task<IList<AFFAIRE>> GetAffaire(string info);
         ARTICLE getArticlebyBC(string bc);
         ARTICLE getArticlebyid(string id);

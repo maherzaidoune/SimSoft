@@ -19,7 +19,8 @@ namespace PFE.PageModels
         private IRestServices _restservices;
         private IDialogService _dialogService;
 
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
 
         public ICommand delete => new Command(_delete);
 
@@ -27,17 +28,38 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-
-
-            if (_restservices.PostBuyElements(productList))
+            Task.Run(async() =>
             {
-
-                if (_dataService.RemoveBuyElements())
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    productList.Clear();
-                    _dialogService.ShowMessage("Done", false);
-                }
-            }
+                    isEnabled = false;
+                    isBusy = true;
+                });
+
+                await Task.Run(() =>
+                {
+                    if (_restservices.PostBuyElements(productList))
+                    {
+
+                        if (_dataService.RemoveBuyElements())
+                        {
+                            productList.Clear();
+                            _dialogService.ShowMessage("success", false);
+                        }
+                        else
+                        {
+                            _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                        }
+                    }
+
+                });
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
+            });
+            
 
         }
 
@@ -85,6 +107,12 @@ namespace PFE.PageModels
             this._dataService = _dataService;
             this._dialogService = _dialogService;
             this._restservices = _restservices;
+        }
+        public override void Init(object initData)
+        {
+            base.Init(initData);
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

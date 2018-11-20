@@ -19,6 +19,11 @@ namespace PFE.PageModels
         public string search { get; set; }
         public string info { get; set; }
         public TIERS tiers { get; set; }
+        public string type
+        {
+            get;
+            set;
+        }
         public ObservableCollection<TIERS> tiersList { get; set; }
         private IRestServices _restServices;
         public ICommand find => new Command(_find);
@@ -44,7 +49,7 @@ namespace PFE.PageModels
                 {
                     try
                     {
-                        list = await _restServices.GetTiers(search);
+                    list = await _restServices.GetTiers(search,type);
                     }
                     catch(Exception e)
                     {
@@ -63,6 +68,10 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            if (initData != null)
+                type = initData as string;
+            else
+                type = "C";
         }
     }
 }

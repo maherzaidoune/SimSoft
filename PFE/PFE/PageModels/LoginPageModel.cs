@@ -18,14 +18,14 @@ namespace PFE.PageModels
         private IDialogService _dialogService;
         public IRestServices _restServices;
         public string password { get; set; }
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public LoginPageModel(IDialogService _dialogService,IRestServices _restServices)
         {
             this._dialogService = _dialogService;
             this._restServices = _restServices;
         }
 
-        public bool isEnabled { get; set; }
         public bool loading { get; set; }
 
 
@@ -86,13 +86,29 @@ namespace PFE.PageModels
                 loading = true;
                 Task.Run(async () =>
                 {
-                    _user = await _restServices.GetUserByGroupIdAsync(_selectedrole.CODEGRP.ToString());
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    try
+                    {
+                        _user = await _restServices.GetUserByGroupIdAsync(_selectedrole.CODEGRP.ToString());
+                    }catch{
+                        _dialogService.ShowMessage("erreur inattendue", true);
+                        _user = new List<UTILISATEUR>();
+                    }
                 }).Wait();
                 if (_user != null)
                 {
-                    isEnabled = true;
                     loading = false;
                 }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
+
 
             }
         }
@@ -125,6 +141,11 @@ namespace PFE.PageModels
 
                 Task.Run(async () =>
                 {
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
                     try
                     {
                         if (!_restServices.testServer())
@@ -143,7 +164,6 @@ namespace PFE.PageModels
                             if (_role == null)
                                 _dialogService.ShowMessage("le serveur a rencontré une erreur interne ", true);
                         }
-                        isEnabled = false;
                         loading = false;
                     }
                     catch (Exception ex)
@@ -152,9 +172,14 @@ namespace PFE.PageModels
                         _dialogService.ShowMessage("erreur : " + ex.StackTrace, true);
                         _role = null;
                         _user = null;
-                        isEnabled = false;
                         loading = false;
                     }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+
 
                 });
 
@@ -164,7 +189,8 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

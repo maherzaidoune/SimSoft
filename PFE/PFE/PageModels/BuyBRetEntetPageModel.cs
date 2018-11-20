@@ -88,7 +88,7 @@ namespace PFE.PageModels
         private void _tiers(object obj)
         {
             Device.BeginInvokeOnMainThread(async () => {
-                await CoreMethods.PushPageModel<CTieresPageModel>();
+                await CoreMethods.PushPageModel<CTieresPageModel>("F");
                 RaisePropertyChanged();
             });
             MessagingCenter.Subscribe<CTieresPageModel, TIERS>(this, "tiers", getTiers);
@@ -132,6 +132,8 @@ namespace PFE.PageModels
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;
+
+        public ICommand validate => new Command(_validate);
 
         private void _validate(object obj)
         {

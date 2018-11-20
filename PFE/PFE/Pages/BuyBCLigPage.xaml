@@ -4,7 +4,21 @@
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.BuyBCLigPage">
-     <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
+     <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+        
+     <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+          IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
@@ -41,7 +55,7 @@
                      Title="Dépôt">
                     </controls:CustomPicker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" IsEnabled="false">
                     <Label Text="Quantité en stock  " VerticalOptions="Center"/>
                     <Entry Placeholder="Quantité en stock" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding storeQuantity , Mode=TwoWay}"  />
                 </StackLayout>
@@ -52,36 +66,21 @@
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="PU HT  " VerticalOptions="Center"/>
                     <Entry Placeholder="PU HT" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding puht , Mode=TwoWay}"  />
-                </StackLayout> <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Remise  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Remise" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding remise , Mode=TwoWay}"  />
-                </StackLayout>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                </StackLayout> 
+               <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="PU TTC " VerticalOptions="Center"/>
                     <Entry Placeholder="PU TTC" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding puttc , Mode=TwoWay}"  />
                 </StackLayout>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Quantité E  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Quantité E" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding EQuantity , Mode=TwoWay}"  />
-                </StackLayout>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Quantité  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Quantité " WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding Quantity , Mode=TwoWay}"  />
-                </StackLayout>
-
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="MT HT " VerticalOptions="Center"/>
                     <Entry Placeholder="MT HT" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding mtht , Mode=TwoWay}"  />
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="cond " VerticalOptions="Center"/>
-                    <Entry Placeholder="cond " WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding cond , Mode=TwoWay}"  />
+                    <Label Text="Unite " VerticalOptions="Center"/>
+                    <Entry Placeholder="Unite " WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding cond , Mode=TwoWay}"  />
                 </StackLayout>
-
+               
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="MT TTC " VerticalOptions="Center"/>
                     <Entry Placeholder="MT TTC" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding mtttc , Mode=TwoWay}"  />
@@ -122,4 +121,5 @@
         </Frame>
 
     </Grid>
+        </AbsoluteLayout>
 </ContentPage>

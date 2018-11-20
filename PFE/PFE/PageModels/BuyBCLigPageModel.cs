@@ -28,6 +28,8 @@ namespace PFE.PageModels
             get;
             set;
         }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         private depot _selectedDepo;
         public depot selectedDepot
         {
@@ -38,9 +40,22 @@ namespace PFE.PageModels
             set
             {
                 _selectedDepo = value;
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    await Task.Run(() =>
+                    {
+                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    });
+                });
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
                 });
             }
         }
@@ -49,36 +64,47 @@ namespace PFE.PageModels
             get;
             set;
         }
+        private string _CQuantity;
         public string CQuantity
         {
-            get;
-            set;
+            get{
+                return _CQuantity;
+            }
+            set{
+                if(String.IsNullOrEmpty(value) || float.Parse(value) >= 0){
+                    _CQuantity = value;
+                }
+            }
         }
+        private string _puht;
         public string puht
         {
-            get;
-            set;
+            get
+            {
+                return _puht;
+            }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                    _puht = value;
+
+                {
+                    if (float.Parse(_puht) > 0 && CQuantity != null)
+                    {
+                        mtht = (int.Parse(CQuantity) * float.Parse(_puht)).ToString();
+                        puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
+                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                    }
+                }
+            }
         }
-        public string remise
-        {
-            get;
-            set;
-        }
+    
         public string puttc
         {
             get;
             set;
         }
-        public string EQuantity
-        {
-            get;
-            set;
-        }
-        public string Quantity
-        {
-            get;
-            set;
-        }
+      
         public string mtht
         {
             get;
@@ -160,44 +186,65 @@ namespace PFE.PageModels
             {
                 Task.Run(() =>
                 {
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
                     try
                     {
                         article = _restService.getArticlebyBC(barreCode);
                         artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
-
                         artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         tva = _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).ARDSTOCKREEL.ToString();
 
-                        artunite = _restService.GetRTUNITE("v");
+                        artunite = _restService.GetRTUNITE("A");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.StackTrace);
                     }
-
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                     designation = article.ARTDESIGNATION;
-                    //unite = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
-                    //pht = artarifligne.ATFPRIX.ToString();
+                    cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                    puht = artarifligne.ATFPRIX.ToString();
                 });
             }
 
         }
-
+        private IDialogService _dialogService;
         private void _validate(object obj)
         {
-            //mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
-            //mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+            mtht = ((int.Parse(CQuantity) * float.Parse(_puht)) / 100).ToString();
+            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+            puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
             Buyelement buy = new Buyelement
             {
                 depot = selectedDepot,
                 tva = tva,
                 articles = article,
                 artarifligne = artarifligne,
+                LivredQuantity = int.Parse(CQuantity),
+                mutht = float.Parse(puht),
+                mtht = float.Parse(mtht),
+                mttc = float.Parse(mtttc),
                 ligneUpdated = true
             };
-            _dataService.updateAsyncBuyElement(buy);
+            Task.Run(async () =>
+            {
+                if (await _dataService.updateAsyncBuyElement(buy)){
+                    _dialogService.ShowMessage("ligne modifiee ", false);
+                }else{
+                    _dialogService.ShowMessage("erreur inattendue ", true);
+                }
+            });
+           
         }
 
         public ICommand quit => new Command(_quit);
@@ -209,10 +256,11 @@ namespace PFE.PageModels
 
         private IRestServices _restService;
         private IDataServices _dataService;
-        public BuyBCLigPageModel(IRestServices _restService, IDataServices _dataService)
+        public BuyBCLigPageModel(IRestServices _restService, IDataServices _dataService, IDialogService _dialogService)
         {
             this._restService = _restService;
             this._dataService = _dataService;
+            this._dialogService = _dialogService;
         }
         public override void Init(object initData)
         {
@@ -221,6 +269,8 @@ namespace PFE.PageModels
             {
                 depo = await _restService.GetDepot("o");
             });
+            isBusy = false;
+            isEnabled = true;
             //_LivredQuantity = "1";
         }
     }

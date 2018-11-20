@@ -4,7 +4,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
             x:Class="PFE.Pages.SellFREntPage">
-<Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
+ <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+        
+     <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+          IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
@@ -90,4 +104,5 @@
         </local:GradientButton>
         </Frame>
     </Grid>
+        </AbsoluteLayout>
 </ContentPage>

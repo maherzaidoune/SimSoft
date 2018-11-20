@@ -4,8 +4,22 @@
              x:Class="PFE.Pages.LoginPage"
              xmlns:controls="clr-namespace:PFE.Rendereres"
              xmlns:local="clr-namespace:PFE">
-
-    <Grid BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,10,5,10">
+             
+    <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <ActivityIndicator
+                       AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+    <Grid 
+            AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+            IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            BackgroundColor="White" RowSpacing="0" ColumnSpacing="0" Padding="5,10,5,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="4*" />
@@ -82,4 +96,5 @@
         </local:GradientButton>
         </Frame>
     </Grid>
+        </AbsoluteLayout>
 </ContentPage> 

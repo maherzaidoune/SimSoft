@@ -15,7 +15,8 @@ namespace PFE.PageModels
     [AddINotifyPropertyChangedInterface]
     class StockPageModel : FreshMvvm.FreshBasePageModel
     {
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public ICommand quit => new Command(_quit);
         private void _quit(object obj)
         {
@@ -47,21 +48,40 @@ namespace PFE.PageModels
 
         private void _valid(object obj)
         {
-            try
+            Task.Run(async() =>
             {
-                if(string.IsNullOrEmpty(barreCode)){
-                    _dialogService.ShowMessage("entrer un code " , true);
-                    return;
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
+                try
+                {
+                    await Task.Run(() =>
+                    {
+                        if (string.IsNullOrEmpty(barreCode))
+                        {
+                            _dialogService.ShowMessage("entrer un code ", true);
+                            return;
+                        }
+                        article = _restService.getArticlebyBC(barreCode);
+                        depot = _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
+                        code = article.ARTCODE;
+                        Designation = article.ARTDESIGNATION;
+                    });
+
                 }
-                article = _restService.getArticlebyBC(barreCode);
-                depot = _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
-                code = article.ARTCODE;
-                Designation = article.ARTDESIGNATION;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.StackTrace);
-            }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
+            });
+
 
         }
 
@@ -117,7 +137,8 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

@@ -25,13 +25,13 @@ namespace PFE.Models
         public int? ECRSEQUENCE { get; set; }
         public int? DEVID { get; set; }
         public int? PCACOURSDEV { get; set; }
-        public DateTime PCADATEEFFET { get; set; }
+        public DateTime? PCADATEEFFET { get; set; }
         public string PCAISSOLDE { get; set; }
         public string PCAISCOMPTABILISE { get; set; }
         public string PCAISCLOS { get; set; }
         public string PCAISPRINT { get; set; }
         public int? PCANBPRINT { get; set; }
-        public DateTime PCADATEPRINT { get; set; }
+        public DateTime? PCADATEPRINT { get; set; }
         public int? MODID { get; set; }
         public int? PCAMNTHT { get; set; }
         public int? PCAMNTTTC { get; set; }
@@ -44,8 +44,8 @@ namespace PFE.Models
         public int? PCATAUXESCOMPTE { get; set; }
         public string PCACONDREGLEMENT { get; set; }
         public string USRMODIF { get; set; }
-        public DateTime DATEUPDATE { get; set; }
-        public DateTime DATECREATE { get; set; }
+        public DateTime? DATEUPDATE { get; set; }
+        public DateTime? DATECREATE { get; set; }
         public int? MEMOID { get; set; }
         public int? PCANBIMPRESSION { get; set; }
         public int? SOCID { get; set; }
@@ -58,7 +58,7 @@ namespace PFE.Models
         public int? PCAUNITEVOLUME { get; set; }
         public string PCAISPIECEFRAIS { get; set; }
         public int? ANSID { get; set; }
-        public DateTime PCADATELIVRAISON { get; set; }
+        public DateTime? PCADATELIVRAISON { get; set; }
         public string USRCREATE { get; set; }
         public string PCAOBJET { get; set; }
         public string TYNCODE { get; set; }

@@ -16,6 +16,8 @@ namespace PFE.PageModels
     {
         private IRestServices _restService;
         public IList<depot> depo { get; set; }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         private depot _selectedDepo;
         public depot selectedDepot
         { 
@@ -23,9 +25,19 @@ namespace PFE.PageModels
                 return _selectedDepo;
             } set{
                 _selectedDepo = value;
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString() , value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
+                    await Task.Run(() =>
+                    {
+                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                    });
+                    isBusy = false;
+                    isEnabled = true;
                 });
             }
         }
@@ -67,12 +79,6 @@ namespace PFE.PageModels
         public string storeQuantity
         {
             get{
-                if(!string.IsNullOrEmpty(_storeQuantity)){
-                    if (int.Parse(_storeQuantity) > 0)
-                        isEnabled = true;
-                    else
-                        isEnabled = false;
-                }
                 return _storeQuantity;
             }
             set{
@@ -87,7 +93,7 @@ namespace PFE.PageModels
             }
             set{
                 try{
-                    if (int.Parse(value) > 0)
+                    if ( String.IsNullOrWhiteSpace(value) || int.Parse(value) >= 0)
                         _LivredQuantity = value;
                 }catch{
                     _LivredQuantity = "1";
@@ -101,7 +107,7 @@ namespace PFE.PageModels
                 return _pht;
             }
             set{
-                if(!string.IsNullOrEmpty(value))
+                if(!string.IsNullOrWhiteSpace(value) || float.Parse(value) >= 0)
                     _pht = value;
 
                 {
@@ -119,7 +125,6 @@ namespace PFE.PageModels
             get;set;
         }
         private string _remise;
-        public bool isEnabled { get; set; }
 
         public string remise
         {
@@ -222,7 +227,7 @@ namespace PFE.PageModels
             }
 
         }
-
+        private IDialogService _dialogService;
         private void _validate(object obj)
         {
             mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
@@ -239,15 +244,23 @@ namespace PFE.PageModels
                 mttc = float.Parse(mtttc),
                 ligneUpdated = true
             };
-            _dataService.updateAsyncSellElement(sell);
+            Task.Run(async () =>
+            {
+                if(await _dataService.updateAsyncSellElement(sell)){
+                    _dialogService.ShowMessage("ligne modifiee ", false);
+                }else{
+                    _dialogService.ShowMessage("erreur inattendue ", true);
+                }
+            });
         }
 
 
         private IDataServices _dataService;
-        public SellLignePageModel(IRestServices _restService, IDataServices _dataService)
+        public SellLignePageModel(IRestServices _restService, IDataServices _dataService, IDialogService _dialogService)
         {
             this._restService = _restService;
             this._dataService = _dataService;
+            this._dialogService = _dialogService;
         }
         public override void Init(object initData)
         {
@@ -256,8 +269,9 @@ namespace PFE.PageModels
             {
                 depo = await _restService.GetDepot("o");
             });
-            isEnabled = false;
             _LivredQuantity = "1";
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

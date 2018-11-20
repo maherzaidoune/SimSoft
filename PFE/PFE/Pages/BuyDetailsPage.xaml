@@ -1,9 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:local="clr-namespace:PFE"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PFE.Pages.BuyDetailsPage">
-    <Grid BackgroundColor="White" Padding="5,10,5,10" ColumnSpacing="0" RowSpacing="0">
+    
+    <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+        
+    <Grid   AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="White" Padding="5,10,5,10"
+            IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
              <RowDefinition Height="6*" />
              <RowDefinition Height="*" />
@@ -87,4 +103,5 @@
         </Frame>
 
     </Grid>
+  </AbsoluteLayout>
 </ContentPage>

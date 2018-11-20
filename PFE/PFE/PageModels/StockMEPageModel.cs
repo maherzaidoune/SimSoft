@@ -28,18 +28,31 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-
-                try
+                Task.Run(() =>
                 {
-                    numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
-                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    try
+                    {
+                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        var comp = numauto.NUMCOMPTEUR + 1;
+                        numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+
+                });
             }
         }
         public NUMAUTO numauto
@@ -170,6 +183,8 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("error", true);
             });
         }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
 
         //get data by bc
         public ICommand valid => new Command(_valid);
@@ -208,6 +223,11 @@ namespace PFE.PageModels
             {
                 Task.Run(() =>
                 {
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
                     try
                     {
                         article = _restService.getArticlebyBC(barreCode);
@@ -222,6 +242,11 @@ namespace PFE.PageModels
                         _dialogService.ShowMessage("Erreur" + e.Message, true);
                         Console.WriteLine(e.StackTrace);
                     }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                 });
             }
 
@@ -239,9 +264,21 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 nature = await _restService.GetPieceNaturebyPINID("19");
                 depo = await _restService.GetDepot("o");
             });
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isBusy = false;
+                isEnabled = true;
+
+            });
+
         }
     }
 }

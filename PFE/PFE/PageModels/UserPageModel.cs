@@ -24,9 +24,27 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public UTILISATEUR selectedUser { get; set; }
+        private UTILISATEUR _selectedUser;
+        public UTILISATEUR selectedUser { 
+            get{
+                return _selectedUser;
+            }
+            set{
+                login = value.USRLOGIN;
+                username = value.USRNOM;
+                pass = value.USRPWD;
+                //selectedrole.CODEGRP = (int)value.USERGRP;
+                foreach(UTILISATEURSGRP role in _role){
+                    if (role.CODEGRP == value.USERGRP)
+                        selectedrole = role;
+                }
+                _selectedUser = value;
+            } 
+        }
         public IList<UTILISATEURSGRP> _role { get; set; }
+        public IList<UTILISATEUR> _users { get; set; }
         public UTILISATEURSGRP selectedrole { get; set; }
+        public IList<UTILISATEUR> _newusers { get; set; }
         public ObservableCollection<UTILISATEUR> userList { get; set; }
         public ICommand validate => new Command(_validate);
         public ICommand modifier => new Command(_modifier);
@@ -35,34 +53,81 @@ namespace PFE.PageModels
 
         private void _save(object obj)
         {
-            try{
-                if(_restService.addUsers(userList)){
-                    _diqlogServices.ShowMessage("User list updated", false);
-                    _delete(null);
-                    userList = null;
-                }
-            }catch(Exception e)
-            {
-                _diqlogServices.ShowMessage("Error " + e.Message, true);
 
+            if(_newusers == null){
+                _newusers = new List<UTILISATEUR>();
+                _diqlogServices.ShowMessage("aucun nouveau utilisateur ", false);
+                return;
             }
+            if (_newusers.Count > 0){
+                try
+                {
+                    if (_restService.addUsers(_newusers))
+                    {
+                        _diqlogServices.ShowMessage("utilisateur ajoute avec succes", false);
+                        _delete(null);
+                        userList = null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    _diqlogServices.ShowMessage("Error " + e.Message, true);
+
+                }
+            }
+
         }
 
         private void _delete(object obj)
         {
             userList.Remove(selectedUser);
+            if(!_newusers.Contains(selectedUser)){
+                if (_restService.DeleteUser((int)selectedUser.USRID))
+                    _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete effacee du base de donnee avec succes ", false);
+            }
         }
 
         private void _modifier(object obj)
         {
-            login = string.Empty;
-            username = string.Empty;
-            pass = string.Empty;
+            try{
+                if (selectedUser == null)
+                {
+                    _diqlogServices.ShowMessage("veuillez sélectionner l'utilisateur a supprimer ", true);
+                }
+                else if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(username) || String.IsNullOrEmpty(pass))
+                {
+                    _diqlogServices.ShowMessage("Login , Nom utilisateur et mot de passe doivent etre non null ", true);
+                }
+                else
+                {
+                    selectedUser.USRLOGIN = login;
+                    selectedUser.USRNOM = username;
+                    selectedUser.USRPWD = pass;
+                    selectedUser.USERGRP = selectedrole.CODEGRP;
+                    if (!_newusers.Contains(selectedUser))
+                    {
+                        if (_restService.UpdateUser(selectedUser, (int)selectedUser.USRID))
+                        {
+                            _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete modifiee avec succes", false);
+                        }
+                    }
+                }
+            }
+            catch{
+                _diqlogServices.ShowMessage("Login , Nom utilisateur et mot de passe doivent etre non null ", true);
+            }
+
         }
 
         private void _validate(object obj)
         {
-            //if(string.IsNullOrEmpty(login) && string.IsNullOrEmpty(username) && string.IsNullOrEmpty(pass))
+            _newusers.Add(new UTILISATEUR()
+            {
+                USRLOGIN = login,
+                USRNOM = username,
+                USRPWD = pass,
+                USERGRP = selectedrole.CODEGRP
+            });
             userList.Add(new UTILISATEUR()
             {
                 USRLOGIN = login,
@@ -86,8 +151,10 @@ namespace PFE.PageModels
             Task.Run(async () =>
                 {
                     _role = await _restService.GetGroupAsync();
-                });
-            userList = new ObservableCollection<UTILISATEUR>();
+                    _users = await _restService.GetUserAsync();
+            }).Wait();
+            userList = new ObservableCollection<UTILISATEUR>(_users);
+            _newusers = new List<UTILISATEUR>();
         }
     }
 }

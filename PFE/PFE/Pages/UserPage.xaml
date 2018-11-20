@@ -104,7 +104,6 @@
         CornerRadius="10"
         Margin="10,10,10,10"
         Padding="0"
-        IsVisible="{Binding enabled}" IsEnabled="{Binding enabled}"
         VerticalOptions="CenterAndExpand"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#8edd98" EndColor="#84d48e" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
@@ -120,7 +119,6 @@
         CornerRadius="10"
         Margin="10,10,10,10"
         Padding="0"
-          IsVisible="{Binding enabled}" IsEnabled="{Binding enabled}"        
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                  <Button Image="delete.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer"  Command="{Binding delete}" ></Button>     

@@ -4,7 +4,21 @@
              xmlns:local="clr-namespace:PFE"
              xmlns:controls="clr-namespace:PFE.Rendereres"
             x:Class="PFE.Pages.BuyBRecentetPage">
-     <Grid BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
+      <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+        
+     <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+          IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
@@ -48,14 +62,7 @@
                     <Label Text="Intitulé  " VerticalOptions="Center"/>
                     <Entry Placeholder="Intitulé.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding fournisseurintitule , Mode=TwoWay}"  />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Désignation  " VerticalOptions="Center"/>
-                    <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
-                    <Label Text="Acheteur " VerticalOptions="Center"/>
-                    <Entry Placeholder="Acheteur.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding acheteur , Mode=TwoWay}"  />
-                </StackLayout>
+                
                
             </StackLayout>
 
@@ -69,8 +76,6 @@
         CornerRadius="10"
         Margin="10,10,10,10"   
         Padding="0"
-        IsVisible="{Binding isEnabled}"
-        IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Button Image="save.png" TextColor="White" BackgroundColor="Transparent"  Text="Ajouter" Command="{Binding validate}"  HorizontalOptions="Fill" VerticalOptions="Fill"  ></Button>
@@ -85,8 +90,6 @@
         CornerRadius="10"
         Margin="10,10,10,10"
         Padding="0"
-        IsVisible="{Binding isEnabled}"
-        IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                 <Button Image="close.png" TextColor="White"  BackgroundColor="Transparent" Text="Quitter" Command="{Binding quit}"   HorizontalOptions="Fill" VerticalOptions="Fill" ></Button>
@@ -94,4 +97,5 @@
         </Frame>
         
     </Grid>
+        </AbsoluteLayout>
 </ContentPage>

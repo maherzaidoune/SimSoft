@@ -41,7 +41,7 @@ namespace PFE.PageModels
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await CoreMethods.PushPageModel<UserManPageModel>();
+                await CoreMethods.PushPageModel<UserPageModel>();
                 RaisePropertyChanged();
             });
         }

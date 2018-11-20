@@ -29,21 +29,35 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-
-                try
+                Task.Run(() =>
                 {
-                    numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
-                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    try
+                    {
+                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        var comp = numauto.NUMCOMPTEUR + 1;
+                        numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
 
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                });
             }
         }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public NUMAUTO numauto
         {
             get;
@@ -67,8 +81,22 @@ namespace PFE.PageModels
             {
                 _selectedDepo = value;
 
-                reelQuantity = (float) _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL;
-                Quantity = reelQuantity.ToString();
+                Task.Run(() =>
+                {
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
+                    reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL;
+                    Quantity = reelQuantity.ToString();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+                });
+               
             }
         }
 
@@ -221,6 +249,11 @@ namespace PFE.PageModels
             {
                 Task.Run(() =>
                 {
+                    /*Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    }); */
                     try
                     {
                         article = _restService.getArticlebyBC(barreCode);
@@ -235,7 +268,11 @@ namespace PFE.PageModels
                         Console.WriteLine(e.StackTrace);
                         _dialogService.ShowMessage("Error" + e.Message, true);
                     }
-
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
 
                 });
             }
@@ -250,6 +287,12 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNaturebyPINID("20");
                 depo = await _restService.GetDepot("o");
+            });
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isBusy = false;
+                isEnabled = true;
+
             });
         }
 

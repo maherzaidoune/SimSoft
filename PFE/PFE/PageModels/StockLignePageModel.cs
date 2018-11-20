@@ -26,32 +26,49 @@ namespace PFE.PageModels
         }
 
         public ICommand save => new Command(_save);
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         private void _save(object obj)
         {
             Task.Run(() =>
             {
-                refresh = true;
-            });
-           try{
-                if (_restService.PostToStock(stockLigne))
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    //_dialogService.ShowMessage("L'aj", false);
-                    if(_dataServices.RemoveStockLigne()){
-                        stockLigne.Clear();
-                    }else{
-                        _dialogService.ShowMessage("can't remove from database ",true);
+                    isEnabled = false;
+                    isBusy = true;
+                });
+                try
+                {
+                    if (_restService.PostToStock(stockLigne))
+                    {
+                        //_dialogService.ShowMessage("L'aj", false);
+                        if (_dataServices.RemoveStockLigne())
+                        {
+                            stockLigne.Clear();
+                        }
+                        else
+                        {
+                            _dialogService.ShowMessage("can't remove from database ", true);
+                        }
                     }
                 }
-            }catch(Exception e){
-                _dialogService.ShowMessage("Error" + e.Message, true);
-                Device.BeginInvokeOnMainThread(async () =>
+                catch (Exception e)
                 {
-                    await CoreMethods.PushPageModel<StockManPageModel>();
-                    RaisePropertyChanged();
+                    _dialogService.ShowMessage("Error" + e.Message, true);
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<StockManPageModel>();
+                        RaisePropertyChanged();
+                    });
+                }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
                 });
-            }
-            refresh = false;
+
+            });
+           
         }
 
         public ICommand delete => new Command(_delete);
@@ -114,6 +131,8 @@ namespace PFE.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            isBusy = false;
+            isEnabled = true;
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
             MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
@@ -217,11 +236,6 @@ namespace PFE.PageModels
         }
         public void refreshPageMS()
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                refresh = true;
-
-            });
             Task.Run(async () =>
             {
                 try
@@ -234,10 +248,6 @@ namespace PFE.PageModels
                 {
                     Console.WriteLine(ex.StackTrace);
                 }
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    refresh = false;
-                });
 
             });
         }
