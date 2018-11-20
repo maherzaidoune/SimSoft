@@ -7,7 +7,18 @@ namespace PFE.Helper
     class Constant
     {
 
-        private static string _baseUrl = Config.URL + ':' + Config.port;
+        private static string url = Config.URL;
+        private static string port = Config.port;
+        private static string _baseUrl
+        {
+            get{
+                string build = url;
+                if(!string.IsNullOrWhiteSpace(port)){
+                    build += ':' + port;
+                }
+                return build;
+            }
+        }
 
         public static string user_uri { get {
                 if (string.IsNullOrEmpty(_baseUrl))

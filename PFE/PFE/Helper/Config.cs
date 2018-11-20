@@ -16,27 +16,23 @@ namespace PFE.Helper
                 {
                     string url = BlobCache.UserAccount.GetObject<String>("URL").Wait();
                     if (string.IsNullOrEmpty(url)){
-                        return "http://localhost";
+                        return "localhost";
                     }else{
-                        if(url.Contains("http://")){
-                            return url.ToString();
-                        }else{
-                            return "http://" + url;
-                        }
+                        return url.ToString();
                     }
 
 
                 }
                 catch
                 {
-                    return "http://localhost";
+                    return "localhost";
                 }
             }
 
             set
             {
-                 BlobCache.UserAccount.Invalidate("port");
-                BlobCache.UserAccount.InsertObject("URL", value);
+                 BlobCache.UserAccount.Invalidate("URL");
+                 BlobCache.UserAccount.InsertObject("URL", value);
             }
         }
 
@@ -47,10 +43,6 @@ namespace PFE.Helper
                 try
                 {
                     string url = BlobCache.UserAccount.GetObject<string>("port").Wait();
-                    //working :)
-                    if (string.IsNullOrEmpty(url)){
-                        return "3000";
-                    }
                     return url;
                 }
                 catch
