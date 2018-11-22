@@ -25,17 +25,17 @@ namespace PFE.PageModels
                 return _selectedDepo;
             } set{
                 _selectedDepo = value;
-                Task.Run(async() =>
+                Task.Run(() =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
                     });
-                    await Task.Run(() =>
-                    {
-                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
-                    });
+                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                });
+                Device.BeginInvokeOnMainThread(() =>
+                {
                     isBusy = false;
                     isEnabled = true;
                 });
@@ -203,18 +203,24 @@ namespace PFE.PageModels
         private void _valid(object obj)
         {
             if(! string.IsNullOrEmpty(barreCode)){
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    try{
-                        article = _restService.getArticlebyBC(barreCode);
-                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
+                    try
+                    {
+                        article = await _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
 
-                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
-                        tva = _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
+                        artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if(selectedDepot != null)
-                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
 
-                        artunite = _restService.GetRTUNITE("v");
+                        artunite = await _restService.GetRTUNITE("v");
                     }
                     catch(Exception e){
                         Console.WriteLine(e.StackTrace);
@@ -223,6 +229,11 @@ namespace PFE.PageModels
                     designation = article.ARTDESIGNATION;
                     unite = (artunite.ARUCOEF>0)? artunite.ARUCOEF.ToString() : "0" ;
                     pht = artarifligne.ATFPRIX.ToString();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = true;
+                        isBusy = false;
+                    });
                 });
             }
 
@@ -267,11 +278,19 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 depo = await _restService.GetDepot("o");
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = true;
+                    isBusy = false;
+                });
             });
             _LivredQuantity = "1";
-            isBusy = false;
-            isEnabled = true;
         }
     }
 }

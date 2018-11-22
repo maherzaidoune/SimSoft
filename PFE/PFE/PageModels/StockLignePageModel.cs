@@ -30,7 +30,7 @@ namespace PFE.PageModels
         public bool isEnabled { get; set; }
         private void _save(object obj)
         {
-            Task.Run(() =>
+            Task.Run(async() =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -39,7 +39,7 @@ namespace PFE.PageModels
                 });
                 try
                 {
-                    if (_restService.PostToStock(stockLigne))
+                    if (await _restService.PostToStock(stockLigne))
                     {
                         //_dialogService.ShowMessage("L'aj", false);
                         if (_dataServices.RemoveStockLigne())

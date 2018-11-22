@@ -49,17 +49,21 @@ namespace PFE.PageModels
 
         private void _valider(object obj)
         {
-            if (_restservices.testServer(ipServer + ':' + port))
+            Task.Run(async () =>
             {
-                Helper.Config.URL = ipServer;
-                Helper.Config.port = port;
-                Device.BeginInvokeOnMainThread(async () =>
+                if (await _restservices.testServer(ipServer + ':' + port))
                 {
-                    await CoreMethods.PopPageModel();
-                    RaisePropertyChanged();
-                    RaisePageWasPopped();
-                });
-            }
+                    Helper.Config.URL = ipServer;
+                    Helper.Config.port = port;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PopPageModel();
+                        RaisePropertyChanged();
+                        RaisePageWasPopped();
+                    });
+                }
+
+            });
         }
 
         public ConfiPageModel(IRestServices _restservices)

@@ -30,16 +30,16 @@ namespace PFE.PageModels
             }
             set
             {
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
                         var comp = numauto.NUMCOMPTEUR + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
@@ -165,6 +165,11 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 nature = await _restService.GetPieceNature("v", "f", "%avoir%", null, true); 
             });
             isBusy = false;

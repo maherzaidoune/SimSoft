@@ -1,22 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.StockPage">
-     <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+     <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
         <ActivityIndicator
-                        AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
-                        AbsoluteLayout.LayoutFlags="PositionProportional"
-                        IsEnabled="{Binding isBusy,Mode=OneWay}"
-                        IsRunning="{Binding isBusy,Mode=OneWay}"
-                        IsVisible="{Binding isBusy,Mode=OneWay}"
-                        Color="Orange"
-                        HeightRequest="50"
-                        WidthRequest="50"
-                        ></ActivityIndicator>
-        
+            AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+            AbsoluteLayout.LayoutFlags="All"
+            IsEnabled="{Binding isBusy,Mode=OneWay}"
+            IsRunning="{Binding isBusy,Mode=OneWay}"
+            IsVisible="{Binding isBusy,Mode=OneWay}"
+            Color="#445965"
+            HeightRequest="50"
+            WidthRequest="50"
+            >
+        </ActivityIndicator>
+       
      <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
-            IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            IsVisible = "{Binding isEnabled , Mode=OneWay}"
             BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />

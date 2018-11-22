@@ -31,7 +31,7 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -40,7 +40,7 @@ namespace PFE.PageModels
                     });
                     try
                     {
-                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
                         var comp = numauto.NUMCOMPTEUR + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
@@ -49,8 +49,11 @@ namespace PFE.PageModels
                     {
                         Console.WriteLine(e.StackTrace);
                     }
-                    isBusy = false;
-                    isEnabled = true;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
 
                 });
             }
@@ -67,7 +70,7 @@ namespace PFE.PageModels
 
         private void _quit(object obj)
         {
-            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+            Application.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
         public ICommand tiers => new Command(_tiers);
         public ICommand affairs => new Command(_affairs);
@@ -165,7 +168,17 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 nature = await _restService.GetPieceNature("V", "C");
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
             });
         }
 

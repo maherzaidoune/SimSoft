@@ -30,16 +30,16 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
                         var comp = numauto.NUMCOMPTEUR + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
@@ -73,7 +73,7 @@ namespace PFE.PageModels
 
         private void _quit(object obj)
         {
-            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+            Application.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         public AFFAIRE affaires

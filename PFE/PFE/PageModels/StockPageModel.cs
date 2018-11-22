@@ -20,7 +20,7 @@ namespace PFE.PageModels
         public ICommand quit => new Command(_quit);
         private void _quit(object obj)
         {
-            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+            Application.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         public ICommand scan => new Command(_Scan);
@@ -55,20 +55,18 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
+
                 try
                 {
-                    await Task.Run(() =>
+                 if (string.IsNullOrEmpty(barreCode))
                     {
-                        if (string.IsNullOrEmpty(barreCode))
-                        {
-                            _dialogService.ShowMessage("entrer un code ", true);
-                            return;
-                        }
-                        article = _restService.getArticlebyBC(barreCode);
-                        depot = _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
-                        code = article.ARTCODE;
-                        Designation = article.ARTDESIGNATION;
-                    });
+                        _dialogService.ShowMessage("entrer un code ", true);
+                        return;
+                    }
+                    article = await _restService.getArticlebyBC(barreCode);
+                    depot = await _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
+                    code = article.ARTCODE;
+                    Designation = article.ARTDESIGNATION;
 
                 }
                 catch (Exception e)

@@ -32,32 +32,30 @@ namespace PFE.PageModels
 
             Task.Run(async() =>
             {
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    isEnabled = false;
-                //    isBusy = true;
-                //});
-                await Task.Run(() =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (_restservices.PostSellLignes(productList))
-                    {
-
-                        if (_dataService.RemoveSellElements())
-                        {
-                            productList.Clear();
-                            _dialogService.ShowMessage("succes", false);
-                        }
-                    }
-                    else
-                    {
-                        _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
-                    }
+                    isEnabled = false;
+                    isBusy = true;
                 });
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    isBusy = false;
-                //    isEnabled = true;
-                //});
+
+                if (await _restservices.PostSellLignes(productList))
+                {
+
+                    if (_dataService.RemoveSellElements())
+                    {
+                        productList.Clear();
+                        _dialogService.ShowMessage("succes", false);
+                    }
+                }
+                else
+                {
+                    _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
                 
             });
 
@@ -94,7 +92,17 @@ namespace PFE.PageModels
             IList<SellElements> list = new List<SellElements>();
             Task.Run(async() =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 list = await _dataService.getSellElementAsync();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
             }).Wait();
             if(list != null)
                 productList = new ObservableCollection<SellElements>(list);

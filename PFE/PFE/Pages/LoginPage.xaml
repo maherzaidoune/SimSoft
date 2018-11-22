@@ -7,15 +7,15 @@
              
     <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
         <ActivityIndicator
-                       AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
-                        AbsoluteLayout.LayoutFlags="All"
-                        IsEnabled="{Binding isBusy,Mode=OneWay}"
-                        IsRunning="{Binding isBusy,Mode=OneWay}"
-                        IsVisible="{Binding isBusy,Mode=OneWay}"
-                        Color="Orange"
-                        HeightRequest="50"
-                        WidthRequest="50"
-                        ></ActivityIndicator>
+           AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
+            AbsoluteLayout.LayoutFlags="All"
+            IsEnabled="{Binding isBusy,Mode=OneWay}"
+            IsRunning="{Binding isBusy,Mode=OneWay}"
+            IsVisible="{Binding isBusy,Mode=OneWay}"
+            Color="#445965"
+            HeightRequest="50"
+            WidthRequest="50"
+            ></ActivityIndicator>
     <Grid 
             AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
             IsVisible = "{Binding  isEnabled , Mode=OneWay}"

@@ -86,11 +86,11 @@ namespace PFE.PageModels
                 loading = true;
                 Task.Run(async () =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
                         _user = await _restServices.GetUserByGroupIdAsync(_selectedrole.CODEGRP.ToString());
@@ -141,14 +141,14 @@ namespace PFE.PageModels
 
                 Task.Run(async () =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        if (!_restServices.testServer())
+                        if (!await _restServices.testServer())
                         {
                             Device.BeginInvokeOnMainThread(async () =>
                             {

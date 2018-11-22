@@ -7,11 +7,11 @@
        <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
         <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0.5,0.5,0.2,0.2"
-                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        AbsoluteLayout.LayoutFlags="All"
                         IsEnabled="{Binding isBusy,Mode=OneWay}"
                         IsRunning="{Binding isBusy,Mode=OneWay}"
                         IsVisible="{Binding isBusy,Mode=OneWay}"
-                        Color="Orange"
+                        Color="#445965"
                         HeightRequest="50"
                         WidthRequest="50"
                         ></ActivityIndicator>

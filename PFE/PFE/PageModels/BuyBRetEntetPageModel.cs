@@ -13,7 +13,8 @@ namespace PFE.PageModels
     [AddINotifyPropertyChangedInterface]
     public class BuyBRetEntetPageModel : FreshMvvm.FreshBasePageModel
     {
-
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public IList<PIECE_NATURE> nature { get; set; }
 
         private PIECE_NATURE _selectednature
@@ -30,18 +31,31 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-
-                try
+                Task.Run(async () =>
                 {
-                    numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
-                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
+                    try
+                    {
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
+                        var comp = numauto.NUMCOMPTEUR + 1;
+                        numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+                });
+
             }
         }
 
@@ -129,6 +143,8 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNature("A", "B",null, "-1", true);
             });
+            isBusy = false;
+            isEnabled = true;
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;

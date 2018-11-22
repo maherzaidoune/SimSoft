@@ -3,5 +3,5 @@
 	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="27" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:label="PFE.Android"></application>
+	<application android:label="FirstScan" android:icon="@drawable/icon"></application>
 </manifest>

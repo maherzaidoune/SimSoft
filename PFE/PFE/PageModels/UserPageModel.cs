@@ -60,20 +60,24 @@ namespace PFE.PageModels
                 return;
             }
             if (_newusers.Count > 0){
-                try
+                Task.Run(async () =>
                 {
-                    if (_restService.addUsers(_newusers))
+                    try
                     {
-                        _diqlogServices.ShowMessage("utilisateur ajoute avec succes", false);
-                        _delete(null);
-                        userList = null;
+                        if (await _restService.addUsers(_newusers))
+                        {
+                            _diqlogServices.ShowMessage("utilisateur ajoute avec succes", false);
+                            _delete(null);
+                            userList = null;
+                        }
                     }
-                }
-                catch (Exception e)
-                {
-                    _diqlogServices.ShowMessage("Error " + e.Message, true);
+                    catch (Exception e)
+                    {
+                        _diqlogServices.ShowMessage("Error " + e.Message, true);
 
-                }
+                    }
+                });
+               
             }
 
         }
@@ -81,10 +85,15 @@ namespace PFE.PageModels
         private void _delete(object obj)
         {
             userList.Remove(selectedUser);
-            if(!_newusers.Contains(selectedUser)){
-                if (_restService.DeleteUser((int)selectedUser.USRID))
-                    _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete effacee du base de donnee avec succes ", false);
-            }
+            Task.Run(async () =>
+            {
+                if (!_newusers.Contains(selectedUser))
+                {
+                    if (await _restService.DeleteUser((int)selectedUser.USRID))
+                        _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete effacee du base de donnee avec succes ", false);
+                }
+            });
+
         }
 
         private void _modifier(object obj)
@@ -106,10 +115,13 @@ namespace PFE.PageModels
                     selectedUser.USERGRP = selectedrole.CODEGRP;
                     if (!_newusers.Contains(selectedUser))
                     {
-                        if (_restService.UpdateUser(selectedUser, (int)selectedUser.USRID))
+                        Task.Run(async () =>
                         {
-                            _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete modifiee avec succes", false);
-                        }
+                            if (await _restService.UpdateUser(selectedUser, (int)selectedUser.USRID))
+                            {
+                                _diqlogServices.ShowMessage(selectedUser.USRNOM + " a ete modifiee avec succes", false);
+                            }
+                        });
                     }
                 }
             }

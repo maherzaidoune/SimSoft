@@ -40,23 +40,21 @@ namespace PFE.PageModels
             set
             {
                 _selectedDepo = value;
-                Task.Run(async () =>
+                Task.Run(() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
-                    await Task.Run(() =>
+                    }); 
+                    storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                    Device.BeginInvokeOnMainThread(() =>
                     {
-                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                        isBusy = false;
+                        isEnabled = true;
                     });
                 });
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-                });
+
             }
         }
         public string storeQuantity
@@ -184,23 +182,23 @@ namespace PFE.PageModels
         {
             if (!string.IsNullOrEmpty(barreCode))
             {
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        article = _restService.getArticlebyBC(barreCode);
-                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
-                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
-                        tva = _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
+                        article = await _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+                        artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
-                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).ARDSTOCKREEL.ToString();
+                            storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
 
-                        artunite = _restService.GetRTUNITE("A");
+                        artunite = await _restService.GetRTUNITE("A");
                     }
                     catch (Exception e)
                     {
@@ -251,7 +249,7 @@ namespace PFE.PageModels
 
         private void _quit(object obj)
         {
-            App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
+            Application.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<AdminMenuPageModel>());
         }
 
         private IRestServices _restService;

@@ -30,34 +30,31 @@ namespace PFE.PageModels
         {
             Task.Run(async() =>
             {
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    isEnabled = false;
-                //    isBusy = true;
-                //});
-
-                await Task.Run(() =>
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (_restservices.PostBuyElements(productList))
-                    {
-
-                        if (_dataService.RemoveBuyElements())
-                        {
-                            productList.Clear();
-                            _dialogService.ShowMessage("success", false);
-                        }
-                        else
-                        {
-                            _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
-                        }
-                    }
-
+                    isEnabled = false;
+                    isBusy = true;
                 });
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                //    isBusy = false;
-                //    isEnabled = true;
-                //});
+
+                if (await _restservices.PostBuyElements(productList))
+                {
+
+                    if (_dataService.RemoveBuyElements())
+                    {
+                        productList.Clear();
+                        _dialogService.ShowMessage("success", false);
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                    }
+                }
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
             });
             
 

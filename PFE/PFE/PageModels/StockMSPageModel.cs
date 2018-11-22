@@ -29,16 +29,16 @@ namespace PFE.PageModels
             set
             {
                 _selectednature = value;
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
                         var comp = numauto.NUMCOMPTEUR + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
@@ -83,12 +83,12 @@ namespace PFE.PageModels
 
                 Task.Run(() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
-                    reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL;
+                    }); 
+                    reelQuantity =  (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
                     Quantity = reelQuantity.ToString();
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -247,18 +247,18 @@ namespace PFE.PageModels
         {
             if (!string.IsNullOrEmpty(barreCode))
             {
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
-                    /*Device.BeginInvokeOnMainThread(() =>
+                    Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); */
+                    }); 
                     try
                     {
-                        article = _restService.getArticlebyBC(barreCode);
-                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
-                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        article = await _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+                        artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
                         _pht = artarifligne.ATFPRIX.ToString();

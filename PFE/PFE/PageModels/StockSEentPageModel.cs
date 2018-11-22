@@ -45,20 +45,37 @@ namespace PFE.PageModels
             {
                 _selectednature = value;
 
-                try
+                Task.Run(async () =>
                 {
-                    numauto = _restService.getNumPiecenyNature(value.PINID.ToString());
-                    var comp = numauto.NUMCOMPTEUR + 1;
-                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
+                    try
+                    {
+                        numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
+                        var comp = numauto.NUMCOMPTEUR + 1;
+                        numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
 
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.StackTrace);
-                }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.StackTrace);
+                    }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+
+                });
+
             }
         }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public NUMAUTO numauto
         {
             get;
@@ -92,9 +109,23 @@ namespace PFE.PageModels
             }
             set
             {
-                _selectedDepotout = value;
-                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).ARDSTOCKREEL;
-                Quantity = reelQuantity.ToString();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
+                Task.Run(() =>
+                {
+                    _selectedDepotout = value;
+                    reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                    Quantity = reelQuantity.ToString();
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+                });
+
             }
         }
 
@@ -194,8 +225,8 @@ namespace PFE.PageModels
                 designation = designation,
                 quantite = Quantity,
                 prix = pht,
-                depin = (selectednature.PINID == 20) ?  null : selectedDepotin,
-                depout = (selectednature.PINID == 19) ? null : selectedDepotout,
+                depin = selectednature.PINID == 18 ? selectedDepotout : (selectednature.PINID == 20) ? selectedDepotout : null   ,
+                depout = selectednature.PINID == 18 ? selectedDepotin : (selectednature.PINID == 19)  ? selectedDepotin : null ,
                 sense = selectednature.PINID == 18 ? 0 : (selectednature.PINID == 19 ) ? 1 : -1,
                 article = article,
                 artfamilles_cpt = artfamilles_cpt,
@@ -274,13 +305,18 @@ namespace PFE.PageModels
         {
             if (!string.IsNullOrEmpty(barreCode))
             {
-                Task.Run(() =>
+                Task.Run(async() =>
                 {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
                     try
                     {
-                        article = _restService.getArticlebyBC(barreCode);
-                        artfamilles_cpt = _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
-                        artarifligne = _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        article = await _restService.getArticlebyBC(barreCode);
+                        artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
+                        artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
                         _pht = artarifligne.ATFPRIX.ToString();
@@ -290,7 +326,11 @@ namespace PFE.PageModels
                         Console.WriteLine(e.StackTrace);
                         _dialogService.ShowMessage("Error" + e.Message, true);
                     }
-
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
 
                 });
             }
@@ -303,8 +343,18 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 nature = await _restService.GetPieceNature("S","B","%bon%",null,true);
                 depo = await _restService.GetDepot("o");
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                });
             });
         }
 
