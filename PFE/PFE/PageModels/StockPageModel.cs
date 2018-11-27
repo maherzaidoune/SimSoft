@@ -48,14 +48,13 @@ namespace PFE.PageModels
 
         private void _valid(object obj)
         {
-            Task.Run(async() =>
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isEnabled = false;
-                    isBusy = true;
-                });
-
+                isEnabled = false;
+                isBusy = true;
+            });
+            Task.Run(async () =>
+            {
                 try
                 {
                  if (string.IsNullOrEmpty(barreCode))
@@ -63,26 +62,61 @@ namespace PFE.PageModels
                         _dialogService.ShowMessage("entrer un code ", true);
                         return;
                     }
-                    article = await _restService.getArticlebyBC(barreCode);
-                    depot = await _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
+                    article = await  _restService.getArticlebyBC(barreCode);
+                    depot = await  _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
                     code = article.ARTCODE;
                     Designation = article.ARTDESIGNATION;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
 
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.StackTrace);
                 }
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-                });
-            });
+                
+            }).Wait();
 
+            if (depot != null && depot.Count > 0)
+            {
+                var stocks = new List<stockView>();
+                foreach(ARTDEPOT d in depot)
+                {
+                    stocks.Add(
+                        new stockView
+                        {
+                            DEPINTITULE = _restService.GetDepotbyARTdepot((int)d.DEPID).Result.DEPINTITULE,
+                            ARDSTOCKREEL = d.ARDSTOCKREEL.ToString(),
+                            ARDSTOCKCDE = d.ARDSTOCKCDE.ToString(),
+                            ARDSTOCKRSV = d.ARDSTOCKRSV.ToString(),
+                            code = article.ARTCODE
+                        }
+                        );
+                }
+                stockViews = new ObservableCollection<stockView>(stocks);
+
+                Console.WriteLine(stockViews);
+            }
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isBusy = false;
+                isEnabled = true;
+            });
 
         }
 
+        public class stockView
+        {
+            public string DEPINTITULE { get; set; }
+            public string ARDSTOCKREEL { get; set; }
+            public string ARDSTOCKCDE { get; set; }
+            public string ARDSTOCKRSV { get; set; }
+            public string code { get; set; }
+        }
 
         public string terme
         {
@@ -126,6 +160,11 @@ namespace PFE.PageModels
             get;
             set;
         }
+        public ObservableCollection<stockView> stockViews
+        {
+            get;
+            set;
+        }
         public StockPageModel(IRestServices _restService , IDialogService _dialogService)
         {
             this._restService = _restService;
@@ -137,6 +176,7 @@ namespace PFE.PageModels
             base.Init(initData);
             isBusy = false;
             isEnabled = true;
+           
         }
     }
 }

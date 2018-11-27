@@ -170,7 +170,8 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-                nature = await _restService.GetPieceNature("v", "f", "%avoir%", null, true); 
+                nature = await _restService.GetPieceNature("v", "f", "%avoir%", null, true);
+                selectednature = nature[0];
             });
             isBusy = false;
             isEnabled = true;

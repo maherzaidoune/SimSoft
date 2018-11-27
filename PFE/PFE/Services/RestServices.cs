@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PFE.Services
 {
+
     public class RestServices : IRestServices
     {
         public async Task<IList<UTILISATEURSGRP>> GetGroupAsync()
@@ -164,7 +165,6 @@ namespace PFE.Services
 
         public async Task<IList<depot>> GetDepot(string DEPISACTIF, string DEPISPRINCIPAL = null)
         {
-            
             try
             {
                 if (string.IsNullOrEmpty(DEPISPRINCIPAL)){
@@ -598,36 +598,124 @@ namespace PFE.Services
                     PLDID = await getPieceDiversLignesNumber() + 1
                 };
 
-                OPERATIONSTOCK o = new OPERATIONSTOCK
+                if(obj.sense == 1){
+                    OPERATIONSTOCK o = new OPERATIONSTOCK
+                    {
+                        OPEID = await getOperationStockNumber() + 1,
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        //USRMODIF = "ADM",
+                        OPEDATE = DateTime.Now,
+                        ARTID = obj.article.ARTID,
+                        DEPID =  obj.depin.DEPID,
+                        USRMODIF = Helper.Session.user.USRNOM,
+                        PICCODE = "S",
+                        PINID = obj.pIECE_NATURE.PINID,
+                        OPENATURESTOCK = "R",
+                        OPEQUANTITE = int.Parse(obj.quantite),
+                        OPESENS = int.Parse(obj.sense.ToString()),
+                        OPETYPE = "N",
+                        OPEISMAJPA = "O",
+                        OPEISBLOQUE = "N",
+                        SOCID = 1,
+                        OPEISCLOS = "N",
+                        PCID = pl.PCDID,
+                        PLID = pl.PLDID,
+                        CTMID = 0,
+                        //tirid
+                        //opuint
+                    };
+                    await PostOperationStock(o);
+                }
+                else if (obj.sense == -1)
                 {
-                    OPEID = await getOperationStockNumber() + 1,
-                    DATECREATE = DateTime.Now,
-                    DATEUPDATE = DateTime.Now,
-                    //USRMODIF = "ADM",
-                    OPEDATE = DateTime.Now,
-                    ARTID = obj.article.ARTID,
-                    DEPID = (obj.depin == null) ? obj.depout.DEPID : obj.depin.DEPID,
-                    USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "S",
-                    PINID = obj.pIECE_NATURE.PINID,
-                    OPENATURESTOCK = "R",
-                    OPEQUANTITE = obj.sense.ToString().Equals("-1") ? - int.Parse(obj.quantite) : int.Parse(obj.quantite),
-                    OPESENS = int.Parse(obj.sense.ToString()),
-                    OPETYPE = "N",
-                    OPEISMAJPA = "O",
-                    OPEISBLOQUE = "N",
-                    SOCID = 1,
-                    OPEISCLOS = "N",
-                    PCID = pl.PCDID,
-                    PLID = pl.PLDID,
-                    CTMID=0,
-                    //tirid
-                    //opuint
-                };
+                    OPERATIONSTOCK o = new OPERATIONSTOCK
+                    {
+                        OPEID = await getOperationStockNumber() + 1,
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        //USRMODIF = "ADM",
+                        OPEDATE = DateTime.Now,
+                        ARTID = obj.article.ARTID,
+                        DEPID = obj.depout.DEPID,
+                        USRMODIF = Helper.Session.user.USRNOM,
+                        PICCODE = "S",
+                        PINID = obj.pIECE_NATURE.PINID,
+                        OPENATURESTOCK = "R",
+                        OPEQUANTITE = -int.Parse(obj.quantite) ,
+                        OPESENS = int.Parse(obj.sense.ToString()),
+                        OPETYPE = "N",
+                        OPEISMAJPA = "O",
+                        OPEISBLOQUE = "N",
+                        SOCID = 1,
+                        OPEISCLOS = "N",
+                        PCID = pl.PCDID,
+                        PLID = pl.PLDID,
+                        CTMID = 0,
+                        //tirid
+                        //opuint
+                    };
+                    await PostOperationStock(o);
+                } else if(obj.sense == 0){
+                    OPERATIONSTOCK oi = new OPERATIONSTOCK
+                    {
+                        OPEID = await getOperationStockNumber() + 1,
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        //USRMODIF = "ADM",
+                        OPEDATE = DateTime.Now,
+                        ARTID = obj.article.ARTID,
+                        DEPID = obj.depin.DEPID,
+                        USRMODIF = Helper.Session.user.USRNOM,
+                        PICCODE = "S",
+                        PINID = obj.pIECE_NATURE.PINID,
+                        OPENATURESTOCK = "R",
+                        OPEQUANTITE = int.Parse(obj.quantite),
+                        OPESENS = int.Parse(obj.sense.ToString()),
+                        OPETYPE = "N",
+                        OPEISMAJPA = "O",
+                        OPEISBLOQUE = "N",
+                        SOCID = 1,
+                        OPEISCLOS = "N",
+                        PCID = pl.PCDID,
+                        PLID = pl.PLDID,
+                        CTMID = 0,
+                        //tirid
+                        //opuint
+                    };
+                    await PostOperationStock(oi);
+                    OPERATIONSTOCK oo = new OPERATIONSTOCK
+                    {
+                        OPEID = await getOperationStockNumber() + 1,
+                        DATECREATE = DateTime.Now,
+                        DATEUPDATE = DateTime.Now,
+                        //USRMODIF = "ADM",
+                        OPEDATE = DateTime.Now,
+                        ARTID = obj.article.ARTID,
+                        DEPID = obj.depout.DEPID,
+                        USRMODIF = Helper.Session.user.USRNOM,
+                        PICCODE = "S",
+                        PINID = obj.pIECE_NATURE.PINID,
+                        OPENATURESTOCK = "R",
+                        OPEQUANTITE = -int.Parse(obj.quantite),
+                        OPESENS = int.Parse(obj.sense.ToString()),
+                        OPETYPE = "N",
+                        OPEISMAJPA = "O",
+                        OPEISBLOQUE = "N",
+                        SOCID = 1,
+                        OPEISCLOS = "N",
+                        PCID = pl.PCDID,
+                        PLID = pl.PLDID,
+                        CTMID = 0,
+                        //tirid
+                        //opuint
+                    };
+                    await PostOperationStock(oo);
+                }
 
-        return         await PostPiecedivers(p) &&
+
+                return         await PostPiecedivers(p) &&
                        await PostPiecediversLigne(pl) &&
-                       await PostOperationStock(o) &&
                        await PostIdentityTable("operationstock") &&
                        await PostIdentityTable("piecedivers");
 
@@ -1953,6 +2041,27 @@ namespace PFE.Services
             {
                 return false;
             }
+        }
+
+        public async Task<depot> GetDepotbyARTdepot(int id)
+        {
+            try
+            {
+               
+                return  (Constant.depot_url + "?filter[where][DEPID]=" + id).WithTimeout(10).GetJsonAsync<IList<depot>>().Result[0];
+               
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection();
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection();
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
     }
 

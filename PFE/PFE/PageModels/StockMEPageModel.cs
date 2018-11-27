@@ -271,14 +271,18 @@ namespace PFE.PageModels
                 });
                 nature = await _restService.GetPieceNaturebyPINID("19");
                 depo = await _restService.GetDepot("o");
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-
-                });
+                selectedDepot = depo[0];
+                selectednature = nature[0];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = numauto.NUMCOMPTEUR + 1;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             });
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isBusy = false;
+                isEnabled = true;
 
+            });
 
         }
     }

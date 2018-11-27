@@ -284,11 +284,13 @@ namespace PFE.PageModels
                     isBusy = true;
                 });
                 depo = await _restService.GetDepot("o");
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isEnabled = true;
-                    isBusy = false;
-                });
+                selectedDepot = depo[0];
+                storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+            });
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isEnabled = true;
+                isBusy = false;
             });
             _LivredQuantity = "1";
         }

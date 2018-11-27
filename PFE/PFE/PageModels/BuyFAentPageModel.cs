@@ -142,6 +142,7 @@ namespace PFE.PageModels
             Task.Run(async () =>
             {
                 nature = await _restService.GetPieceNature("A", "f", null,"0",true);
+                selectednature = nature[0];
             });
             isBusy = false;
             isEnabled = true;

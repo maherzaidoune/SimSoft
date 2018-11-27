@@ -266,6 +266,7 @@ namespace PFE.PageModels
             Task.Run(async () =>
             {
                 depo = await _restService.GetDepot("o");
+                selectedDepot = depo[0];
             });
             isBusy = false;
             isEnabled = true;

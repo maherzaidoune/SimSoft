@@ -304,9 +304,23 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 nature = await _restService.GetPieceNaturebyPINID("18");
                 depo = await _restService.GetDepot("o");
+                selectednature = nature[0];
+                selectedDepotin = depo[0];
+                selectedDepotout = depo[1];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = numauto.NUMCOMPTEUR + 1;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
+                Quantity = reelQuantity.ToString();
             });
+
             isBusy = false;
             isEnabled = true;
         }

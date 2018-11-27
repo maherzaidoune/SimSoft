@@ -72,5 +72,6 @@ namespace PFE.Services
         Task<bool> testServer(string uri = null);
         Task<float> get_PCVMNTTTC(string PCVID);
         Task<float> get_PEAMONTANT(string PCAID);
+        Task<depot> GetDepotbyARTdepot(int id);
     }
 }

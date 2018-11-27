@@ -174,6 +174,7 @@ namespace PFE.PageModels
                     isBusy = true;
                 });
                 nature = await _restService.GetPieceNature("V", "C");
+                selectednature = nature[0];
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;
