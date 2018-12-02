@@ -54,6 +54,10 @@ namespace PFE.PageModels
                                 await CoreMethods.PushPageModel<SellerMenuPageModel>();
                                 RaisePropertyChanged();
                                 break;
+                            case 10048:
+                                await CoreMethods.PushPageModel<StockManPageModel>();
+                                RaisePropertyChanged();
+                                break;
                             default:
                                 _dialogService.ShowMessage("ERROR", true);
                                 break;

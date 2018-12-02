@@ -88,15 +88,18 @@ namespace PFE.PageModels
                         isEnabled = false;
                         isBusy = true;
                     }); 
-                    reelQuantity =  (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
-                    Quantity = reelQuantity.ToString();
+                    if(article != null){
+                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        Quantity = reelQuantity.ToString();
+                    }
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isBusy = false;
                         isEnabled = true;
                     });
+
                 });
-               
+
             }
         }
 
@@ -261,6 +264,11 @@ namespace PFE.PageModels
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
+                        if(selectedDepot != null){
+                            reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                            Quantity = reelQuantity.ToString();
+                        }
+
                         _pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch (Exception e)
@@ -297,16 +305,17 @@ namespace PFE.PageModels
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
                 var comp = numauto.NUMCOMPTEUR + 1;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
-                Quantity = reelQuantity.ToString();
+                //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), depo[0].DEPID.ToString()).Result.ARDSTOCKREEL;
+                //Quantity = reelQuantity.ToString();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isBusy = false;
+                    isEnabled = true;
+
+                });
             });
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                isBusy = false;
-                isEnabled = true;
 
-            });
         }
 
         public StockMSPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)

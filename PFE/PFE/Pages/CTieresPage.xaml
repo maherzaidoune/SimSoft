@@ -3,7 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:local="clr-namespace:PFE"
              x:Class="PFE.Pages.CTieresPage">
-    <Grid BackgroundColor="White" Padding="5,10,5,10" RowSpacing="0" ColumnSpacing="0">
+    
+   <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill"   >
+        <Label AbsoluteLayout.LayoutBounds="0,0,0.5,0.5" 
+               IsVisible = "true"
+               AbsoluteLayout.LayoutFlags="All" Text="aucune resultat" />
+        
+     <Grid AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+          IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+            BackgroundColor="White" ColumnSpacing="0" Padding="5,10,5,10" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
@@ -77,4 +85,5 @@
         </local:GradientButton>
         </Frame>
     </Grid>
+        </AbsoluteLayout>
 </ContentPage>

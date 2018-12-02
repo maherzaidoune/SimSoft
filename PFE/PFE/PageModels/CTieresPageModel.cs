@@ -28,6 +28,17 @@ namespace PFE.PageModels
         private IRestServices _restServices;
         public ICommand find => new Command(_find);
         public ICommand validate => new Command(_validate);
+        public ICommand back => new Command(_back);
+
+        private void _back(object obj)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePageWasPopped();
+                RaisePropertyChanged();
+            });
+        }
 
         private void _validate(object obj)
         {

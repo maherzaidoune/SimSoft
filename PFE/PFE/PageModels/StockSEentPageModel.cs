@@ -109,16 +109,20 @@ namespace PFE.PageModels
             }
             set
             {
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isEnabled = false;
-                    isBusy = true;
-                });
                 Task.Run(() =>
                 {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isEnabled = false;
+                        isBusy = true;
+                    });
                     _selectedDepotout = value;
-                    reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
-                    Quantity = reelQuantity.ToString();
+                    if (article != null)
+                    {
+                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        Quantity = reelQuantity.ToString();
+                    }
+
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isBusy = false;
@@ -349,7 +353,13 @@ namespace PFE.PageModels
                     isBusy = true;
                 });
                 nature = await _restService.GetPieceNature("S","B","%bon%",null,true);
+                selectednature = nature[0];
                 depo = await _restService.GetDepot("o");
+                selectedDepotin = depo[0];
+                selectedDepotout = depo[1];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = numauto.NUMCOMPTEUR + 1;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;

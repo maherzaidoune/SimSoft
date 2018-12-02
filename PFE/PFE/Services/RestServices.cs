@@ -483,23 +483,23 @@ namespace PFE.Services
                 //ARTDEPOT artdepo = null ;
                 //ARTDEPOT deptransfer = null;
 
-                //if (obj.depin != null && obj.depout != null){
-                //    PCDNUMEXT = "Bon de transfert de dépot";
-                //    type = "BTR";
-                //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
-                //    deptransfer = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
+                if (obj.depin != null && obj.depout != null){
+                    PCDNUMEXT = "Bon de transfert de dépot";
+                    type = "BTR";
+                  //  artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
+                    //deptransfer = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
 
-                //}
-                //else if (obj.depin != null){
-                //    PCDNUMEXT = "Bon entrée en stock";
-                //    type = "SIN";
+                }
+                else if (obj.depin != null){
+                    PCDNUMEXT = "Bon entrée en stock";
+                    type = "SIN";
                 //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depin.DEPID.ToString());
-                //}
-                //else if(obj.depout != null) {
-                //    PCDNUMEXT = "Bon sortir en stock";
-                //    type = "SOUT";
-                //    artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
-                //}
+                }
+                else if(obj.depout != null) {
+                    PCDNUMEXT = "Bon sortir en stock";
+                    type = "SOUT";
+                  //  artdepo = GetARTDEPOTbyDepid(obj.article.ARTID.ToString(), obj.depout.DEPID.ToString());
+                }
 
 
                 //if (type.Equals( "SIN")){
@@ -604,6 +604,7 @@ namespace PFE.Services
                         OPEID = await getOperationStockNumber() + 1,
                         DATECREATE = DateTime.Now,
                         DATEUPDATE = DateTime.Now,
+                        OPEINTITULE = obj.depin.DEPINTITULE,
                         //USRMODIF = "ADM",
                         OPEDATE = DateTime.Now,
                         ARTID = obj.article.ARTID,
@@ -633,6 +634,7 @@ namespace PFE.Services
                     {
                         OPEID = await getOperationStockNumber() + 1,
                         DATECREATE = DateTime.Now,
+                        OPEINTITULE = obj.depout.DEPINTITULE,
                         DATEUPDATE = DateTime.Now,
                         //USRMODIF = "ADM",
                         OPEDATE = DateTime.Now,
@@ -662,6 +664,7 @@ namespace PFE.Services
                         OPEID = await getOperationStockNumber() + 1,
                         DATECREATE = DateTime.Now,
                         DATEUPDATE = DateTime.Now,
+                        OPEINTITULE = obj.depin.DEPINTITULE,
                         //USRMODIF = "ADM",
                         OPEDATE = DateTime.Now,
                         ARTID = obj.article.ARTID,
@@ -692,6 +695,7 @@ namespace PFE.Services
                         //USRMODIF = "ADM",
                         OPEDATE = DateTime.Now,
                         ARTID = obj.article.ARTID,
+                        OPEINTITULE = obj.depout.DEPINTITULE,
                         DEPID = obj.depout.DEPID,
                         USRMODIF = Helper.Session.user.USRNOM,
                         PICCODE = "S",
@@ -714,7 +718,8 @@ namespace PFE.Services
                 }
 
 
-                return         await PostPiecedivers(p) &&
+                return         
+                       await PostPiecedivers(p) &&
                        await PostPiecediversLigne(pl) &&
                        await PostIdentityTable("operationstock") &&
                        await PostIdentityTable("piecedivers");
@@ -723,7 +728,6 @@ namespace PFE.Services
                 noInternetConnection();
                 Console.WriteLine(e.StackTrace);
                     return false;
-                  
             } 
 
         }
@@ -1229,6 +1233,7 @@ namespace PFE.Services
                     OPEID = await getOperationStockNumber() + 1,
                     DATECREATE = DateTime.Now,
                     DATEUPDATE = DateTime.Now,
+                    OPEINTITULE = sell.depot.DEPINTITULE,
                     //USRMODIF = "ADM",
                     OPEDATE = DateTime.Now,
                     ARTID = sell.articles.ARTID,
@@ -1248,7 +1253,7 @@ namespace PFE.Services
                     PLID = pvl.PLVID,
                     CTMID = 0,
                     TIRID = pv.TIRID,
-                    OPEINTITULE = sell.tiers.TIRSOCIETE,
+                    //OPEINTITULE = sell.tiers.TIRSOCIETE,
                     //opuint
 
                 };
@@ -1760,6 +1765,7 @@ namespace PFE.Services
                     OPEDATE = DateTime.Now,
                     ARTID = buy.articles.ARTID,
                     DEPID = buy.depot.DEPID,
+                    OPEINTITULE = buy.depot.DEPINTITULE,
                     //USRMODIF = Helper.Session.user.USRNOM,
                     PICCODE = "A",
                     PINID = pv.PINID,
@@ -1775,7 +1781,7 @@ namespace PFE.Services
                     PLID = pvl.PLAID,
                     CTMID = 0,
                     TIRID = pv.TIRID,
-                    OPEINTITULE = buy.tiers.TIRSOCIETE,
+                    //OPEINTITULE = buy.tiers.TIRSOCIETE,
                     //opuint
 
                 };

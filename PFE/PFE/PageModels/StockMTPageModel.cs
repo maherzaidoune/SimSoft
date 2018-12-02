@@ -101,8 +101,11 @@ namespace PFE.PageModels
                         isBusy = true;
                     }); 
                     _selectedDepotout = value;
-                    reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
-                    Quantity = reelQuantity.ToString();
+                    if(article != null){
+                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        Quantity = reelQuantity.ToString();
+                    }
+
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isBusy = false;
@@ -277,6 +280,12 @@ namespace PFE.PageModels
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
+                        if (selectedDepotout != null)
+                        {
+                            reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
+                            Quantity = reelQuantity.ToString();
+                        }
+
                         _pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch (Exception e)
@@ -317,8 +326,8 @@ namespace PFE.PageModels
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
                 var comp = numauto.NUMCOMPTEUR + 1;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
-                Quantity = reelQuantity.ToString();
+                //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
+                //Quantity = reelQuantity.ToString();
             });
 
             isBusy = false;

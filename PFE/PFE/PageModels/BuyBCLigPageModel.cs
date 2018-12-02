@@ -47,7 +47,9 @@ namespace PFE.PageModels
                         isEnabled = false;
                         isBusy = true;
                     }); 
-                    storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                    if(article != null){
+                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                    }
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isBusy = false;
@@ -265,11 +267,20 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                //    isEnabled = false;
+                //    isBusy = true;
+                //});
                 depo = await _restService.GetDepot("o");
                 selectedDepot = depo[0];
+
             });
-            isBusy = false;
-            isEnabled = true;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isBusy = false;
+                isEnabled = true;
+            });
             //_LivredQuantity = "1";
         }
     }
