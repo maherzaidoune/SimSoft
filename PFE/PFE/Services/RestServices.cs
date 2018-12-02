@@ -420,7 +420,7 @@ namespace PFE.Services
         {
             try
             {
-                var artdep = (Constant.ARTDEPOTs_url + "?filter[where][and][0][DEPID] = " + DEPID + " & filter[where][and][1][ARTID] = " + ARTID).WithTimeout(10).GetJsonAsync<IList<ARTDEPOT>>().Result[0];
+                var artdep = (Constant.ARTDEPOTs_url + "?filter[where][and][0][DEPID]=" + DEPID + "&filter[where][and][1][ARTID]=" + ARTID).WithTimeout(10).GetJsonAsync<IList<ARTDEPOT>>().Result[0];
                 return artdep;
             }
             catch (FlurlHttpException e)
