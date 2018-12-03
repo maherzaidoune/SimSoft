@@ -538,7 +538,8 @@ namespace PFE.Services
                 PIECEDIVERS p = new PIECEDIVERS
                 {
                         PCDID = PCDID,
-                        PCDNUM = Helper.Strings.getNum(PCDID,type),
+                    //PCDNUM = Helper.Strings.getNum(PCDID,type),
+                        PCDNUM = obj.numpiece,
                         PCDMNTHT = int.Parse(obj.prix),
                         PCDNUMEXT = PCDNUMEXT,
                         DEPID_IN =   (obj.depin!=null )? (int)obj.depin.DEPID : 0,
@@ -657,7 +658,7 @@ namespace PFE.Services
                         //tirid
                         //opuint
                     };
-                    await PostOperationStock(o);
+                      await PostOperationStock(o);
                 } else if(obj.sense == 0){
                     OPERATIONSTOCK oi = new OPERATIONSTOCK
                     {
@@ -753,7 +754,17 @@ namespace PFE.Services
         public async Task<bool> PostOperationStock(OPERATIONSTOCK operationStock)
         {
             try
-            {  
+            {
+                var reelQuantity = (float)GetARTDEPOTbyDepid(operationStock.ARTID.ToString(), operationStock.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var Quantity = reelQuantity.ToString();
+                if(operationStock.OPEQUANTITE < 0){
+                    if ((-1 * operationStock.OPEQUANTITE) > int.Parse(Quantity))
+                    {
+                        DialogService d = new DialogService();
+                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
+                        return false;
+                    }
+                }
                 return (Constant.OPERATIONSTOCKs_url).WithTimeout(10).PostJsonAsync(operationStock).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)

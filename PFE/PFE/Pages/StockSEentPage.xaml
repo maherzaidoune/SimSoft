@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:PFE"
@@ -40,7 +40,7 @@
                      Title="nature">
                     </controls:CustomPicker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout IsEnabled="false" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="N°Piéce
   " VerticalOptions="Center"/>
                     <Entry Placeholder="N°Piéce
@@ -61,7 +61,7 @@
                  
             </StackLayout>
                  
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout IsEnabled="false" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Code  " VerticalOptions="Center"/>
                     <Entry Placeholder="Code .." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding code , Mode=TwoWay}"  />
                 </StackLayout >

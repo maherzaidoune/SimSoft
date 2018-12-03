@@ -164,6 +164,8 @@ namespace PFE.PageModels
 
             try
             {
+                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                Quantity = reelQuantity.ToString();
                 if (string.IsNullOrEmpty(Quantity))
                 {
                     _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
