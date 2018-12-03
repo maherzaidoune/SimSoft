@@ -34,14 +34,22 @@ namespace PFE.PageModels
                     });
                     if (article != null)
                     {
-                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                        try{
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                        }
+                        catch
+                        {
+                            _dialogService.ShowMessage("ce produit n'existe pas dans ce depo",true);
+                            storeQuantity = "0";
+                        }
                     }
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                 });
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    isBusy = false;
-                    isEnabled = true;
-                });
+
             }
         }
         public TVA tva
@@ -245,7 +253,7 @@ namespace PFE.PageModels
         {
             if (LivredQuantity == null)
             {
-                _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
+                _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                 return;
             }
             mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();

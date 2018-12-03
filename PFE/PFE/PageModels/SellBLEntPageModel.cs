@@ -166,6 +166,7 @@ namespace PFE.PageModels
                 nature = await _restService.GetPieceNature("v", "b", null, "-1");
                 selectednature = nature[0];
             });
+            date = DateTime.Today;
             isBusy = false;
             isEnabled = true;
         }

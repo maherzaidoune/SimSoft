@@ -48,7 +48,11 @@ namespace PFE.PageModels
                         isBusy = true;
                     }); 
                     if(article != null){
-                        storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                        try{
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                        }catch{
+
+                        }
                     }
                     Device.BeginInvokeOnMainThread(() =>
                     {

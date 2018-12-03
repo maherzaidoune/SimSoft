@@ -89,8 +89,16 @@ namespace PFE.PageModels
                         isBusy = true;
                     }); 
                     if(article != null){
-                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
-                        Quantity = reelQuantity.ToString();
+                        try{
+                            reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                            Quantity = reelQuantity.ToString();
+                        }
+                        catch
+                        {
+                            _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                            Quantity = "0";
+                        }
+
                     }
                     Device.BeginInvokeOnMainThread(() =>
                     {
