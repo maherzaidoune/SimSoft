@@ -68,7 +68,7 @@ namespace PFE.PageModels
         public string CQuantity
         {
             get{
-                return _CQuantity;
+                return _CQuantity ;
             }
             set{
                 if(String.IsNullOrEmpty(value) || float.Parse(value) >= 0){
@@ -221,6 +221,11 @@ namespace PFE.PageModels
         private IDialogService _dialogService;
         private void _validate(object obj)
         {
+            if (CQuantity == null)
+            {
+                _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
+                return;
+            }
             mtht = ((int.Parse(CQuantity) * float.Parse(_puht)) / 100).ToString();
             mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
             puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
@@ -272,8 +277,14 @@ namespace PFE.PageModels
                 //    isEnabled = false;
                 //    isBusy = true;
                 //});
-                depo = await _restService.GetDepot("o");
-                selectedDepot = depo[0];
+                try{
+                    depo = await _restService.GetDepot("o");
+                    selectedDepot = depo[0];
+                }
+                catch{
+
+                }
+               
 
             });
             Device.BeginInvokeOnMainThread(() =>

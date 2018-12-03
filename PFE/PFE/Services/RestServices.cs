@@ -1310,7 +1310,19 @@ namespace PFE.Services
                     PITCODE = "F"
                 };
 
-                if(await PostPIECEVENTE(pv)
+                var reelQuantity = (float)GetARTDEPOTbyDepid(sell.articles.ARTID.ToString(), sell.depot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var Quantity = reelQuantity.ToString();
+                if (o.OPEQUANTITE < 0)
+                {
+                    if ((-1 * o.OPEQUANTITE) > int.Parse(Quantity))
+                    {
+                        DialogService d = new DialogService();
+                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
+                        return false;
+                    }
+                }
+
+                if (await PostPIECEVENTE(pv)
                             &&
                     await PostPIECEVENTELIGNE(pvl))
                 {

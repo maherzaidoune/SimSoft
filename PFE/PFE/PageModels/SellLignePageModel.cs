@@ -217,7 +217,6 @@ namespace PFE.PageModels
                     {
                         article = await _restService.getArticlebyBC(barreCode);
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
-
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if(selectedDepot != null)
@@ -244,6 +243,11 @@ namespace PFE.PageModels
         private IDialogService _dialogService;
         private void _validate(object obj)
         {
+            if (LivredQuantity == null)
+            {
+                _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
+                return;
+            }
             mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
             mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
             SellElements sell = new SellElements
@@ -281,13 +285,18 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                try{
+                    depo = await _restService.GetDepot("o");
+                    selectedDepot = depo[0];
+                }catch{
+
+                }
                 //Device.BeginInvokeOnMainThread(() =>
                 //{
                 //    isEnabled = false;
                 //    isBusy = true;
                 //});
-                depo = await _restService.GetDepot("o");
-                selectedDepot = depo[0];
+
                 //storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                 //
             });
