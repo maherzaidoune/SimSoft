@@ -55,7 +55,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = numauto.NUMCOMPTEUR + 1;
+                        var comp = await _restService.getPieceDiversNumber();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
 
@@ -366,7 +366,7 @@ namespace PFE.PageModels
                 selectedDepotin = depo[0];
                 selectedDepotout = depo[1];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = numauto.NUMCOMPTEUR + 1;
+                var comp = await _restService.getPieceDiversNumber();
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 Device.BeginInvokeOnMainThread(() =>
                 {

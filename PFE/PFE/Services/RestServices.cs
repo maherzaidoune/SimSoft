@@ -829,7 +829,7 @@ namespace PFE.Services
             try
             {
                 var count = (Constant.PIECEDIVERs_url + "/count").WithTimeout(10).GetJsonAsync<Count>();
-                return count.Result.count;
+                return count.Result.count + 1;
             }
             catch (FlurlHttpException e)
             {

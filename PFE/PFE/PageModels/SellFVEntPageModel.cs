@@ -40,7 +40,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = numauto.NUMCOMPTEUR + 1;
+                        var comp = await _restService.getPieceDiversNumber();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }

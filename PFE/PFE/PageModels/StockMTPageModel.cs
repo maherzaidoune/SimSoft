@@ -43,7 +43,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = numauto.NUMCOMPTEUR + 1;
+                        var comp = await _restService.getPieceDiversNumber();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -186,7 +186,6 @@ namespace PFE.PageModels
             try
             {
                 reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
-                Quantity = reelQuantity.ToString();
                 if (string.IsNullOrEmpty(Quantity))
                 {
                     _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
@@ -296,7 +295,7 @@ namespace PFE.PageModels
                             Quantity = reelQuantity.ToString();
                         }
 
-                        _pht = artarifligne.ATFPRIX.ToString();
+                        pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch (Exception e)
                     {
@@ -334,7 +333,7 @@ namespace PFE.PageModels
                 selectedDepotin = depo[0];
                 selectedDepotout = depo[1];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = numauto.NUMCOMPTEUR + 1;
+                var comp = await _restService.getPieceDiversNumber();
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                 //Quantity = reelQuantity.ToString();

@@ -38,7 +38,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = numauto.NUMCOMPTEUR + 1;
+                        var comp = await _restService.getPieceDiversNumber();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -235,7 +235,7 @@ namespace PFE.PageModels
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
-                        _pht = artarifligne.ATFPRIX.ToString();
+                        pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch (Exception e)
                     {
@@ -274,7 +274,7 @@ namespace PFE.PageModels
                 selectedDepot = depo[0];
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = numauto.NUMCOMPTEUR + 1;
+                var comp = await _restService.getPieceDiversNumber();
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             });
             Device.BeginInvokeOnMainThread(() =>
