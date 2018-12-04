@@ -143,22 +143,31 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNature("A", "f", null,"0",true);
                 selectednature = nature[0];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = await _restService.getPieceDiversNumber();
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             });
             isBusy = false;
             isEnabled = true;
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;
+        private int numligne;
+
         public ICommand validate => new Command(_validate);
 
         private void _validate(object obj)
         {
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BFA",
                 affaire = affaires,
-                tiers = Tiers
+                tiers = Tiers,
+                numpiece = numeroPiece
             };
             Task.Run(async () =>
             {

@@ -83,5 +83,10 @@ namespace PFE.Models
             get;
             set;
         }
+        public string numpiece
+        {
+            get;
+            set;
+        }
     }
 }

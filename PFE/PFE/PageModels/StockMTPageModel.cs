@@ -166,6 +166,8 @@ namespace PFE.PageModels
         public string Quantity { get; set; }
 
         private string _pht;
+        private int numligne;
+
         public string pht
         {
             get
@@ -209,7 +211,10 @@ namespace PFE.PageModels
             }
             catch{
                 _dialogService.ShowMessage("Error  ", true);
-            }           
+            }
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
 
             StockLigne stockLigne = new StockLigne
             {

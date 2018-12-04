@@ -148,6 +148,9 @@ namespace PFE.PageModels
                 });
                 nature = await _restService.GetPieceNature("A", "C",null,"1");
                 selectednature = nature[0];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = await _restService.getPieceDiversNumber();
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;
@@ -161,15 +164,20 @@ namespace PFE.PageModels
 
         private IDataServices _dataService;
         private IDialogService _dialogService;
+        private int numligne;
 
         private void _validate(object obj)
         {
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BBC",
                 affaire = affaires,
-                tiers = Tiers
+                tiers = Tiers,
+                numpiece = numeroPiece
             };
             Task.Run(async () =>
             {

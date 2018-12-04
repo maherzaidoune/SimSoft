@@ -157,6 +157,8 @@ namespace PFE.PageModels
         public string Quantity { get; set; }
 
         private string _pht;
+        private int numligne;
+
         public string pht
         {
             get
@@ -203,6 +205,9 @@ namespace PFE.PageModels
             {
                 _dialogService.ShowMessage("Erreur  ", true);
             }
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             StockLigne stockLigne = new StockLigne
             {
                 code = code,
@@ -312,12 +317,13 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
+
                 nature = await _restService.GetPieceNaturebyPINID("20");
                 depo = await _restService.GetDepot("o");
                 selectedDepot = depo[0];
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
+                var comp = _restService.getPieceDiversNumber().Result;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), depo[0].DEPID.ToString()).Result.ARDSTOCKREEL;
                 //Quantity = reelQuantity.ToString();

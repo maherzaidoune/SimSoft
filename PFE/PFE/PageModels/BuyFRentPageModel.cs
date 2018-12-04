@@ -149,16 +149,22 @@ namespace PFE.PageModels
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;
+        private int numligne;
+
         public ICommand validate => new Command(_validate);
 
         private void _validate(object obj)
         {
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BFR",
                 affaire = affaires,
-                tiers = Tiers
+                tiers = Tiers,
+                numpiece = numeroPiece
             };
             Task.Run(async () =>
             {

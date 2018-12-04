@@ -596,7 +596,8 @@ namespace PFE.Services
                     PLDISFORFAIT = "N",
                     PLDMNTNETHT = int.Parse(obj.prix),
                     TVACODE =  (int?)GetTVAbyTVACODE(obj.artfamilles_cpt.TVACODE_FR.ToString()).Result.TVACODE,
-                    PLDID = await getPieceDiversLignesNumber() + 1
+                    PLDID = await getPieceDiversLignesNumber() + 1,
+
                 };
 
                 if(obj.sense == 1){
@@ -624,6 +625,7 @@ namespace PFE.Services
                         PCID = pl.PCDID,
                         PLID = pl.PLDID,
                         CTMID = 0,
+                        OPEREFPIECE = obj.numpiece,
                         //tirid
                         //opuint
                     };
@@ -655,6 +657,7 @@ namespace PFE.Services
                         PCID = pl.PCDID,
                         PLID = pl.PLDID,
                         CTMID = 0,
+                        OPEREFPIECE = obj.numpiece,
                         //tirid
                         //opuint
                     };
@@ -684,6 +687,7 @@ namespace PFE.Services
                         PCID = pl.PCDID,
                         PLID = pl.PLDID,
                         CTMID = 0,
+                        OPEREFPIECE = obj.numpiece,
                         //tirid
                         //opuint
                     };
@@ -712,6 +716,7 @@ namespace PFE.Services
                         PCID = pl.PCDID,
                         PLID = pl.PLDID,
                         CTMID = 0,
+                        OPEREFPIECE = obj.numpiece,
                         //tirid
                         //opuint
                     };
@@ -1047,8 +1052,8 @@ namespace PFE.Services
                 PIECEVENTE pv = new PIECEVENTE
                 {
                     PCVID = await getPieceVente() + 1,
-                    PCVNUM = Strings.increCode(await getPieceVente() + 1, sell.type[0].ToString().ToUpper()), // a partir de piece nature 
-                    PCVNUMEXT =  "test", // test 
+                    PCVNUM = sell.numpiece, // a partir de piece nature 
+                    //PCVNUMEXT =  "test", // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
                     PINCODE = sell.pIECE_NATURE.PINCODE,
@@ -1067,8 +1072,6 @@ namespace PFE.Services
                     //DEPID = sell.depot.DEPID,
                     ////"EXPID": 0,
 
-
-
                     //working
                     PCVCOLISAGE = 1, // fix ?
                     PCVPOIDS = 0, // fix ?
@@ -1084,13 +1087,13 @@ namespace PFE.Services
                     PCVISHT = "o", // fix ?
                     PCVISPRINT = "N",// fix ?
                     PCVNBPRINT = 1,
-                    PCVDATEPRint = DateTime.Now, // fix ?
-                    MODID = 15, // fix ?
-                    PCVMNTHT = (int?)sell.mtht,
-                    PCVMNTTTC = (int?)sell.mttc,
-                    PCVMNTAREGLER = (int?)sell.mttc,
-                    PCVMNTACOMPTE = 0,
-                    PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
+                    //PCVDATEPRint = DateTime.Now, // fix ?
+                    //MODID = 15, // fix ?
+                    //PCVMNTHT = (int?)sell.mtht,
+                    //PCVMNTTTC = (int?)sell.mttc,
+                    //PCVMNTAREGLER = (int?)sell.mttc,
+                    //PCVMNTACOMPTE = 0,
+                    //PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
                     PCVMNTTPF = 0,
                     PCVMNTESCOMPTE = 0,
                     PCVMNTPORT = 0,
@@ -1264,6 +1267,7 @@ namespace PFE.Services
                     PLID = pvl.PLVID,
                     CTMID = 0,
                     TIRID = pv.TIRID,
+                    OPEREFPIECE = sell.numpiece,
                     //OPEINTITULE = sell.tiers.TIRSOCIETE,
                     //opuint
 
@@ -1666,7 +1670,7 @@ namespace PFE.Services
                     PCAISPIECEFRAIS = "N",
                     TYNCODE = "t", //test
                     PCAID = await getPieceAchat() + 1,
-                    PCANUM = Strings.increCode(await getPieceAchat() + 1, buy.type[0].ToString().ToUpper()),
+                    PCANUM = buy.numpiece.ToString(),
                     PCANUMEXT = "string",
                     PITCODE = buy.pIECE_NATURE.PITCODE,
                     PINID = buy.pIECE_NATURE.PINID,
@@ -1804,6 +1808,7 @@ namespace PFE.Services
                     PLID = pvl.PLAID,
                     CTMID = 0,
                     TIRID = pv.TIRID,
+                    OPEREFPIECE = buy.numpiece,
                     //OPEINTITULE = buy.tiers.TIRSOCIETE,
                     //opuint
 

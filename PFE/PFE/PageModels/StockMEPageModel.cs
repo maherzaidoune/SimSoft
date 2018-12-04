@@ -19,6 +19,11 @@ namespace PFE.PageModels
             get;
             set;
         }
+        public int numligne
+        {
+            get;
+            set;
+        }
         public PIECE_NATURE selectednature
         {
             get
@@ -38,7 +43,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceDiversNumber() + numligne;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -147,7 +152,11 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            if(int.Parse(Quantity) < 0){
+           
+            var comp =  _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
+            if (int.Parse(Quantity) < 0){
                 _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                 return;
             }
@@ -269,12 +278,13 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
+                numligne = 1;
                 nature = await _restService.GetPieceNaturebyPINID("19");
                 depo = await _restService.GetDepot("o");
                 selectedDepot = depo[0];
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
+                var comp = await _restService.getPieceDiversNumber() + numligne;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             });
             Device.BeginInvokeOnMainThread(() =>

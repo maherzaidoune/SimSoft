@@ -19,7 +19,11 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public bool isBusy { get; set; }
+        public int numligne
+        {
+            get;
+            set;
+        } public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
         public PIECE_NATURE selectednature
         {
@@ -40,7 +44,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceDiversNumber() + numligne;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -135,13 +139,18 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             SellElements sell = new SellElements
             {
                 pIECE_NATURE = selectednature,
                 type = "SBL",
                 affaire = affaires,
-                tiers = Tiers
+                tiers = Tiers,
+                numpiece = numeroPiece
             };
+            numligne++;
             Task.Run(async () =>
             {
                 if (await _dataService.addSellElementAsync(sell))
@@ -163,8 +172,12 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                numligne = 1;
                 nature = await _restService.GetPieceNature("v", "b", null, "-1");
                 selectednature = nature[0];
+                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                var comp = await _restService.getPieceDiversNumber() + numligne;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp ;
             });
             date = DateTime.Today;
             isBusy = false;
