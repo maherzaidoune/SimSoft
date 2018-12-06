@@ -264,6 +264,7 @@ namespace PFE.PageModels
 
         public StockMEPageModel(IRestServices _restService , IDataServices _dataServices , IDialogService _dialogService)
         {
+            numligne = 1;
             this._restService = _restService;
             this._dataServices = _dataServices;
             this._dialogService = _dialogService;
@@ -278,7 +279,7 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-                numligne = 1;
+                //numligne = 1;
                 nature = await _restService.GetPieceNaturebyPINID("19");
                 depo = await _restService.GetDepot("o");
                 selectedDepot = depo[0];

@@ -11,20 +11,25 @@ namespace PFE.Services
         Task<bool> addStockLigneMEAsync(StockLigne obj);
         Task<bool> addStockLigneMSAsync(StockLigne obj);
         Task<bool> addStockLigneMTAsync(StockLigne obj);
+        Task<bool> addStockLigneMIAsync(StockLigne obj);
 
         bool addStockLigneListMSAsync(IList<StockLigne> obj);
         bool addStockLigneListMEAsync(IList<StockLigne> obj);
         bool addStockLigneListMTAsync(IList<StockLigne> obj);
+        bool addStockLigneListMIAsync(IList<StockLigne> obj);
+
 
         Task<bool> RemoveStockLigneMEAsync(StockLigne obj);
         Task<bool> RemoveStockLigneMSAsync(StockLigne obj);
         Task<bool> RemoveStockLigneMTAsync(StockLigne obj);
+        Task<bool> RemoveStockLigneMIAsync(StockLigne obj);
 
 
 
         Task<IList<StockLigne>> getStockLigneObjectsMEAsync();
         Task<IList<StockLigne>> getStockLigneObjectsMSAsync();
         Task<IList<StockLigne>> getStockLigneObjectsMTAsync();
+        Task<IList<StockLigne>> getStockLigneObjectsMIAsync();
         bool RemoveStockLigne();
 
 

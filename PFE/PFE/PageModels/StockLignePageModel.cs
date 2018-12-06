@@ -136,9 +136,8 @@ namespace PFE.PageModels
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
             MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "ME", updateME);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MS", updateMS);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MT", updateMT);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MI", updateMI);
+          
         }
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
@@ -146,9 +145,34 @@ namespace PFE.PageModels
             MessagingCenter.Subscribe<StockMEPageModel>(this, "ME", updateME);
             MessagingCenter.Subscribe<StockMTPageModel>(this, "MT", updateMT);
             MessagingCenter.Subscribe<StockMSPageModel>(this, "MS", updateMS);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "ME", updateME);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MS", updateMS);
-            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MT", updateMT);
+            MessagingCenter.Subscribe<StockSEentPageModel>(this, "MI", updateMI);
+        }
+
+        private void updateMI(StockSEentPageModel obj)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                refresh = true;
+
+            });
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var list = await _dataServices.getStockLigneObjectsMIAsync();
+                    if (list != null)
+                        stockLigne = new ObservableCollection<StockLigne>(list);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    refresh = false;
+                });
+
+            });
         }
 
         private void updateMT(StockMTPageModel obj)
@@ -166,20 +190,7 @@ namespace PFE.PageModels
             refreshPageME();
         }
 
-        private void updateMT(StockSEentPageModel obj)
-        {
-            refreshPageMT();
-        }
-
-        private void updateMS(StockSEentPageModel obj)
-        {
-            refreshPageMS();
-        }
-
-        private void updateME(StockSEentPageModel obj)
-        {
-            refreshPageME();
-        }
+      
 
         public void refreshPageME(){
 

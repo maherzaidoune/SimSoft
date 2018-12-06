@@ -10,6 +10,111 @@ namespace PFE.Services
 {
     public class DataServices : IDataServices
     {
+
+        public async Task<bool> addStockLigneMIAsync(StockLigne obj)
+        {
+            if (obj == null)
+                return false;
+            try
+            {
+                var stocks = await getStockLigneObjectsMIAsync();
+                if (stocks == null)
+                {
+                    stocks = new List<StockLigne>();
+                }
+                for (int i = 0; i < stocks.Count; i++)
+                {
+
+                    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID && (int.Parse(obj.quantite) > 0))
+                    {
+                        obj.quantite = (int.Parse(stocks[i].quantite) + int.Parse(obj.quantite)).ToString();
+                        if (await RemoveStockLigneMIAsync(stocks[i]))
+                        {
+                            stocks.RemoveAt(i);
+                            stocks.Add(obj);
+                            return addStockLigneListMIAsync(stocks);
+                        }
+                    }
+                }
+                if (int.Parse(obj.quantite) > 0)
+                {
+                    stocks.Add(obj);
+                    return addStockLigneListMIAsync(stocks);
+                }
+                return false;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error adding to stock element list" + e.StackTrace);
+                return false;
+            }
+        }
+
+        public bool addStockLigneListMIAsync(IList<StockLigne> obj)
+        {
+            try
+            {
+                BlobCache.UserAccount.Invalidate("stockLigneMI");
+                BlobCache.UserAccount.InsertObject("stockLigneMI", obj);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error saving list of stock ligne elements");
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<IList<StockLigne>> getStockLigneObjectsMIAsync()
+        {
+            try
+            {
+                // need much test
+                var Stocks = await BlobCache.UserAccount.GetObject<IList<StockLigne>>("stockLigneMI");
+                return Stocks;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error getting list of stock ligne elements");
+                Console.WriteLine(e.StackTrace);
+                return null;
+
+            }
+        }
+
+        public async Task<bool> RemoveStockLigneMIAsync(StockLigne obj)
+        {
+            if (obj == null)
+                return false;
+            IList<StockLigne> stocks = new List<StockLigne>();
+            try
+            {
+                stocks = await getStockLigneObjectsMIAsync();
+                if (stocks == null)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < stocks.Count; i++)
+                {
+                    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 1) && obj.depin.DEPID == stocks[i].depin.DEPID)
+                    {
+                        stocks.RemoveAt(i);
+                    }
+                }
+                return addStockLigneListMIAsync(stocks);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Data service ==== error deleting to stock element list" + e.StackTrace);
+                return false;
+            }
+
+        }
+
+
         public async Task<bool> addStockLigneMEAsync(StockLigne obj)
         {
             if (obj == null)

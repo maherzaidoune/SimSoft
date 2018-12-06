@@ -319,6 +319,7 @@ namespace PFE.PageModels
         }
         public StockMTPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
         {
+            numligne = 1;
             this._restService = _restService;
             this._dataServices = _dataServices;
             this._dialogService = _dialogService;
@@ -339,7 +340,7 @@ namespace PFE.PageModels
                 selectedDepotin = depo[0];
                 selectedDepotout = depo[1];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
+                var comp = await _restService.getPieceDiversNumber() + numligne;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                 //Quantity = reelQuantity.ToString();

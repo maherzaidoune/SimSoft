@@ -340,6 +340,7 @@ namespace PFE.PageModels
 
         public StockMSPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
         {
+            numligne = 1;
             this._restService = _restService;
             this._dataServices = _dataServices;
             this._dialogService = _dialogService;

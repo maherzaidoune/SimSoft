@@ -183,6 +183,8 @@ namespace PFE.PageModels
         public string Quantity { get; set; }
 
         private string _pht;
+        private int numligne;
+
         public string pht
         {
             get
@@ -231,14 +233,17 @@ namespace PFE.PageModels
             {
                 _dialogService.ShowMessage("Erreur  ", true);
             }
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             StockLigne stockLigne = new StockLigne
             {
                 code = code,
                 designation = designation,
                 quantite = Quantity,
                 prix = pht,
-                depin = selectednature.PINID == 18 ? selectedDepotin : (selectednature.PINID == 20) ? selectedDepotout : null   ,
-                depout = selectednature.PINID == 18 ? selectedDepotout : (selectednature.PINID == 19)  ? selectedDepotin : null ,
+                depin = selectednature.PINID == 18 ? selectedDepotin : (selectednature.PINID == 19) ? selectedDepotin : null   ,
+                depout = selectednature.PINID == 18 ? selectedDepotout : (selectednature.PINID == 20)  ? selectedDepotout : null ,
                 sense = selectednature.PINID == 18 ? 0 : (selectednature.PINID == 19 ) ? 1 : -1,
                 article = article,
                 artfamilles_cpt = artfamilles_cpt,
@@ -249,38 +254,14 @@ namespace PFE.PageModels
             };
             Task.Run(async () =>
             {
-
-                if (selectednature.PINID == 19)
+                if (await _dataServices.addStockLigneMIAsync(stockLigne))
                 {
-                    if (await _dataServices.addStockLigneMEAsync(stockLigne))
-                    {
-                        _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
-                        MessagingCenter.Send(this, "ME");
-                    }
-                    else
-                        _dialogService.ShowMessage("error", true);
-                }
-                else if (selectednature.PINID == 20)
-                {
-                    if (await _dataServices.addStockLigneMSAsync(stockLigne))
-                    {
-                        _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
-                        MessagingCenter.Send(this, "MS");
-                    }
-                    else
-                        _dialogService.ShowMessage("error", true);
+                    _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
+                    MessagingCenter.Send(this, "MI");
                 }
                 else
-                {
-                    if (await _dataServices.addStockLigneMTAsync(stockLigne))
-                    {
-                        _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
-                        MessagingCenter.Send(this, "MT");
-
-                    }
-                    else
-                        _dialogService.ShowMessage("error", true);
-                }
+                    _dialogService.ShowMessage("error", true);
+               
             });
         }
 
@@ -331,7 +312,9 @@ namespace PFE.PageModels
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
-                        _pht = artarifligne.ATFPRIX.ToString();
+                        pht = artarifligne.ATFPRIX.ToString();
+                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        Quantity = reelQuantity.ToString();
                     }
                     catch (Exception e)
                     {
@@ -366,7 +349,7 @@ namespace PFE.PageModels
                 selectedDepotin = depo[0];
                 selectedDepotout = depo[1];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
+                var comp = await _restService.getPieceDiversNumber() + numligne;
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -378,6 +361,7 @@ namespace PFE.PageModels
 
         public StockSEentPageModel(IRestServices _restService, IDataServices _dataServices, IDialogService _dialogService)
         {
+            numligne = 1;
             this._restService = _restService;
             this._dataServices = _dataServices;
             this._dialogService = _dialogService;
