@@ -133,6 +133,11 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+            if (Tiers == null)
+            {
+                _dialogService.ShowMessage("veuillez choisir un tiers ", true);
+                return;
+            }
             var comp = _restService.getPieceDiversNumber().Result + numligne;
             numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             numligne++;

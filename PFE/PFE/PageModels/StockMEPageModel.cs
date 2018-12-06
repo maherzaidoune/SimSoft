@@ -153,9 +153,7 @@ namespace PFE.PageModels
         private void _validate(object obj)
         {
            
-            var comp =  _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+
             if (int.Parse(Quantity) < 0){
                 _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                 return;
@@ -165,7 +163,9 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("Erreur : prix doit être supérieur à 0 ", true);
                 return;
             }
-
+            var comp = _restService.getPieceDiversNumber().Result + numligne;
+            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+            numligne++;
             StockLigne stockLigne = new StockLigne
             {
                 code = code,

@@ -212,6 +212,7 @@ namespace PFE.PageModels
             catch{
                 _dialogService.ShowMessage("Error  ", true);
             }
+
             var comp = _restService.getPieceDiversNumber().Result + numligne;
             numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             numligne++;

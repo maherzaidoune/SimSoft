@@ -225,34 +225,43 @@ namespace PFE.PageModels
         private IDialogService _dialogService;
         private void _validate(object obj)
         {
-            if (CQuantity == null)
-            {
-                _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
-                return;
-            }
-            mtht = ((int.Parse(CQuantity) * float.Parse(_puht)) / 100).ToString();
-            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-            puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
-            Buyelement buy = new Buyelement
-            {
-                depot = selectedDepot,
-                tva = tva,
-                articles = article,
-                artarifligne = artarifligne,
-                LivredQuantity = int.Parse(CQuantity),
-                mutht = float.Parse(puht),
-                mtht = float.Parse(mtht),
-                mttc = float.Parse(mtttc),
-                ligneUpdated = true
-            };
-            Task.Run(async () =>
-            {
-                if (await _dataService.updateAsyncBuyElement(buy)){
-                    _dialogService.ShowMessage("ligne modifiee ", false);
-                }else{
-                    _dialogService.ShowMessage("erreur inattendue ", true);
+            try{
+                if (CQuantity == null || int.Parse(CQuantity) < 0)
+                {
+                    _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
+                    return;
                 }
-            });
+                mtht = ((int.Parse(CQuantity) * float.Parse(_puht)) / 100).ToString();
+                mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
+                Buyelement buy = new Buyelement
+                {
+                    depot = selectedDepot,
+                    tva = tva,
+                    articles = article,
+                    artarifligne = artarifligne,
+                    LivredQuantity = int.Parse(CQuantity),
+                    mutht = float.Parse(puht),
+                    mtht = float.Parse(mtht),
+                    mttc = float.Parse(mtttc),
+                    ligneUpdated = true
+                };
+                Task.Run(async () =>
+                {
+                    if (await _dataService.updateAsyncBuyElement(buy))
+                    {
+                        _dialogService.ShowMessage("ligne modifiee ", false);
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("erreur inattendue ", true);
+                    }
+                });
+            }
+            catch{
+                _dialogService.ShowMessage("erreur inattendue ", true);
+            }
+
            
         }
 

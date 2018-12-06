@@ -581,10 +581,10 @@ namespace PFE.Services
                         s.articles = obj.articles;
                         s.artarifligne = obj.artarifligne;
                         s.LivredQuantity = obj.LivredQuantity;
-                        //s.mutht = obj.mutht;
-                        //s.mtht = obj.mtht;
-                        //s.mttc = obj.mttc;
-                        //s.artarifligne = obj.artarifligne;
+                        s.mutht = obj.mutht;
+                        s.mtht = obj.mtht;
+                        s.mttc = obj.mttc;
+                        s.artarifligne = obj.artarifligne;
                         s.ligneUpdated = obj.ligneUpdated;
                     }
                     newLIst.Add(s);

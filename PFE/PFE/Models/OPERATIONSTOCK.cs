@@ -67,7 +67,7 @@ namespace PFE.Models
 
         public decimal? OPESTOCKAVANT { get; set; }
 
-        public decimal? OPEPUNET { get; set; }
+        public float? OPEPUNET { get; set; }
 
     
         public string OPEINTITULE { get; set; }

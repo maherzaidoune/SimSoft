@@ -538,7 +538,6 @@ namespace PFE.Services
                 PIECEDIVERS p = new PIECEDIVERS
                 {
                         PCDID = PCDID,
-                    //PCDNUM = Helper.Strings.getNum(PCDID,type),
                         PCDNUM = obj.numpiece,
                         PCDMNTHT = int.Parse(obj.prix),
                         PCDNUMEXT = PCDNUMEXT,
@@ -626,6 +625,7 @@ namespace PFE.Services
                         PLID = pl.PLDID,
                         CTMID = 0,
                         OPEREFPIECE = obj.numpiece,
+                        OPEPUNET = obj.prix != null ? float.Parse(obj.prix) : 0,
                         //tirid
                         //opuint
                     };
@@ -658,6 +658,7 @@ namespace PFE.Services
                         PLID = pl.PLDID,
                         CTMID = 0,
                         OPEREFPIECE = obj.numpiece,
+                        OPEPUNET = obj.prix != null ? float.Parse(obj.prix) : 0,
                         //tirid
                         //opuint
                     };
@@ -688,6 +689,7 @@ namespace PFE.Services
                         PLID = pl.PLDID,
                         CTMID = 0,
                         OPEREFPIECE = obj.numpiece,
+                        OPEPUNET = obj.prix != null ? float.Parse(obj.prix) : 0,
                         //tirid
                         //opuint
                     };
@@ -717,6 +719,7 @@ namespace PFE.Services
                         PLID = pl.PLDID,
                         CTMID = 0,
                         OPEREFPIECE = obj.numpiece,
+                        OPEPUNET = obj.prix != null ? float.Parse(obj.prix) : 0,
                         //tirid
                         //opuint
                     };
@@ -1053,7 +1056,7 @@ namespace PFE.Services
                 {
                     PCVID = await getPieceVente() + 1,
                     PCVNUM = sell.numpiece, // a partir de piece nature 
-                    //PCVNUMEXT =  "test", // test 
+                    PCVNUMEXT =  null, // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
                     PINCODE = sell.pIECE_NATURE.PINCODE,
@@ -1062,15 +1065,15 @@ namespace PFE.Services
 
                     NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     //AFFID =  sell.affaire.AFFID,
-                    //TRFID = int.Parse(sell.tiers.TRFID),
-                    TIRID = sell.tiers.TIRID,
+                    TRFID = sell.tiers != null ? int.Parse(sell.tiers.TRFID) : 0,
+                    TIRID = sell.tiers != null ? sell.tiers.TIRID : 1,
                     TIRID_FAC = 0,//not tested
                     TIRID_LIV = 0,//not tested
                     //TIRID_REP = null,
-                    ADRID_FAC = 0, //sell.tiers.ADRID
+                    ADRID_FAC = sell.tiers != null ? sell.tiers.ADRID : 0,
                     ADRID_LIV = 0,
-                    //DEPID = sell.depot.DEPID,
-                    ////"EXPID": 0,
+                    DEPID = sell.depot.DEPID,
+                    EXPID = 0,
 
                     //working
                     PCVCOLISAGE = 1, // fix ?
@@ -1087,13 +1090,13 @@ namespace PFE.Services
                     PCVISHT = "o", // fix ?
                     PCVISPRINT = "N",// fix ?
                     PCVNBPRINT = 1,
-                    //PCVDATEPRint = DateTime.Now, // fix ?
-                    //MODID = 15, // fix ?
-                    //PCVMNTHT = (int?)sell.mtht,
-                    //PCVMNTTTC = (int?)sell.mttc,
-                    //PCVMNTAREGLER = (int?)sell.mttc,
-                    //PCVMNTACOMPTE = 0,
-                    //PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
+                    PCVDATEPRint = DateTime.Now, // fix ?
+                    MODID = 15, // fix ?
+                    PCVMNTHT = (int?)sell.mtht,
+                    PCVMNTTTC = (int?)sell.mttc,
+                    PCVMNTAREGLER = (int?)sell.mttc,
+                    PCVMNTACOMPTE = 0,
+                    PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
                     PCVMNTTPF = 0,
                     PCVMNTESCOMPTE = 0,
                     PCVMNTPORT = 0,
@@ -1107,7 +1110,7 @@ namespace PFE.Services
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = 0,//sell.tiers.MEMOID,
+                    MEMOID = sell.tiers != null ?  sell.tiers.MEMOID : 0,
 
                     //working
                     PCVNBIMPRESSION = 0,
@@ -1142,7 +1145,7 @@ namespace PFE.Services
                     //PRFID = 0,
                     //OXID = 0,
                     //"PCVOBJET": "string",
-                    //TIRID_CPT = sell.tiers.TIRID
+                    TIRID_CPT = sell.tiers != null ? sell.tiers.TIRID : 1
                 };
                 PRODUIT produit = await getProduitbyARTID(sell.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("36", "ART");
@@ -1247,7 +1250,7 @@ namespace PFE.Services
                     OPEID = await getOperationStockNumber() + 1,
                     DATECREATE = DateTime.Now,
                     DATEUPDATE = DateTime.Now,
-                    OPEINTITULE = sell.depot.DEPINTITULE,
+                    //OPEINTITULE = sell.depot.DEPINTITULE,
                     //USRMODIF = "ADM",
                     OPEDATE = DateTime.Now,
                     ARTID = sell.articles.ARTID,
@@ -1268,7 +1271,8 @@ namespace PFE.Services
                     CTMID = 0,
                     TIRID = pv.TIRID,
                     OPEREFPIECE = sell.numpiece,
-                    //OPEINTITULE = sell.tiers.TIRSOCIETE,
+                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
+                    OPEPUNET = sell.mutht
                     //opuint
 
                 };
@@ -1678,7 +1682,7 @@ namespace PFE.Services
                     EXEID = await getEXERCICE() + 1,
                     NUMID = GetPIECE_PREF(buy.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     AFFID = 0,
-                    TIRID = buy.tiers.TIRID,
+                    TIRID = buy.tiers != null ? buy.tiers.TIRID : 1,
                     TIRID_FAC = 0,
                     ADRID_FAC = 0,
                     ADRID_LIV = 0,
@@ -1740,9 +1744,7 @@ namespace PFE.Services
                     PLADENSITE = 0,
                     PIFID = 0,
 
-                 
-                    //PROTYPE = "string",
-                   
+                                    
                     PLACOEFFUA = 0,
                     PLAIDORG = 0,
                    
@@ -1792,7 +1794,7 @@ namespace PFE.Services
                     OPEDATE = DateTime.Now,
                     ARTID = buy.articles.ARTID,
                     DEPID = buy.depot.DEPID,
-                    OPEINTITULE = buy.depot.DEPINTITULE,
+                    //OPEINTITULE = buy.depot.DEPINTITULE,
                     //USRMODIF = Helper.Session.user.USRNOM,
                     PICCODE = "A",
                     PINID = pv.PINID,
@@ -1809,7 +1811,8 @@ namespace PFE.Services
                     CTMID = 0,
                     TIRID = pv.TIRID,
                     OPEREFPIECE = buy.numpiece,
-                    //OPEINTITULE = buy.tiers.TIRSOCIETE,
+                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
+                    OPEPUNET = buy.mutht
                     //opuint
 
                 };
