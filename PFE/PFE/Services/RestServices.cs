@@ -1280,7 +1280,7 @@ namespace PFE.Services
                 };
                 PIECEVENTEECHEANCE pve = new PIECEVENTEECHEANCE
                 {
-                    PCVID = pvl.PCVID,
+                    PCVID = (int?)pvl.PCVID,
                     PEVID = await getPIECEVENTEECHEANCE_PEVID() + 1 ,
                     PEVDATE = DateTime.Now,
                     PEVMONTANT =  (int?)get_PCVMNTTTC(pvl.PCVID.ToString()).Result,
@@ -1306,7 +1306,7 @@ namespace PFE.Services
                 REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
                 {
                     ECHID = await getREGLEMENTECHEANCE_ECHID() + 1,
-                    PEREID = pvl.PCVID,
+                    PEREID = (int)pvl.PCVID,
                     PERECLASSE = "PCV",
                     ECHNUMERO = 1,
                     RGTID = 2,
@@ -1848,7 +1848,7 @@ namespace PFE.Services
                 REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
                 {
                     ECHID = await getREGLEMENTECHEANCE_ECHID() + 1,
-                    PEREID = pvl.PCAID,
+                    PEREID = (int)pvl.PCAID,
                     PERECLASSE = "PCV",
                     ECHNUMERO = 1,
                     RGTID = 2,
