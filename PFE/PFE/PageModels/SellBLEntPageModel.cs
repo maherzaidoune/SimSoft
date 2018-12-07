@@ -178,8 +178,13 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    isEnabled = false;
+                    isBusy = true;
+                });
                 numligne = 1;
-                nature = await _restService.GetPieceNature("v", "b", "livraison", "-1",true);
+                nature = await _restService.GetPieceNature("v", "b", "%livraison%", "-1",true);
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
                 var comp = await _restService.getPieceVente() + numligne;

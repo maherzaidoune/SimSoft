@@ -250,6 +250,11 @@ namespace PFE.PageModels
                     try
                     {
                         article = await _restService.getArticlebyBC(barreCode);
+                        if (article == null)
+                        {
+                            _dialogService.ShowMessage("code a barre indisponible ", true);
+                            //return;
+                        }
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
@@ -258,7 +263,12 @@ namespace PFE.PageModels
                     }
                     catch (Exception e)
                     {
-                        _dialogService.ShowMessage("Erreur" + e.Message, true);
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            isBusy = false;
+                            isEnabled = true;
+                        });
+                        //_dialogService.ShowMessage("Erreur" + e.Message, true);
                         Console.WriteLine(e.StackTrace);
                     }
                     Device.BeginInvokeOnMainThread(() =>

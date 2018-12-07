@@ -60,9 +60,12 @@ namespace PFE.PageModels
                  if (string.IsNullOrEmpty(barreCode))
                     {
                         _dialogService.ShowMessage("entrer un code ", true);
-                        return;
+                        //return;
                     }
                     article = await  _restService.getArticlebyBC(barreCode);
+                    if(article == null){
+                        _dialogService.ShowMessage("code a barre indisponible ", true);
+                    }
                     depot = await  _restService.GetARTDEPOTbyDepArtid(article.ARTID.ToString());
                     code = article.ARTCODE;
                     Designation = article.ARTDESIGNATION;
@@ -75,6 +78,12 @@ namespace PFE.PageModels
                 }
                 catch (Exception e)
                 {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
+                    //_dialogService.ShowMessage(e.Message, true);
                     Console.WriteLine(e.StackTrace);
                 }
                 

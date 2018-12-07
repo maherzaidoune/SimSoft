@@ -201,6 +201,11 @@ namespace PFE.PageModels
                     try
                     {
                         article = await _restService.getArticlebyBC(barreCode);
+                        if (article == null)
+                        {
+                            _dialogService.ShowMessage("code a barre indisponible ", true);
+                            //return;
+                        }
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());

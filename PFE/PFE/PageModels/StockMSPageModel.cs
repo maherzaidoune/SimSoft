@@ -187,6 +187,7 @@ namespace PFE.PageModels
                     return;
                 }
               
+
                 if (Quantity.Equals(null))
                 {
                     _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
@@ -286,6 +287,11 @@ namespace PFE.PageModels
                     try
                     {
                         article = await _restService.getArticlebyBC(barreCode);
+                        if (article == null)
+                        {
+                            _dialogService.ShowMessage("code a barre indisponible ", true);
+                            //return;
+                        }
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
@@ -300,7 +306,7 @@ namespace PFE.PageModels
                     catch (Exception e)
                     {
                         Console.WriteLine(e.StackTrace);
-                        _dialogService.ShowMessage("Error" + e.Message, true);
+                        //_dialogService.ShowMessage("Error" + e.Message, true);
                     }
                     Device.BeginInvokeOnMainThread(() =>
                     {

@@ -1022,7 +1022,7 @@ namespace PFE.Services
             {
                 _dialog.ShowMessage("Verifier votre connection internet", true);
             }else{
-                _dialog.ShowMessage("Erreur :: erreur message : " + exception.Message, true);
+                //_dialog.ShowMessage("Erreur :: erreur message : " + exception.Message, true);
             }
         }
 
@@ -1068,11 +1068,11 @@ namespace PFE.Services
                     NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     //AFFID =  sell.affaire.AFFID,
                     //TRFID = sell.tiers != null ? int.Parse(sell.tiers.TRFID) : 0,
-                    TIRID = !sell.tiers.Equals(null) ? sell.tiers.TIRID : 1,
+                    TIRID = sell.tiers != null ? sell.tiers.TIRID : 1,
                     TIRID_FAC = 0,//not tested
                     TIRID_LIV = 0,//not tested
                     //TIRID_REP = null,
-                    ADRID_FAC = !sell.tiers.Equals(null) ? sell.tiers.ADRID : 0,
+                    ADRID_FAC = sell.tiers != null ? sell.tiers.ADRID : 0,
                     ADRID_LIV = 0,
                     DEPID = sell.depot.DEPID,
                     EXPID = 0,
@@ -1112,7 +1112,7 @@ namespace PFE.Services
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = !sell.tiers.Equals(null) ?  sell.tiers.MEMOID : 0,
+                    MEMOID = sell.tiers != null ?  sell.tiers.MEMOID : 0,
 
                     //working
                     PCVNBIMPRESSION = 0,
@@ -1147,7 +1147,7 @@ namespace PFE.Services
                     //PRFID = 0,
                     //OXID = 0,
                     //"PCVOBJET": "string",
-                    TIRID_CPT = !sell.tiers.Equals(null) ? sell.tiers.TIRID : 1
+                    TIRID_CPT = sell.tiers != null ? sell.tiers.TIRID : 1
                 };
                 PRODUIT produit = await getProduitbyARTID(sell.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("36", "ART");
@@ -1273,7 +1273,7 @@ namespace PFE.Services
                     CTMID = 0,
                     TIRID = pv.TIRID,
                     OPEREFPIECE = sell.numpiece,
-                    OPEINTITULE = !sell.tiers.Equals(null) ? sell.tiers.TIRSOCIETE : "",
+                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
                     OPEPUNET = sell.mutht
                     //opuint
 
@@ -1664,7 +1664,7 @@ namespace PFE.Services
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = !buy.tiers.Equals(null) ? buy.tiers .MEMOID :  0,//sell.tiers.MEMOID,
+                    MEMOID = buy.tiers != null ? buy.tiers .MEMOID :  0,//sell.tiers.MEMOID,
                     PCANBIMPRESSION = 0,
                     SOCID = 67,
                     PCADATELIVRAISON = DateTime.Now,
@@ -1686,7 +1686,7 @@ namespace PFE.Services
                     EXEID = await getEXERCICE() + 1,
                     NUMID = GetPIECE_PREF(buy.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     AFFID = 0,
-                    TIRID = !buy.tiers.Equals(null)? buy.tiers.TIRID : 1,
+                    TIRID = buy.tiers != null ? buy.tiers.TIRID : 1,
                     TIRID_FAC = 0,
                     ADRID_FAC = 0,
                     ADRID_LIV = 0,
@@ -1815,7 +1815,7 @@ namespace PFE.Services
                     CTMID = 0,
                     TIRID = pv.TIRID,
                     OPEREFPIECE = buy.numpiece,
-                    OPEINTITULE = !buy.tiers.Equals(null)? buy.tiers.TIRSOCIETE : "",
+                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
                     OPEPUNET = buy.mutht
                     //opuint
 

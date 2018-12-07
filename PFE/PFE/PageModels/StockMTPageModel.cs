@@ -72,18 +72,7 @@ namespace PFE.PageModels
         public string numeroPiece { get; set; }
 
         public IList<depot> depo { get; set; }
-        private depot _selectedDepoin;
-        public depot selectedDepotin
-        {
-            get
-            {
-                return _selectedDepoin;
-            }
-            set
-            {
-                _selectedDepoin = value;
-            }
-        }
+        public depot selectedDepotin { get; set; }
         private depot _selectedDepotout;
         public depot selectedDepotout
         {
@@ -192,6 +181,8 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
                     return;
                 }
+                if (article == null)
+                    return;
                 reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                 if (string.IsNullOrEmpty(Quantity))
                 {
@@ -296,21 +287,40 @@ namespace PFE.PageModels
                     try
                     {
                         article = await _restService.getArticlebyBC(barreCode);
+                        if(article == null){
+                            _dialogService.ShowMessage("code a barre indisponible ", true);
+                            //return;
+                        }
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
                         if (selectedDepotout != null)
                         {
-                            reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
-                            Quantity = reelQuantity.ToString();
+                            try{
+                                reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
+                                Quantity = reelQuantity.ToString();
+                            }catch{
+                                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                                Quantity = "0";
+                                selectedDepotout = null;
+                                return;
+                            }
+                            try{
+                                var depo = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotin.DEPID.ToString()).Result.ARDSTOCKREEL;
+                            }catch{
+                                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                                selectedDepotin = null;
+                                return;
+                            }
+
                         }
 
                         pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch (Exception e)
                     {
-                        _dialogService.ShowMessage("Error" + e.Message, true);
+                        //_dialogService.ShowMessage("Error" + e.Message, true);
                         Console.WriteLine(e.StackTrace);
                     }
                     Device.BeginInvokeOnMainThread(() =>
@@ -339,14 +349,19 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-                nature = await _restService.GetPieceNaturebyPINID("18");
-                depo = await _restService.GetDepot("o");
-                selectednature = nature[0];
-                selectedDepotin = depo[0];
-                selectedDepotout = depo[1];
-                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber() + numligne;
-                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                try{
+                    nature = await _restService.GetPieceNaturebyPINID("18");
+                    depo = await _restService.GetDepot("o");
+                    selectednature = nature[0];
+                    selectedDepotin = depo[0];
+                    selectedDepotout = depo[1];
+                    numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                    var comp = await _restService.getPieceDiversNumber() + numligne;
+                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                }catch{
+
+                }
+
                 //reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                 //Quantity = reelQuantity.ToString();
             });

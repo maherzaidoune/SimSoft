@@ -351,20 +351,20 @@ namespace PFE.Services
                 {
                     stocks = new List<StockLigne>();
                 }
-                for (int i = 0; i < stocks.Count; i++)
-                {
+                //for (int i = 0; i < stocks.Count; i++)
+                //{
 
-                    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 0) && obj.depin.DEPID == stocks[i].depin.DEPID && obj.depout.DEPID == stocks[i].depout.DEPID && (int.Parse(obj.quantite) > 0))
-                    {
-                        obj.quantite = (int.Parse(stocks[i].quantite) + int.Parse(obj.quantite)).ToString();
-                        if (await RemoveStockLigneMTAsync(stocks[i]))
-                        {
-                            stocks.RemoveAt(i);
-                            stocks.Add(obj);
-                            return addStockLigneListMTAsync(stocks);
-                        }
-                    }
-                }
+                //    if (obj.code.Equals(stocks[i].code) && obj.prix.Equals(stocks[i].prix) && (obj.sense == 0) && obj.depin.DEPID == stocks[i].depin.DEPID && obj.depout.DEPID == stocks[i].depout.DEPID && (int.Parse(obj.quantite) > 0))
+                //    {
+                //        obj.quantite = (int.Parse(stocks[i].quantite) + int.Parse(obj.quantite)).ToString();
+                //        if (await RemoveStockLigneMTAsync(stocks[i]))
+                //        {
+                //            stocks.RemoveAt(i);
+                //            stocks.Add(obj);
+                //            return addStockLigneListMTAsync(stocks);
+                //        }
+                //    }
+                //}
                 if (int.Parse(obj.quantite) > 0)
                 {
                     stocks.Add(obj);
@@ -525,8 +525,7 @@ namespace PFE.Services
 
 
                 if(stocks.Count > 0){
-                    //numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-                    //numligne++;
+
                     var s = stocks[0];
                     s.depot = obj.depot;
                     s.tva = obj.tva;
@@ -539,26 +538,11 @@ namespace PFE.Services
                     s.artarifligne = obj.artarifligne;
                     s.ligneUpdated = obj.ligneUpdated;
                     s.numpiece = s.numauto.NUMSOUCHE + "000"+ (s.count + stocks.Count).ToString();
+
                     stocks.Add(s);
+                    
                 }
 
-                //foreach (SellElements s in stocks)
-                //{
-                //    if (s.ligneUpdated != true)
-                //    {
-                //        s.depot = obj.depot;
-                //        s.tva = obj.tva;
-                //        s.articles = obj.articles;
-                //        s.artarifligne = obj.artarifligne;
-                //        s.LivredQuantity = obj.LivredQuantity;
-                //        s.mutht = obj.mutht;
-                //        s.mtht = obj.mtht;
-                //        s.mttc = obj.mttc;
-                //        s.artarifligne = obj.artarifligne;
-                //        s.ligneUpdated = obj.ligneUpdated;
-                //    }
-                //    stocks.Add(s);
-                //}
 
 
                 return addSellElementsAsync(stocks);

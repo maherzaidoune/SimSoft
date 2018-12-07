@@ -96,7 +96,12 @@ namespace PFE.PageModels
                             }
                         }
                         else{
-                            stockLigne.Remove(selectedelement);
+                            if (await _dataServices.RemoveStockLigneMEAsync(selectedelement))
+                            {
+                                _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
+                                stockLigne.Remove(selectedelement);
+                            }
+                          
                         }
                     });
 
