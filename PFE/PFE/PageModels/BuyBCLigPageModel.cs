@@ -206,7 +206,9 @@ namespace PFE.PageModels
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
                             storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
-
+                        designation = article.ARTDESIGNATION;
+                        cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                        puht = artarifligne.ATFPRIX.ToString();
                         artunite = await _restService.GetRTUNITE("A");
                     }
                     catch (Exception e)
@@ -218,9 +220,7 @@ namespace PFE.PageModels
                         isBusy = false;
                         isEnabled = true;
                     });
-                    designation = article.ARTDESIGNATION;
-                    cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
-                    puht = artarifligne.ATFPRIX.ToString();
+
                 });
             }
 

@@ -179,13 +179,20 @@ namespace PFE.PageModels
 
             try
             {
+
                 reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
                 if (string.IsNullOrEmpty(Quantity))
                 {
                     _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                     return;
                 }
-                if (int.Parse(Quantity) < 0)
+              
+                if (Quantity.Equals(null))
+                {
+                    _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
+                    return;
+                }
+                    if (int.Parse(Quantity) < 0)
                 {
                     _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
                     return;

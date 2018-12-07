@@ -187,6 +187,11 @@ namespace PFE.PageModels
         {
             try
             {
+                if (Quantity.Equals(null))
+                {
+                    _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
+                    return;
+                }
                 reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                 if (string.IsNullOrEmpty(Quantity))
                 {

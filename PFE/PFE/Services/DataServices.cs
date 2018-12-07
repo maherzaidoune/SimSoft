@@ -538,7 +538,7 @@ namespace PFE.Services
                     s.mttc = obj.mttc;
                     s.artarifligne = obj.artarifligne;
                     s.ligneUpdated = obj.ligneUpdated;
-                    s.numpiece = s.numauto.NUMSOUCHE + (s.count + stocks.Count).ToString();
+                    s.numpiece = s.numauto.NUMSOUCHE + "000"+ (s.count + stocks.Count).ToString();
                     stocks.Add(s);
                 }
 
@@ -707,7 +707,7 @@ namespace PFE.Services
                         s.mttc = obj.mttc;
                         s.artarifligne = obj.artarifligne;
                         s.ligneUpdated = obj.ligneUpdated;
-                        s.numpiece = s.numauto.NUMSOUCHE + (s.count + stocks.Count).ToString();
+                        s.numpiece = s.numauto.NUMSOUCHE + "000" + (s.count + stocks.Count).ToString();
                         stocks.Add(s);
                     }
                 }

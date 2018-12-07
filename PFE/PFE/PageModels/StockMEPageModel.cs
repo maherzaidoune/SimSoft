@@ -153,44 +153,54 @@ namespace PFE.PageModels
         private void _validate(object obj)
         {
            
-
-            if (int.Parse(Quantity) < 0){
-                _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
-                return;
-            }
-            if (int.Parse(pht) < 0)
-            {
-                _dialogService.ShowMessage("Erreur : prix doit être supérieur à 0 ", true);
-                return;
-            }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
-            StockLigne stockLigne = new StockLigne
-            {
-                code = code,
-                designation = designation,
-                quantite = Quantity,
-                prix = pht,
-                depin = selectedDepot,
-                depout = null,
-                sense = 1,
-                article = article,
-                artfamilles_cpt = artfamilles_cpt,
-                artarifligne = artarifligne,
-                numpiece = numeroPiece,
-                numauto = numauto,
-                pIECE_NATURE = selectednature
-            };
-            Task.Run(async () =>
-            {
-                if (await _dataServices.addStockLigneMEAsync(stockLigne)){
-                    _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
-                    MessagingCenter.Send(this, "ME");
+            try{
+                if(Quantity.Equals(null)){
+                    _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
+                    return;
                 }
-                else
-                    _dialogService.ShowMessage("error", true);
-            });
+                if (int.Parse(Quantity) < 0)
+                {
+                    _dialogService.ShowMessage("Erreur : quantite doit être supérieur à 0 ", true);
+                    return;
+                }
+                if (int.Parse(pht) < 0)
+                {
+                    _dialogService.ShowMessage("Erreur : prix doit être supérieur à 0 ", true);
+                    return;
+                }
+                var comp = _restService.getPieceDiversNumber().Result + numligne;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                numligne++;
+                StockLigne stockLigne = new StockLigne
+                {
+                    code = code,
+                    designation = designation,
+                    quantite = Quantity,
+                    prix = pht,
+                    depin = selectedDepot,
+                    depout = null,
+                    sense = 1,
+                    article = article,
+                    artfamilles_cpt = artfamilles_cpt,
+                    artarifligne = artarifligne,
+                    numpiece = numeroPiece,
+                    numauto = numauto,
+                    pIECE_NATURE = selectednature
+                };
+                Task.Run(async () =>
+                {
+                    if (await _dataServices.addStockLigneMEAsync(stockLigne))
+                    {
+                        _dialogService.ShowMessage("article " + code + " ajouter list avec succes", false);
+                        MessagingCenter.Send(this, "ME");
+                    }
+                    else
+                        _dialogService.ShowMessage("error", true);
+                });
+            }catch{
+
+            }
+
         }
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }

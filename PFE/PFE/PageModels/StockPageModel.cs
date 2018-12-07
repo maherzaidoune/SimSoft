@@ -80,25 +80,31 @@ namespace PFE.PageModels
                 
             }).Wait();
 
-            if (depot != null && depot.Count > 0)
+            try
             {
-                var stocks = new List<stockView>();
-                foreach(ARTDEPOT d in depot)
-                {
-                    stocks.Add(
-                        new stockView
-                        {
-                            DEPINTITULE = _restService.GetDepotbyARTdepot((int)d.DEPID).Result.DEPINTITULE,
-                            ARDSTOCKREEL = d.ARDSTOCKREEL.ToString(),
-                            ARDSTOCKCDE = d.ARDSTOCKCDE.ToString(),
-                            ARDSTOCKRSV = d.ARDSTOCKRSV.ToString(),
-                            code = article.ARTCODE
-                        }
-                        );
-                }
-                stockViews = new ObservableCollection<stockView>(stocks);
 
-                Console.WriteLine(stockViews);
+                if (depot != null && depot.Count > 0)
+                {
+                    var stocks = new List<stockView>();
+                    foreach (ARTDEPOT d in depot)
+                    {
+                        stocks.Add(
+                            new stockView
+                            {
+                                DEPINTITULE = _restService.GetDepotbyARTdepot((int)d.DEPID).Result.DEPINTITULE,
+                                ARDSTOCKREEL = d.ARDSTOCKREEL.ToString(),
+                                ARDSTOCKCDE = d.ARDSTOCKCDE.ToString(),
+                                ARDSTOCKRSV = d.ARDSTOCKRSV.ToString(),
+                                code = article.ARTCODE
+                            }
+                            );
+                    }
+                    stockViews = new ObservableCollection<stockView>(stocks);
+
+                    Console.WriteLine(stockViews);
+                }
+            }catch(Exception e){
+
             }
 
             Device.BeginInvokeOnMainThread(() =>

@@ -159,7 +159,7 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceAchat().Result + numligne;
+            var comp = _restService.getPieceAchat().Result ;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
