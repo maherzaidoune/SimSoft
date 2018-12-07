@@ -234,9 +234,9 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
                     return;
                 }
-                mtht = ((int.Parse(CQuantity) * float.Parse(_puht)) / 100).ToString();
+                mtht = ((int.Parse(CQuantity) * float.Parse(puht)) / 100).ToString();
                 mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
+                puttc = (float.Parse(puht) * (1 + tva.TVATAUX) / 100).ToString();
                 Buyelement buy = new Buyelement
                 {
                     depot = selectedDepot,
