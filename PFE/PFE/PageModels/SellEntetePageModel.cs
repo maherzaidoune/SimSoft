@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceVente();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -143,16 +143,16 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceVente().Result;
             SellElements sell = new SellElements
             {
                 pIECE_NATURE = selectednature,
                 type = "SBC",
                 affaire = affaires,
                 tiers = Tiers,
-                numpiece = numeroPiece
+                numpiece = numeroPiece,
+                numauto = numauto,
+                count = comp
             };
             Task.Run(async () =>
             {
@@ -178,11 +178,20 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-                nature = await _restService.GetPieceNature("V", "C");
-                selectednature = nature[0];
-                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
-                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                try{
+                    nature = await _restService.GetPieceNature("V", "C", "Commande", "1", true);
+                    if (nature.Equals(null) || nature.Count == 0)
+                    {
+                        nature = await _restService.GetPieceNature("V", "C");
+                    }
+                    selectednature = nature[0];
+                    numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                    var comp = await _restService.getPieceVente();
+                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                }catch{
+                    _dialogService.ShowMessage("erreur", true);
+                }
+
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;

@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceAchat();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -142,11 +142,16 @@ namespace PFE.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
-                nature = await _restService.GetPieceNature("A", "B",null,"1");
-                selectednature = nature[0];
-                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
-                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                try{
+                    nature = await _restService.GetPieceNature("A", "B", null, "1");
+                    selectednature = nature[0];
+                    numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                    var comp = await _restService.getPieceAchat();
+                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                }catch{
+                    _dialogService.ShowMessage("erreur", true);
+                }
+
             });
             isBusy = false;
             isEnabled = true;
@@ -164,16 +169,17 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceAchat().Result + numligne;
+
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BRE",
                 affaire = affaires,
                 tiers = Tiers,
-                numpiece = numeroPiece
+                numpiece = numeroPiece,
+                numauto = numauto,
+                count = comp
             };
             Task.Run(async () =>
             {

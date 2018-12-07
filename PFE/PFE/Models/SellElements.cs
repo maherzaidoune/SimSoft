@@ -88,5 +88,15 @@ namespace PFE.Models
             get;
             set;
         }
+        public int count
+        {
+            get;
+            set;
+        }
+        public NUMAUTO numauto
+        {
+            get;
+            set;
+        }
     }
 }

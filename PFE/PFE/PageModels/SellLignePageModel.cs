@@ -119,16 +119,22 @@ namespace PFE.PageModels
             }
             set{
                 if(!string.IsNullOrWhiteSpace(value) || float.Parse(value) >= 0)
-                    _pht = value;
-
                 {
-                    if (float.Parse(_pht) > 0 && LivredQuantity != null)
-                    {
-                        mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
-                        pttc = (float.Parse(_pht) * (1 + tva.TVATAUX) * (100 - float.Parse(remise)) / 100).ToString();
-                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                    try{
+                        _pht = value;
+                        if (float.Parse(value) > 0 && LivredQuantity != null)
+                        {
+                            mtht = ((int.Parse(LivredQuantity) * float.Parse(value)) * (100 - float.Parse(remise)) / 100).ToString();
+                            pttc = (float.Parse(value) * (1 + tva.TVATAUX) * (100 - float.Parse(remise)) / 100).ToString();
+                            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                        }
+                    }catch{
+                        _dialogService.ShowMessage("erreur", true);
                     }
+                   
+
                 }
+                    
             }
         }
         public string mtht
@@ -149,8 +155,8 @@ namespace PFE.PageModels
                         _remise = value;
                     if (pht != null && LivredQuantity != null)
                     {
-                        mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
-                        pttc = (float.Parse(_pht) * (1 + tva.TVATAUX) * (100 - float.Parse(remise)) / 100).ToString();
+                        mtht = ((int.Parse(LivredQuantity) * float.Parse(pht)) * (100 - float.Parse(remise)) / 100).ToString();
+                        pttc = (float.Parse(pht) * (1 + tva.TVATAUX) * (100 - float.Parse(remise)) / 100).ToString();
                         mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                     }
                 }
@@ -257,9 +263,9 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
-                else if (int.Parse(LivredQuantity) > int.Parse(storeQuantity))
-                    mtht = ((int.Parse(LivredQuantity) * float.Parse(_pht)) * (100 - float.Parse(remise)) / 100).ToString();
-                mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                else if (int.Parse(LivredQuantity) < int.Parse(storeQuantity))
+                    mtht = ((int.Parse(LivredQuantity) * float.Parse(pht)) * (100 - float.Parse(remise)) / 100).ToString();
+                    mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                 SellElements sell = new SellElements
                 {
                     depot = selectedDepot,

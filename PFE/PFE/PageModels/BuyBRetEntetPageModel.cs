@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceAchat();
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -149,7 +149,6 @@ namespace PFE.PageModels
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;
-        private int numligne;
 
         public ICommand validate => new Command(_validate);
 
@@ -160,15 +159,15 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceAchat().Result + numligne;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BBR",
                 affaire = affaires,
-                tiers = Tiers
+                tiers = Tiers,
+                numauto = numauto,
+                count = comp
             };
             Task.Run(async () =>
             {

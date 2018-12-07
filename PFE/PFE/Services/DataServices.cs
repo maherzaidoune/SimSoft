@@ -518,32 +518,50 @@ namespace PFE.Services
             try
             {
                 stocks = await getSellElementAsync();
-                var newLIst = new List<SellElements>();
-
                 if (stocks == null)
                 {
                     return false;
                 }
 
-                foreach (SellElements s in stocks)
-                {
-                    if (s.ligneUpdated != true)
-                    {
-                        s.depot = obj.depot;
-                        s.tva = obj.tva;
-                        s.articles = obj.articles;
-                        s.artarifligne = obj.artarifligne;
-                        s.LivredQuantity = obj.LivredQuantity;
-                        s.mutht = obj.mutht;
-                        s.mtht = obj.mtht;
-                        s.mttc = obj.mttc;
-                        s.artarifligne = obj.artarifligne;
-                        s.ligneUpdated = obj.ligneUpdated;
-                    }
-                    newLIst.Add(s);
+
+                if(stocks.Count > 0){
+                    //numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                    //numligne++;
+                    var s = stocks[0];
+                    s.depot = obj.depot;
+                    s.tva = obj.tva;
+                    s.articles = obj.articles;
+                    s.artarifligne = obj.artarifligne;
+                    s.LivredQuantity = obj.LivredQuantity;
+                    s.mutht = obj.mutht;
+                    s.mtht = obj.mtht;
+                    s.mttc = obj.mttc;
+                    s.artarifligne = obj.artarifligne;
+                    s.ligneUpdated = obj.ligneUpdated;
+                    s.numpiece = s.numauto.NUMSOUCHE + (s.count + stocks.Count).ToString();
+                    stocks.Add(s);
                 }
-                Console.WriteLine(newLIst);
-                return addSellElementsAsync(newLIst);
+
+                //foreach (SellElements s in stocks)
+                //{
+                //    if (s.ligneUpdated != true)
+                //    {
+                //        s.depot = obj.depot;
+                //        s.tva = obj.tva;
+                //        s.articles = obj.articles;
+                //        s.artarifligne = obj.artarifligne;
+                //        s.LivredQuantity = obj.LivredQuantity;
+                //        s.mutht = obj.mutht;
+                //        s.mtht = obj.mtht;
+                //        s.mttc = obj.mttc;
+                //        s.artarifligne = obj.artarifligne;
+                //        s.ligneUpdated = obj.ligneUpdated;
+                //    }
+                //    stocks.Add(s);
+                //}
+
+
+                return addSellElementsAsync(stocks);
             }
             catch (Exception e)
             {
@@ -670,15 +688,13 @@ namespace PFE.Services
             try
             {
                 stocks = await getBuyElementAsync();
-                var newLIst = new List<Buyelement>();
 
                 if (stocks == null)
                 {
                     return false;
                 }
-
-                foreach (Buyelement s in stocks)
-                {
+                if(stocks.Count > 0){
+                    var s = stocks[0];
                     if (s.ligneUpdated != true)
                     {
                         s.depot = obj.depot;
@@ -691,11 +707,11 @@ namespace PFE.Services
                         s.mttc = obj.mttc;
                         s.artarifligne = obj.artarifligne;
                         s.ligneUpdated = obj.ligneUpdated;
+                        s.numpiece = s.numauto.NUMSOUCHE + (s.count + stocks.Count).ToString();
+                        stocks.Add(s);
                     }
-                    newLIst.Add(s);
                 }
-                Console.WriteLine(newLIst);
-                return addBuyElementsAsync(newLIst);
+                return addBuyElementsAsync(stocks);
             }
             catch (Exception e)
             {

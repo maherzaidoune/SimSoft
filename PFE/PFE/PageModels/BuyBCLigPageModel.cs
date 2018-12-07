@@ -89,18 +89,21 @@ namespace PFE.PageModels
             }
             set
             {
-                if (!string.IsNullOrEmpty(value))
-                    _puht = value;
-
-                {
+                if (!string.IsNullOrEmpty(value)){
                     if (float.Parse(_puht) > 0 && CQuantity != null)
                     {
-                        mtht = (int.Parse(CQuantity) * float.Parse(_puht)).ToString();
-                        puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
-                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                        _puht = value;
+                        try{
+                            mtht = (int.Parse(CQuantity) * float.Parse(_puht)).ToString();
+                            puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
+                            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                        }catch{
+                            _dialogService.ShowMessage("erreur", true);
+                        }                     
+                       
                     }
                 }
-            }
+        }
         }
     
         public string puttc

@@ -146,11 +146,16 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-                nature = await _restService.GetPieceNature("A", "C",null,"1");
-                selectednature = nature[0];
-                numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
-                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                try{
+                    nature = await _restService.GetPieceNature("A", "C", null, "1");
+                    selectednature = nature[0];
+                    //numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                    //var comp = await _restService.getPieceDiversNumber();
+                    //numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                }catch{
+                    _dialogService.ShowMessage("erreur",true);
+                }
+
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;
@@ -172,16 +177,16 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceAchat().Result ;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BBC",
                 affaire = affaires,
                 tiers = Tiers,
-                numpiece = numeroPiece
+                numpiece = numeroPiece,
+                numauto = numauto,
+                count = comp
             };
             Task.Run(async () =>
             {

@@ -141,16 +141,16 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceVente().Result ;
             SellElements sell = new SellElements
             {
                 pIECE_NATURE = selectednature,
                 type = "SFR",
                 affaire = affaires,
                 tiers = Tiers,
-                numpiece = numeroPiece
+                numpiece = numeroPiece,
+                numauto = numauto,
+                count = comp
             };
             //_dataService.addSellElementAsync(sell);
             Task.Run(async () =>
@@ -183,7 +183,7 @@ namespace PFE.PageModels
                 nature = await _restService.GetPieceNature("v", "f", "%avoir%", null, true);
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceDiversNumber();
+                var comp = await _restService.getPieceVente();
                 numeroPiece = numauto.NUMSOUCHE + "000" + comp;
             });
             date = DateTime.Today;

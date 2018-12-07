@@ -160,16 +160,17 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceDiversNumber().Result + numligne;
-            numeroPiece = numauto.NUMSOUCHE + "000" + comp;
-            numligne++;
+            var comp = _restService.getPieceAchat().Result + numligne;
+
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,
                 type = "BFR",
                 affaire = affaires,
                 tiers = Tiers,
-                numpiece = numeroPiece
+                numpiece = numeroPiece,
+                numauto = numauto,
+                count = comp
             };
             Task.Run(async () =>
             {

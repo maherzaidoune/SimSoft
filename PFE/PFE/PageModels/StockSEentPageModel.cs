@@ -313,7 +313,7 @@ namespace PFE.PageModels
                         code = article.ARTCODE;
                         designation = article.ARTDESIGNATION;
                         pht = artarifligne.ATFPRIX.ToString();
-                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        reelQuantity = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
                         Quantity = reelQuantity.ToString();
                     }
                     catch (Exception e)
