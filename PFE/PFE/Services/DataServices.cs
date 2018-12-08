@@ -679,21 +679,18 @@ namespace PFE.Services
                 }
                 if(stocks.Count > 0){
                     var s = stocks[0];
-                    if (s.ligneUpdated != true)
-                    {
-                        s.depot = obj.depot;
-                        s.tva = obj.tva;
-                        s.articles = obj.articles;
-                        s.artarifligne = obj.artarifligne;
-                        s.LivredQuantity = obj.LivredQuantity;
-                        s.mutht = obj.mutht;
-                        s.mtht = obj.mtht;
-                        s.mttc = obj.mttc;
-                        s.artarifligne = obj.artarifligne;
-                        s.ligneUpdated = obj.ligneUpdated;
-                        s.numpiece = s.numauto.NUMSOUCHE + "000" + (s.count + stocks.Count).ToString();
+                    s.depot = obj.depot;
+                    s.tva = obj.tva;
+                    s.articles = obj.articles;
+                    s.artarifligne = obj.artarifligne;
+                    s.LivredQuantity = obj.LivredQuantity;
+                    s.mutht = obj.mutht;
+                    s.mtht = obj.mtht;
+                    s.mttc = obj.mttc;
+                    s.artarifligne = obj.artarifligne;
+                    s.ligneUpdated = obj.ligneUpdated;
+                    s.numpiece = s.numauto.NUMSOUCHE + "000" + (s.count + stocks.Count).ToString();
                         stocks.Add(s);
-                    }
                 }
                 return addBuyElementsAsync(stocks);
             }

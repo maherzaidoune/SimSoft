@@ -30,6 +30,7 @@ namespace PFE.PageModels
             }
             set
             {
+                _selectednature = value;
                 Task.Run(async() =>
                 {
                     Device.BeginInvokeOnMainThread(() =>

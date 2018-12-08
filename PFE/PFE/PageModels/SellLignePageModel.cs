@@ -245,6 +245,11 @@ namespace PFE.PageModels
                     }
                     catch(Exception e){
                         Console.WriteLine(e.StackTrace);
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            isEnabled = true;
+                            isBusy = false;
+                        });
                     }
 
                     designation = article.ARTDESIGNATION;
@@ -318,7 +323,11 @@ namespace PFE.PageModels
                     depo = await _restService.GetDepot("o");
                     selectedDepot = depo[0];
                 }catch{
-
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                 }
                 //Device.BeginInvokeOnMainThread(() =>
                 //{

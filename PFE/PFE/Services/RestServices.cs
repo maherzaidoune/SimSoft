@@ -1037,8 +1037,10 @@ namespace PFE.Services
             {
                 foreach (SellElements s in sells)
                 {
-                    if (await PostSellLigne(s, sells.Count))
-                        Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                    if(s.ligneUpdated == true){
+                        if (await PostSellLigne(s, sells.Count))
+                            Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                    }
                 }
                 return true;
             }
@@ -1892,8 +1894,10 @@ namespace PFE.Services
             {
                 foreach (Buyelement s in buy)
                 {
-                    if (await PostBuyElement(s, buy.Count))
-                        Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                    if(s.ligneUpdated == true){
+                        if (await PostBuyElement(s, buy.Count))
+                            Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                    }
                 }
                 return true;
             }
