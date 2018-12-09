@@ -51,7 +51,11 @@ namespace PFE.PageModels
                         try{
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                         }catch{
-
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                isBusy = false;
+                                isEnabled = true;
+                            });
                         }
                     }
                     Device.BeginInvokeOnMainThread(() =>
@@ -72,7 +76,7 @@ namespace PFE.PageModels
         public string CQuantity
         {
             get{
-                return _CQuantity ;
+                return _CQuantity != null ? _CQuantity : "0" ;
             }
             set{
                 if(String.IsNullOrEmpty(value) || float.Parse(value) >= 0){
@@ -89,19 +93,17 @@ namespace PFE.PageModels
             }
             set
             {
-                if (!string.IsNullOrEmpty(value)){
-                    if (float.Parse(_puht) > 0 && CQuantity != null)
-                    {
-                        _puht = value;
+                if (!string.IsNullOrWhiteSpace(value) || float.Parse(value) >= 0)
+                {
+                    _puht = value;
                         try{
-                            mtht = (int.Parse(CQuantity) * float.Parse(_puht)).ToString();
-                            puttc = (float.Parse(_puht) * (1 + tva.TVATAUX) / 100).ToString();
-                            mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                        puttc = (float.Parse(value) * (1 + tva.TVATAUX) / 100).ToString();
+                        mtht = (int.Parse(CQuantity) * float.Parse(value)).ToString();
+                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                         }catch{
-                            _dialogService.ShowMessage("erreur", true);
+                            //_dialogService.ShowMessage("erreur", true);
                         }                     
                        
-                    }
                 }
         }
         }
@@ -215,17 +217,17 @@ namespace PFE.PageModels
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
                         puht = artarifligne.ATFPRIX.ToString();
+                        artunite = await _restService.GetRTUNITE("A");
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
                             storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                         cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
-                        artunite = await _restService.GetRTUNITE("A");
                         if(String.IsNullOrEmpty(CQuantity) || int.Parse(CQuantity) <= 0){
                             CQuantity = "1";
                         }
-                        mtht = ((int.Parse(CQuantity) * float.Parse(puht)) / 100).ToString();
+                        mtht = ((int.Parse(CQuantity) * float.Parse(puht)) ).ToString();
                         mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                        puttc = (float.Parse(puht) * (1 + tva.TVATAUX) / 100).ToString();
+                        puttc = (float.Parse(puht) * (1 + tva.TVATAUX) ).ToString();
                     }
                     catch (Exception e)
                     {
@@ -250,9 +252,9 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
-                mtht = ((int.Parse(CQuantity) * float.Parse(puht)) / 100).ToString();
+                mtht = ((int.Parse(CQuantity) * float.Parse(puht)) ).ToString();
                 mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                puttc = (float.Parse(puht) * (1 + tva.TVATAUX) / 100).ToString();
+                puttc = (float.Parse(puht) * (1 + tva.TVATAUX) ).ToString();
                 Buyelement buy = new Buyelement
                 {
                     depot = selectedDepot,

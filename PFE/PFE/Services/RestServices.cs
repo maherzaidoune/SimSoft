@@ -1894,8 +1894,8 @@ namespace PFE.Services
                 foreach (Buyelement s in buy)
                 {
                     if(s.ligneUpdated == true){
-                        if (await PostBuyElement(s, buy.Count))
-                            Console.WriteLine(s.articles.ARTDESIGNATION + " post succefully ");
+                        if (!await PostBuyElement(s, buy.Count))
+                            return false;
                     }
                 }
                 return true;
