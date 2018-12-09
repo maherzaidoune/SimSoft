@@ -15,7 +15,7 @@ namespace PFE.Models
         public string TIRSOCIETE { get; set; }
         public int? CPTID { get; set; }
         public string CPTCODE { get; set; }
-        public int?ADRID { get; set; }
+        public int? ADRID { get; set; }
         public string TIRNIF { get; set; }
         public string TIRAPE { get; set; }
         public string TIRSIREN { get; set; }
@@ -29,9 +29,9 @@ namespace PFE.Models
         public string TRFID { get; set; }
         public string TIRID_FAC { get; set; }
         public string TIRID_LIV { get; set; }
-        public int?REPID { get; set; }
+        public int? REPID { get; set; }
         public string TYNCODE { get; set; }
-        public int?TIRTAUXESCOMPTE { get; set; }
+        public double? TIRTAUXESCOMPTE { get; set; }
         public string TIRISONETRAITEFAC { get; set; }
         public string TIRISRIBTRAITEVISIBLE { get; set; }
         public string TIRISASSUJETTITVA { get; set; }
@@ -44,7 +44,7 @@ namespace PFE.Models
         public string USRMODIF { get; set; }
         public DateTime DATECREATE { get; set; }
         public DateTime DATEUPDATE { get; set; }
-        public int?MEMOID { get; set; }
+        public int? MEMOID { get; set; }
         public string TIRISACTIF { get; set; }
         public string TIRCAPITAL { get; set; }
         public int? DEPID { get; set; }

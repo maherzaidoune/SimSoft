@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceAchat();
+                        var comp = await _restService.getPieceAchat() + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -143,6 +143,18 @@ namespace PFE.PageModels
             {
                 nature = await _restService.GetPieceNature("A", "B", "%Retour%", "-1", true);
                 selectednature = nature[0];
+                try
+                {
+                    numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
+                    var comp = await _restService.getPieceAchat() + 1;
+                    numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+
+                }
+                catch (Exception e)
+                {
+                    isBusy = false;
+                    isEnabled = true;
+                }
             });
             isBusy = false;
             isEnabled = true;
@@ -159,7 +171,7 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceAchat().Result ;
+            var comp = _restService.getPieceAchat().Result + 1 ;
             Buyelement buy = new Buyelement
             {
                 pIECE_NATURE = selectednature,

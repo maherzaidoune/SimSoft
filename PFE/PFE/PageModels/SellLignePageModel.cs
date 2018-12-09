@@ -146,7 +146,7 @@ namespace PFE.PageModels
         public string remise
         {
             get{
-                return _remise??"0";
+                return _remise == null ? "0" : _remise;
             }
             set{
                 if (!string.IsNullOrEmpty(value))
@@ -240,8 +240,10 @@ namespace PFE.PageModels
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if(selectedDepot != null)
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
-
                         artunite = await _restService.GetRTUNITE("v");
+                        designation = article.ARTDESIGNATION;
+                        unite = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                        pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch(Exception e){
                         Console.WriteLine(e.StackTrace);
@@ -252,9 +254,7 @@ namespace PFE.PageModels
                         });
                     }
 
-                    designation = article.ARTDESIGNATION;
-                    unite = (artunite.ARUCOEF>0)? artunite.ARUCOEF.ToString() : "0" ;
-                    pht = artarifligne.ATFPRIX.ToString();
+
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = true;
@@ -268,12 +268,15 @@ namespace PFE.PageModels
         private void _validate(object obj)
         {
             try{
-                if (LivredQuantity == null)
+                if (LivredQuantity == null || int.Parse(LivredQuantity) == 0)
                 {
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
-                else if (int.Parse(LivredQuantity) < int.Parse(storeQuantity))
+                else if (int.Parse(LivredQuantity) > int.Parse(storeQuantity)){
+                    _dialogService.ShowMessage("quantite colise doit etre inferieur a celle du depot", true);
+                    return;
+                }
                     mtht = ((int.Parse(LivredQuantity) * float.Parse(pht)) * (100 - float.Parse(remise)) / 100).ToString();
                     mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                 SellElements sell = new SellElements

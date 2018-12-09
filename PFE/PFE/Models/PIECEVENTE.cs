@@ -45,7 +45,7 @@ namespace PFE.Models
         public int? PCVMNTTPF { get; set; }
         public int? PCVMNTESCOMPTE { get; set; }
         public int? PCVMNTPORT { get; set; }
-        public int? PCVTAUXESCOMPTE { get; set; }
+        public double? PCVTAUXESCOMPTE { get; set; }
         public int? PCVCPTRELANCE { get; set; }
         public string PCVCONDREGLEMENT { get; set; }
         public string USRMODIF { get; set; }

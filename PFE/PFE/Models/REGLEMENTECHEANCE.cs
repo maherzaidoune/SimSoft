@@ -13,7 +13,7 @@ namespace PFE.Models
         public int ECHJOUR { get; set; }
         public string ECHTYPE { get; set; }
         public int ECHLE { get; set; }
-        public int ECHTAUX { get; set; }
+        public double ECHTAUX { get; set; }
         public DateTime? ECHDATE { get; set; }
         public string PITCODE { get; set; }
     }

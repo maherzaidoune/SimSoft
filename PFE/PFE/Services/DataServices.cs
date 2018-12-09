@@ -453,20 +453,21 @@ namespace PFE.Services
                 return false;
             try
             {
-                var stocks = await getSellElementAsync();
-                if (stocks == null)
-                {
-                    stocks = new List<SellElements>();
-                }
-                else
-                    if (stocks.Count > 0)
-                {
-                    if (!stocks[0].type.Equals(obj.type))
-                    {
-                        RemoveSellElements();
-                        stocks = new List<SellElements>();
-                    }
-                }
+                //var stocks = await getSellElementAsync();
+                //if (stocks == null)
+                //{
+                //    stocks = new List<SellElements>();
+                //}
+                //else
+                //    if (stocks.Count > 0)
+                //{
+                //    if (!stocks[0].type.Equals(obj.type))
+                //    {
+                //        RemoveSellElements();
+                //        stocks = new List<SellElements>();
+                //    }
+                //}
+                var stocks = new List<SellElements>();
                 stocks.Add(obj);
                 return addSellElementsAsync(stocks);
             }
@@ -526,25 +527,44 @@ namespace PFE.Services
 
                 if(stocks.Count > 0){
 
-                    var s = stocks[0];
-                    s.depot = obj.depot;
-                    s.tva = obj.tva;
-                    s.articles = obj.articles;
-                    s.artarifligne = obj.artarifligne;
-                    s.LivredQuantity = obj.LivredQuantity;
-                    s.mutht = obj.mutht;
-                    s.mtht = obj.mtht;
-                    s.mttc = obj.mttc;
-                    s.artarifligne = obj.artarifligne;
-                    s.ligneUpdated = obj.ligneUpdated;
-                    s.numpiece = s.numauto.NUMSOUCHE + "000"+ (s.count + stocks.Count).ToString();
+                    if(stocks[0].ligneUpdated == false){
+                        stocks[0].depot = obj.depot;
+                        stocks[0].tva = obj.tva;
+                        stocks[0].articles = obj.articles;
+                        stocks[0].artarifligne = obj.artarifligne;
+                        stocks[0].LivredQuantity = obj.LivredQuantity;
+                        stocks[0].mutht = obj.mutht;
+                        stocks[0].mtht = obj.mtht;
+                        stocks[0].mttc = obj.mttc;
+                        stocks[0].artarifligne = obj.artarifligne;
+                        stocks[0].ligneUpdated = obj.ligneUpdated;
+                        stocks[0].numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count).ToString();
+                    }else{
+                        SellElements s = new SellElements();
+                        s.pIECE_NATURE = stocks[0].pIECE_NATURE;
+                        s.type = stocks[0].type;
+                        //s.affaire = stocks[0].affaire;
+                        s.tiers = stocks[0].tiers;
+                        s.numpiece = stocks[0].numpiece;
+                        s.numauto = stocks[0].numauto;
+                        s.count = stocks[0].count;
 
-                    stocks.Add(s);
-                    
+                        s.depot = obj.depot;
+                        s.tva = obj.tva;
+                        s.articles = obj.articles;
+                        s.artarifligne = obj.artarifligne;
+                        s.LivredQuantity = obj.LivredQuantity;
+                        s.mutht = obj.mutht;
+                        s.mtht = obj.mtht;
+                        s.mttc = obj.mttc;
+                        s.artarifligne = obj.artarifligne;
+                        s.ligneUpdated = obj.ligneUpdated;
+                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count + stocks.Count).ToString();
+                        stocks.Add(s);
+                    }
+
+                    Console.WriteLine(stocks);
                 }
-
-
-
                 return addSellElementsAsync(stocks);
             }
             catch (Exception e)
@@ -579,6 +599,7 @@ namespace PFE.Services
             catch (Exception e)
             {
                 Console.WriteLine("Data service ==== error deleting to sell list" + e.StackTrace);
+
                 return false;
             }
         }
@@ -607,20 +628,21 @@ namespace PFE.Services
                 return false;
             try
             {
-                var stocks = await getBuyElementAsync();
-                if (stocks == null)
-                {
-                    stocks = new List<Buyelement>();
-                }
-                else
-                    if (stocks.Count > 0)
-                {
-                    if (!stocks[0].type.Equals(obj.type))
-                    {
-                        RemoveSellElements();
-                        stocks = new List<Buyelement>();
-                    }
-                }
+                //var stocks = await getBuyElementAsync();
+                //if (stocks == null)
+                //{
+                //    stocks = new List<Buyelement>();
+                //}
+                //else
+                //    if (stocks.Count > 0)
+                //{
+                //    if (!stocks[0].type.Equals(obj.type))
+                //    {
+                //        RemoveSellElements();
+                //        stocks = new List<Buyelement>();
+                //    }
+                //}
+                var stocks = new List<Buyelement>();
                 stocks.Add(obj);
                 return addBuyElementsAsync(stocks);
             }
@@ -677,20 +699,48 @@ namespace PFE.Services
                 {
                     return false;
                 }
-                if(stocks.Count > 0){
-                    var s = stocks[0];
-                    s.depot = obj.depot;
-                    s.tva = obj.tva;
-                    s.articles = obj.articles;
-                    s.artarifligne = obj.artarifligne;
-                    s.LivredQuantity = obj.LivredQuantity;
-                    s.mutht = obj.mutht;
-                    s.mtht = obj.mtht;
-                    s.mttc = obj.mttc;
-                    s.artarifligne = obj.artarifligne;
-                    s.ligneUpdated = obj.ligneUpdated;
-                    s.numpiece = s.numauto.NUMSOUCHE + "000" + (s.count + stocks.Count).ToString();
+                if (stocks.Count > 0)
+                {
+
+                    if (stocks[0].ligneUpdated == false)
+                    {
+                        stocks[0].depot = obj.depot;
+                        stocks[0].tva = obj.tva;
+                        stocks[0].articles = obj.articles;
+                        stocks[0].artarifligne = obj.artarifligne;
+                        stocks[0].LivredQuantity = obj.LivredQuantity;
+                        stocks[0].mutht = obj.mutht;
+                        stocks[0].mtht = obj.mtht;
+                        stocks[0].mttc = obj.mttc;
+                        stocks[0].artarifligne = obj.artarifligne;
+                        stocks[0].ligneUpdated = obj.ligneUpdated;
+                        stocks[0].numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count).ToString();
+                    }
+                    else
+                    {
+                        Buyelement s = new Buyelement();
+                        s.pIECE_NATURE = stocks[0].pIECE_NATURE;
+                        s.type = stocks[0].type;
+                        //s.affaire = stocks[0].affaire;
+                        s.tiers = stocks[0].tiers;
+                        s.numpiece = stocks[0].numpiece;
+                        s.numauto = stocks[0].numauto;
+                        s.count = stocks[0].count;
+
+                        s.depot = obj.depot;
+                        s.tva = obj.tva;
+                        s.articles = obj.articles;
+                        s.artarifligne = obj.artarifligne;
+                        s.LivredQuantity = obj.LivredQuantity;
+                        s.mutht = obj.mutht;
+                        s.mtht = obj.mtht;
+                        s.mttc = obj.mttc;
+                        s.artarifligne = obj.artarifligne;
+                        s.ligneUpdated = obj.ligneUpdated;
+                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count + stocks.Count).ToString();
                         stocks.Add(s);
+                    }
+                  
                 }
                 return addBuyElementsAsync(stocks);
             }

@@ -138,7 +138,7 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceVente().Result ;
+            var comp = _restService.getPieceVente().Result + 1 ;
             SellElements sell = new SellElements
             {
                 pIECE_NATURE = selectednature,
@@ -175,8 +175,8 @@ namespace PFE.PageModels
                 nature = await _restService.GetPieceNature("v", "b", "%Retour%", "-1",true);
                 selectednature = nature[0];
                 numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                var comp = await _restService.getPieceVente();
-                numeroPiece = numauto.NUMSOUCHE + "000" + comp;
+                var comp = await _restService.getPieceVente() + 1;
+                numeroPiece = numauto.NUMSOUCHE + "000" + comp ;
             });
             date = DateTime.Today;
             isBusy = false;

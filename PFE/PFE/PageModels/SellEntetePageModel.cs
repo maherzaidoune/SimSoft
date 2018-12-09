@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceVente();
+                        var comp = await _restService.getPieceVente() + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -186,7 +186,7 @@ namespace PFE.PageModels
                     }
                     selectednature = nature[0];
                     numauto = await _restService.getNumPiecenyNature(selectednature.PINID.ToString());
-                    var comp = await _restService.getPieceVente();
+                    var comp = await _restService.getPieceVente() + 1;
                     numeroPiece = numauto.NUMSOUCHE + "000" + comp;
                 }catch{
                     _dialogService.ShowMessage("erreur", true);

@@ -39,18 +39,23 @@ namespace PFE.PageModels
                 });
                 try
                 {
-                    if (await _restService.PostToStock(stockLigne))
-                    {
-                        //_dialogService.ShowMessage("L'aj", false);
-                        if (_dataServices.RemoveStockLigne())
+                    if(stockLigne != null && stockLigne.Count >0){
+                        if (await _restService.PostToStock(stockLigne))
                         {
-                            stockLigne.Clear();
+                            //_dialogService.ShowMessage("L'aj", false);
+                            if (_dataServices.RemoveStockLigne())
+                            {
+                                stockLigne.Clear();
+                            }
+                            else
+                            {
+                                _dialogService.ShowMessage("erreur ", true);
+                            }
                         }
-                        else
-                        {
-                            _dialogService.ShowMessage("can't remove from database ", true);
-                        }
+                    }else{
+                        _dialogService.ShowMessage("liste vide ", true);
                     }
+
                 }
                 catch (Exception e)
                 {
@@ -98,6 +103,9 @@ namespace PFE.PageModels
                         else{
                             if (await _dataServices.RemoveStockLigneMEAsync(selectedelement))
                             {
+                                _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
+                                stockLigne.Remove(selectedelement);
+                            }else if(await _dataServices.RemoveStockLigneMIAsync(selectedelement)){
                                 _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
                                 stockLigne.Remove(selectedelement);
                             }

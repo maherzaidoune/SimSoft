@@ -7,7 +7,7 @@ namespace PFE.Models
         public int TRFID { get; set; }
         public int ATFLIGNE { get; set; }
         public int ATFQTE { get; set; }
-        public int ATFPRIX { get; set; }
+        public double ATFPRIX { get; set; }
         public string ATFFORMULE { get; set; }
     }
 }

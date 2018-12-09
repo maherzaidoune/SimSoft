@@ -41,7 +41,7 @@ namespace PFE.Models
         public int? PCAMNTTPF { get; set; }
         public int? PCAMNTESCOMPTE { get; set; }
         public int? PCAMNTPORT { get; set; }
-        public int? PCATAUXESCOMPTE { get; set; }
+        public double? PCATAUXESCOMPTE { get; set; }
         public string PCACONDREGLEMENT { get; set; }
         public string USRMODIF { get; set; }
         public DateTime? DATEUPDATE { get; set; }

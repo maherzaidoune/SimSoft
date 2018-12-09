@@ -204,17 +204,28 @@ namespace PFE.PageModels
                         if (article == null)
                         {
                             _dialogService.ShowMessage("code a barre indisponible ", true);
-                            //return;
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                isBusy = false;
+                                isEnabled = true;
+                            });
+                            return;
                         }
+                        designation = article.ARTDESIGNATION;
                         artfamilles_cpt = await _restService.GetARTFAMILLES_CPTbyARFID(article.ARTID.ToString());
                         artarifligne = await _restService.GetRTTARIFLIGNEbyARTID(article.ARTID.ToString());
+                        puht = artarifligne.ATFPRIX.ToString();
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
                             storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
-                        designation = article.ARTDESIGNATION;
                         cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
-                        puht = artarifligne.ATFPRIX.ToString();
                         artunite = await _restService.GetRTUNITE("A");
+                        if(String.IsNullOrEmpty(CQuantity) || int.Parse(CQuantity) <= 0){
+                            CQuantity = "1";
+                        }
+                        mtht = ((int.Parse(CQuantity) * float.Parse(puht)) / 100).ToString();
+                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
+                        puttc = (float.Parse(puht) * (1 + tva.TVATAUX) / 100).ToString();
                     }
                     catch (Exception e)
                     {
@@ -236,7 +247,7 @@ namespace PFE.PageModels
             try{
                 if (CQuantity == null || int.Parse(CQuantity) < 0)
                 {
-                    _dialogService.ShowMessage("quantite doit etre superieur a 0", false);
+                    _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
                 mtht = ((int.Parse(CQuantity) * float.Parse(puht)) / 100).ToString();

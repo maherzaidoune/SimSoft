@@ -38,19 +38,31 @@ namespace PFE.PageModels
                     isBusy = true;
                 });
 
-                if (await _restservices.PostSellLignes(productList))
-                {
-
-                    if (_dataService.RemoveSellElements())
-                    {
-                        productList.Clear();
-                        _dialogService.ShowMessage("succes", false);
+                foreach(SellElements s in productList){
+                    if (!s.ligneUpdated){
+                        productList.Remove(s);
                     }
                 }
-                else
-                {
-                    _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                if(productList.Count > 0){
+                    if (await _restservices.PostSellLignes(productList))
+                    {
+
+                        if (_dataService.RemoveSellElements())
+                        {
+                            productList.Clear();
+                            _dialogService.ShowMessage("succes", false);
+                        }
+                        else
+                        {
+                            _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                        }
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("erreur , veuillez reessayer", true);
+                    }
                 }
+
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     isBusy = false;
