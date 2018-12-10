@@ -331,6 +331,8 @@ namespace PFE.Services
                 BlobCache.UserAccount.InsertObject("stockLigneMS", stocks);
                 BlobCache.UserAccount.Invalidate("stockLigneMT");
                 BlobCache.UserAccount.InsertObject("stockLigneMT", stocks);
+                BlobCache.UserAccount.Invalidate("stockLigneMI");
+                BlobCache.UserAccount.InsertObject("stockLigneMI", stocks);
                 return true;
             }
             catch

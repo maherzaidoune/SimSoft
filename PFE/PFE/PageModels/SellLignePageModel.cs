@@ -242,7 +242,7 @@ namespace PFE.PageModels
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                         artunite = await _restService.GetRTUNITE("v");
                         designation = article.ARTDESIGNATION;
-                        unite = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                        unite = (artunite.ARUCOEF > 0) ? artunite.ARUINTITULE : " ";
                         pht = artarifligne.ATFPRIX.ToString();
                     }
                     catch(Exception e){

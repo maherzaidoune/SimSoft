@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:PFE.Rendereres"
@@ -40,7 +40,7 @@
                     <Button Margin="5" Image="save.png"   TextColor="White" HorizontalOptions="FillAndExpand"   Text="Valider"  Command="{Binding valid}" ></Button>
                     <Button Margin="5" Image="qrcode.png" TextColor="White" HorizontalOptions="FillAndExpand"   Text="Scan" Command="{Binding scan}" ></Button>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout IsEnabled="false" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Désignation  " VerticalOptions="Center"/>
                     <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
                 </StackLayout>
@@ -56,7 +56,7 @@
                      Title="Dépôt">
                     </controls:CustomPicker>
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" IsEnabled="false">
+                <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" IsEnabled="false">
                     <Label Text="Quantité en stock  " VerticalOptions="Center"/>
                     <Entry Placeholder="Quantité en stock" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding storeQuantity , Mode=TwoWay}"  />
                 </StackLayout>
@@ -64,7 +64,7 @@
                     <Label Text="Quantité colisée  " VerticalOptions="Center"/>
                     <Entry Placeholder="Quantité colisée.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding LivredQuantity , Mode=TwoWay}"  />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout IsEnabled="false" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Prix HT  " VerticalOptions="Center"/>
                     <Entry Placeholder="Prix HT.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric"  Text="{Binding pht , Mode=TwoWay}"  />
                 </StackLayout>
@@ -76,7 +76,7 @@
                     <Label Text="Remise  " VerticalOptions="Center"/>
                     <Entry Placeholder="Remise.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding remise , Mode=TwoWay}"  />
                 </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                <StackLayout IsEnabled="false" Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="Unité  " VerticalOptions="Center"/>
                     <Entry Placeholder="Unité.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric"  Text="{Binding unite , Mode=TwoWay}"  />
                 </StackLayout>

@@ -176,6 +176,17 @@ namespace PFE.PageModels
         {
             try
             {
+                var q = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotin.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var a = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
+
+            }
+            catch
+            {
+                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                return;
+            }
+            try
+            {
                 if (Quantity.Equals(null))
                 {
                     _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);

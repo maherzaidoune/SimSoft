@@ -42,7 +42,6 @@ namespace PFE.PageModels
                     if(stockLigne != null && stockLigne.Count >0){
                         if (await _restService.PostToStock(stockLigne))
                         {
-                            //_dialogService.ShowMessage("L'aj", false);
                             if (_dataServices.RemoveStockLigne())
                             {
                                 stockLigne.Clear();
@@ -89,27 +88,28 @@ namespace PFE.PageModels
                     Task.Run(async () =>
                     {
                         if (selectedelement.sense == 1){
-                            if (await _dataServices.RemoveStockLigneMEAsync(selectedelement)){
+                            if (await _dataServices.RemoveStockLigneMEAsync(selectedelement) || await _dataServices.RemoveStockLigneMIAsync(selectedelement))
+                            {
                                 stockLigne.Remove(selectedelement);
                                 _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
                             }
                         }
                         if (selectedelement.sense == -1){
-                            if (await _dataServices.RemoveStockLigneMSAsync(selectedelement)){
-                                _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
+                            if (await _dataServices.RemoveStockLigneMSAsync(selectedelement) || await _dataServices.RemoveStockLigneMIAsync(selectedelement))
+                            {
                                 stockLigne.Remove(selectedelement);
+                                _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
                             }
                         }
-                        else{
-                            if (await _dataServices.RemoveStockLigneMEAsync(selectedelement))
+                        else
+                        {
+                            if (await _dataServices.RemoveStockLigneMEAsync(selectedelement) || await _dataServices.RemoveStockLigneMIAsync(selectedelement))
                             {
-                                _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
                                 stockLigne.Remove(selectedelement);
-                            }else if(await _dataServices.RemoveStockLigneMIAsync(selectedelement)){
                                 _dialogService.ShowMessage(selectedelement.code + " deleted !", false);
-                                stockLigne.Remove(selectedelement);
                             }
-                          
+
+
                         }
                     });
 

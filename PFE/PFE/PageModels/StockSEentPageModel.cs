@@ -55,7 +55,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceDiversNumber() ;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
 
@@ -202,7 +202,17 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+            try
+            {
+                var q = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotin.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var a = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepotout.DEPID.ToString()).Result.ARDSTOCKREEL;
 
+            }
+            catch
+            {
+                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                return;
+            }
             try
             {
                 if (string.IsNullOrEmpty(Quantity))

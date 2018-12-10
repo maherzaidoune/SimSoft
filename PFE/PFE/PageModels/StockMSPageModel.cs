@@ -176,6 +176,15 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
+            try
+            {
+                var q = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
+            }
+            catch
+            {
+                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                return;
+            }
 
             try
             {

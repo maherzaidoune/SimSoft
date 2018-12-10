@@ -82,6 +82,19 @@ namespace PFE.PageModels
             set
             {
                 _selectedDepo = value;
+                if (article != null)
+                {
+                    try
+                    {
+                        var q = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL;
+                        //Quantity = reelQuantity.ToString();
+                    }
+                    catch
+                    {
+                        _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                    }
+
+                }
                 //depin no need to know the quatitity
             }
         }
@@ -152,8 +165,19 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-           
-            try{
+            try
+            {
+                var q = (float)_restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), selectedDepot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                //Quantity = reelQuantity.ToString();
+            }
+            catch
+            {
+                _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
+                return;
+            }
+
+            try
+            {
                 if(Quantity.Equals(null)){
                     _dialogService.ShowMessage("Erreur : veillez saisir un code valid ", true);
                     return;

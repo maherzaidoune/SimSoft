@@ -1060,7 +1060,7 @@ namespace PFE.Services
                 {
                     PCVID = await getPieceVente() + 1,
                     PCVNUM = sell.numpiece, // a partir de piece nature 
-                    PCVNUMEXT =  null, // test 
+                    PCVNUMEXT =  sell.pIECE_NATURE.PINLIBELLE, // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
                     PINCODE = sell.pIECE_NATURE.PINCODE,
@@ -1157,22 +1157,22 @@ namespace PFE.Services
                 {
                     PLVID = await getPieceVenteLigne() + 1, // to be verified
                     PCVID = pv.PCVID,
-                    PLVNUMLIGNE = 0, // just added
+                    PLVNUMLIGNE = sell.count, // just added
                     PLVTYPE = "L",
                     PLVDATE = DateTime.Now,
                     DEPID = sell.depot.DEPID,
                     AFFID = 0,//sell.affaire.AFFID,
                     TIRIDREP = null,
-                    TIRIDFOU = 0,//produit.TIRID,
-                    PROID = 0,//produit.PROID,
+                    TIRIDFOU = produit.TIRID != null ? produit.TIRID : 0,
+                    PROID = produit.PROID != null ? produit.PROID : 0 ,
                     ARTID = sell.articles.ARTID,
                     ARTTYPE = "A",
                     PLVISFORFAIT = "N",
                     PLVISSOUMISESC = "N",
                     PLVDESIGNATION = sell.articles.ARTDESIGNATION,
-                    TVACODE = 0,//artfamilles.TVACODE_FR,
+                    TVACODE = artfamilles.TVACODE_FR != null ? artfamilles.TVACODE_FR : 0 ,
                     TPFCODE = 0,
-                    CPTID = 0,//artfamilles.CPTID_FR,
+                    CPTID = artfamilles.CPTID_FR != null ? artfamilles.CPTID_FR : 0,
                     ANSID = 7,
                     PLVQTE = sell.LivredQuantity,
                     PLVQTEUS = sell.LivredQuantity,
@@ -1186,7 +1186,7 @@ namespace PFE.Services
                     PLVLASTPA = 0, // just added
                     PLVPMP = 0, // just added
                     PLVCUMP = 0, // just added
-                    PLVREMISE_F = "0",//sell.remise,
+                    PLVREMISE_F = sell.remise != null ? sell.remise : "0",
                     PLVREMISE_T = "P",
                     PLVREMISE_MNT = 0,
                     //"PLVSTOTID": 0,
@@ -1701,7 +1701,7 @@ namespace PFE.Services
                     TIRID_CPT = 0
                 };
                 PRODUIT produit = await getProduitbyARTID(buy.articles.ARTID.ToString(), "O");
-                ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("36", "ART");
+                ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("2", "AFM");
                 PIECEACHATLIGNE pvl = new PIECEACHATLIGNE
                 {
 
@@ -1712,13 +1712,13 @@ namespace PFE.Services
                     PLADATE = DateTime.Now,
                     DEPID = buy.depot.DEPID,
                     AFFID = 0,//sell.affaire.AFFID,
-                    PROID = 0,//produit.PROID,
+                    PROID = produit.PROID != null ? produit.PROID : 0,
                     ARTID = buy.articles.ARTID,
                     PLAISSOUMISESC = "N",
                     PLADESIGNATION = buy.articles.ARTDESIGNATION,
-                    TVACODE = 0,//artfamilles.TVACODE_FR,
+                    TVACODE = artfamilles.TVACODE_FR != null ? artfamilles.TVACODE_FR : 0,//artfamilles.TVACODE_FR,
                     TPFCODE = 0,
-                    CPTID = 0,//artfamilles.CPTID_FR,
+                    CPTID = artfamilles.CPTID_FR != null ? artfamilles.CPTID_FR : 0,//artfamilles.CPTID_FR,
                     ANSID = 7,
                     PLAQTE = buy.LivredQuantity,
                     PLAQTEUS = buy.LivredQuantity,
@@ -1728,7 +1728,7 @@ namespace PFE.Services
                     PLAPUNET = (int?)(buy.mtht / buy.LivredQuantity),
                     PLAMNTNET = (int)(buy.mutht * buy.LivredQuantity),
                     PLAMNTNETHT = (float)buy.mtht,
-                    PLAREMISE_F = "0",//sell.remise,
+                    PLAREMISE_F = buy.remise != null ? buy.remise : "0",//sell.remise,
                     PLAREMISE_T = "P",
                     PLAREMISE_MNT = 0,
                     PLAISIMPRIMABLE = "o",
