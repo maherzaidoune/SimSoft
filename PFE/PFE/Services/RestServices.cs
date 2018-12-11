@@ -1260,7 +1260,7 @@ namespace PFE.Services
                     ARTID = sell.articles.ARTID,
                     DEPID = sell.depot.DEPID,
                     //USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "S",
+                    PICCODE = "V",
                     PINID = pv.PINID,
                     OPENATURESTOCK = "R",
                     OPEQUANTITE = sell.type.Equals("SBR")? sell.LivredQuantity : -sell.LivredQuantity,
@@ -1303,7 +1303,7 @@ namespace PFE.Services
                     PTVBASETPF = 0,
                     PTVBASETPFESC = 0,
                     PTVMNTTPF = 0,
-                    PTVTAUXTPF = 0
+                    PTVTAUXTPF = 0,
                 };
                 REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
                 {
