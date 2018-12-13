@@ -71,6 +71,10 @@
                     <Label Text="PU TTC " VerticalOptions="Center"/>
                     <Entry Placeholder="PU TTC" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding puttc , Mode=TwoWay}"  />
                 </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                    <Label Text="Remise  " VerticalOptions="Center"/>
+                    <Entry Placeholder="Remise.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding remise , Mode=TwoWay}"  />
+                </StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
                     <Label Text="MT HT " VerticalOptions="Center"/>
                     <Entry Placeholder="MT HT" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding mtht , Mode=TwoWay}"  />

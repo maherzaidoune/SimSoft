@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber() + 1;
+                        var comp = await _restService.getPieceAchat() + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -161,7 +161,6 @@ namespace PFE.PageModels
         }
         private IDataServices _dataService;
         private IDialogService _dialogService;
-        private int numligne;
 
         public ICommand validate => new Command(_validate);
 

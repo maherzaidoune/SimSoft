@@ -22,7 +22,7 @@ namespace PFE.PageModels
         {
             get;
             set;
-        }     
+        }
         public IList<depot> depo
         {
             get;
@@ -46,11 +46,15 @@ namespace PFE.PageModels
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); 
-                    if(article != null){
-                        try{
+                    });
+                    if (article != null)
+                    {
+                        try
+                        {
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), value.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
-                        }catch{
+                        }
+                        catch
+                        {
                             Device.BeginInvokeOnMainThread(() =>
                             {
                                 isBusy = false;
@@ -75,12 +79,22 @@ namespace PFE.PageModels
         private string _CQuantity;
         public string CQuantity
         {
-            get{
-                return _CQuantity != null ? _CQuantity : "0" ;
+            get
+            {
+                return _CQuantity != null ? _CQuantity : "0";
             }
-            set{
-                if(String.IsNullOrEmpty(value) || float.Parse(value) >= 0){
-                    _CQuantity = value;
+            set
+            {
+                if (String.IsNullOrEmpty(value) || float.Parse(value) >= 0)
+                {
+                    try{
+                        var q = int.Parse(value);
+                        _CQuantity = value;
+                        mtht = ((int.Parse(CQuantity) * float.Parse(puht) - float.Parse(value))).ToString();
+                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX) - float.Parse(value)).ToString();
+                    }catch{
+
+                    }
                 }
             }
         }
@@ -96,24 +110,27 @@ namespace PFE.PageModels
                 if (!string.IsNullOrWhiteSpace(value) || float.Parse(value) >= 0)
                 {
                     _puht = value;
-                        try{
+                    try
+                    {
                         puttc = (float.Parse(value) * (1 + tva.TVATAUX) / 100).ToString();
                         mtht = (int.Parse(CQuantity) * float.Parse(value)).ToString();
                         mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                        }catch{
-                            //_dialogService.ShowMessage("erreur", true);
-                        }                     
-                       
+                    }
+                    catch
+                    {
+                        //_dialogService.ShowMessage("erreur", true);
+                    }
+
                 }
+            }
         }
-        }
-    
+
         public string puttc
         {
             get;
             set;
         }
-      
+
         public string mtht
         {
             get;
@@ -155,6 +172,29 @@ namespace PFE.PageModels
             set;
         }
 
+
+        private string _remise;
+        public string remise
+        {
+            get{
+                return _remise;
+            }
+            set{
+                if(!String.IsNullOrWhiteSpace(value)){
+                    try{
+                        var r = float.Parse(value);
+                        _remise = value;
+                        mtht = ((int.Parse(CQuantity) * float.Parse(puht) - float.Parse(value))).ToString();
+                        mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX) - float.Parse(value)).ToString();
+
+                    }
+                    catch{
+
+                    }
+                }
+            }
+        }
+
         //save
         public ICommand validate => new Command(_validate);
         //get data by bc
@@ -193,13 +233,13 @@ namespace PFE.PageModels
         {
             if (!string.IsNullOrEmpty(barreCode))
             {
-                Task.Run(async() =>
+                Task.Run(async () =>
                 {
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         isEnabled = false;
                         isBusy = true;
-                    }); 
+                    });
                     try
                     {
                         article = await _restService.getArticlebyBC(barreCode);
@@ -220,14 +260,15 @@ namespace PFE.PageModels
                         artunite = await _restService.GetRTUNITE("A");
                         tva = await _restService.GetTVAbyTVACODE(artfamilles_cpt.TVACODE_FR.ToString());
                         if (selectedDepot != null)
-                            storeQuantity =  _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
+                            storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                         cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
-                        if(String.IsNullOrEmpty(CQuantity) || int.Parse(CQuantity) <= 0){
+                        if (String.IsNullOrEmpty(CQuantity) || int.Parse(CQuantity) <= 0)
+                        {
                             CQuantity = "1";
                         }
-                        mtht = ((int.Parse(CQuantity) * float.Parse(puht)) ).ToString();
+                        mtht = ((int.Parse(CQuantity) * float.Parse(puht))).ToString();
                         mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                        puttc = (float.Parse(puht) * (1 + tva.TVATAUX) ).ToString();
+                        puttc = (float.Parse(puht) * (1 + tva.TVATAUX)).ToString();
                     }
                     catch (Exception e)
                     {
@@ -246,20 +287,43 @@ namespace PFE.PageModels
         private IDialogService _dialogService;
         private void _validate(object obj)
         {
-            try{
+            try
+            {
+                try{
+                    var r = float.Parse(remise);
+                    var m = float.Parse(mtht);
+                }
+                catch{
+                    _dialogService.ShowMessage("veillew saisir un montant valide ", true);
+                    return;
+                }
+
+                try{
+                    var q = int.Parse(CQuantity);
+                }catch{
+                    _dialogService.ShowMessage("veillew saisir une quantitees valide ", true);
+                    return;
+                }
+
                 if (CQuantity == null || int.Parse(CQuantity) < 0)
                 {
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
-                mtht = ((int.Parse(CQuantity) * float.Parse(puht)) ).ToString();
-                mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
-                puttc = (float.Parse(puht) * (1 + tva.TVATAUX) ).ToString();
+                if (remise == null || float.Parse(remise) < 0)
+                {
+                    _dialogService.ShowMessage("remise doit etre superieur a 0", true);
+                    return;
+                }
+                mtht = ((int.Parse(CQuantity) * float.Parse(puht) - float.Parse(remise))).ToString();
+                mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX) - float.Parse(remise)).ToString();
+                puttc = (float.Parse(puht) * (1 + tva.TVATAUX)).ToString();
                 Buyelement buy = new Buyelement
                 {
                     depot = selectedDepot,
                     tva = tva,
                     articles = article,
+                    remise = remise,
                     artarifligne = artarifligne,
                     LivredQuantity = int.Parse(CQuantity),
                     mutht = float.Parse(puht),
@@ -279,11 +343,12 @@ namespace PFE.PageModels
                     }
                 });
             }
-            catch{
+            catch
+            {
                 _dialogService.ShowMessage("erreur inattendue ", true);
             }
 
-           
+
         }
 
         public ICommand quit => new Command(_quit);
@@ -311,14 +376,16 @@ namespace PFE.PageModels
                 //    isEnabled = false;
                 //    isBusy = true;
                 //});
-                try{
+                try
+                {
                     depo = await _restService.GetDepot("o");
                     selectedDepot = depo[0];
                 }
-                catch{
+                catch
+                {
 
                 }
-               
+
 
             });
             Device.BeginInvokeOnMainThread(() =>

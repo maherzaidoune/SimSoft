@@ -38,7 +38,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceVente() + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
@@ -138,7 +138,7 @@ namespace PFE.PageModels
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }
-            var comp = _restService.getPieceVente().Result + numligne;
+            var comp = _restService.getPieceVente().Result + 1;
             SellElements sell = new SellElements
             {
                 pIECE_NATURE = selectednature,

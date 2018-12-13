@@ -1186,7 +1186,7 @@ namespace PFE.Services
                     PLVLASTPA = 0, // just added
                     PLVPMP = 0, // just added
                     PLVCUMP = 0, // just added
-                    PLVREMISE_F = sell.remise != null ? sell.remise : "0",
+                    PLVREMISE_F = !String.IsNullOrEmpty(sell.remise) ? sell.remise : "0",
                     PLVREMISE_T = "P",
                     PLVREMISE_MNT = 0,
                     //"PLVSTOTID": 0,
@@ -1337,11 +1337,12 @@ namespace PFE.Services
                             &&
                     await PostPIECEVENTELIGNE(pvl))
                     {
-                        if(!sell.type.Equals("SBC")){
+                    await PostPieceVenteEcheace(pve);
+                    await PostPieceVenteTaxe(pvt);
+                    await PostReglementEcheace(re);
+                    if (!sell.type.Equals("SBC")){
                             await PostOperationStock(o);
-                            await PostPieceVenteEcheace(pve);
-                            await PostPieceVenteTaxe(pvt);
-                            await PostReglementEcheace(re);
+                            
                         }
                         return true;
                     }else{
@@ -1583,7 +1584,7 @@ namespace PFE.Services
         {
             try
             {
-                return (Constant.PIECEVENTEECHEANCE_url).WithTimeout(20).PostJsonAsync(pIECEVENTEECHEANCE).Result.IsSuccessStatusCode;
+                return (Constant.PIECEVENTEECHEANCE_url).PostJsonAsync(pIECEVENTEECHEANCE).Result.IsSuccessStatusCode;
             }
             catch (FlurlHttpException e)
             {
@@ -1728,7 +1729,7 @@ namespace PFE.Services
                     PLAPUNET = (int?)(buy.mtht / buy.LivredQuantity),
                     PLAMNTNET = (int)(buy.mutht * buy.LivredQuantity),
                     PLAMNTNETHT = (float)buy.mtht,
-                    PLAREMISE_F = buy.remise != null ? buy.remise : "0",//sell.remise,
+                    PLAREMISE_F = !String.IsNullOrEmpty(buy.remise) ? buy.remise : "0",//sell.remise,
                     PLAREMISE_T = "P",
                     PLAREMISE_MNT = 0,
                     PLAISIMPRIMABLE = "o",
@@ -1868,12 +1869,13 @@ namespace PFE.Services
                 await PostPIECEACHATLIGNE(pvl)
                )
             {
-                if (!buy.type.Equals("BBC"))
+                await PostPieceAchatEcheace(pve);
+                await PostPieceAchatTaxe(pvt);
+                await PostReglementEcheace(re);
+                    if (!buy.type.Equals("BBC"))
                 {
                     await PostOperationStock(o);
-                    await PostPieceAchatEcheace(pve);
-                    await PostPieceAchatTaxe(pvt);
-                    await PostReglementEcheace(re);
+                    
                 }
                 return true;
             }

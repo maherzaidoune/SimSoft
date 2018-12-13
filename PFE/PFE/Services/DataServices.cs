@@ -540,6 +540,7 @@ namespace PFE.Services
                         stocks[0].mttc = obj.mttc;
                         stocks[0].artarifligne = obj.artarifligne;
                         stocks[0].ligneUpdated = obj.ligneUpdated;
+                        stocks[0].remise = obj.remise;
                         stocks[0].numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count).ToString();
                     }else{
                         SellElements s = new SellElements();
@@ -551,6 +552,7 @@ namespace PFE.Services
                         s.numauto = stocks[0].numauto;
                         s.count = stocks[0].count;
 
+                        s.remise = obj.remise;
                         s.depot = obj.depot;
                         s.tva = obj.tva;
                         s.articles = obj.articles;
@@ -714,6 +716,7 @@ namespace PFE.Services
                         stocks[0].mutht = obj.mutht;
                         stocks[0].mtht = obj.mtht;
                         stocks[0].mttc = obj.mttc;
+                        stocks[0].remise = obj.remise;
                         stocks[0].artarifligne = obj.artarifligne;
                         stocks[0].ligneUpdated = obj.ligneUpdated;
                         stocks[0].numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count).ToString();
@@ -729,6 +732,7 @@ namespace PFE.Services
                         s.numauto = stocks[0].numauto;
                         s.count = stocks[0].count;
 
+                        s.remise = obj.remise;
                         s.depot = obj.depot;
                         s.tva = obj.tva;
                         s.articles = obj.articles;

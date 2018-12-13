@@ -41,7 +41,7 @@ namespace PFE.PageModels
                     try
                     {
                         numauto = await _restService.getNumPiecenyNature(value.PINID.ToString());
-                        var comp = await _restService.getPieceDiversNumber();
+                        var comp = await _restService.getPieceVente() + 1;
                         numeroPiece = numauto.NUMSOUCHE + "000" + comp;
 
                     }
