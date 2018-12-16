@@ -141,6 +141,10 @@ namespace PFE.PageModels
             get;
             set;
         }
+        public string unite
+        {
+            get; set;
+        }
         public string mtttc
         {
             get;
@@ -177,7 +181,7 @@ namespace PFE.PageModels
         public string remise
         {
             get{
-                return _remise;
+                return String.IsNullOrEmpty(_remise) ? "0" : _remise;
             }
             set{
                 if(!String.IsNullOrWhiteSpace(value)){
@@ -262,6 +266,7 @@ namespace PFE.PageModels
                         if (selectedDepot != null)
                             storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                         cond = (artunite.ARUCOEF > 0) ? artunite.ARUCOEF.ToString() : "0";
+                        unite = (artunite.ARUCOEF > 0) ? artunite.ARUINTITULE : " ";
                         if (String.IsNullOrEmpty(CQuantity) || int.Parse(CQuantity) <= 0)
                         {
                             CQuantity = "1";

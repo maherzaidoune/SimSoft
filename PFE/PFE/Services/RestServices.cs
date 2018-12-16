@@ -1263,8 +1263,8 @@ namespace PFE.Services
                     PICCODE = "V",
                     PINID = pv.PINID,
                     OPENATURESTOCK = "R",
-                    OPEQUANTITE = sell.type.Equals("SBR")? sell.LivredQuantity : -sell.LivredQuantity,
-                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
+                    OPEQUANTITE = (sell.type.Equals("SBR") || sell.type.Equals("SFR") ) ? sell.LivredQuantity : -sell.LivredQuantity,
+                    OPESENS = (int) ((sell.type.Equals("SBR") || sell.type.Equals("SFR") ) ? 1 : -1),
                     OPETYPE = "N",
                     OPEISMAJPA = "O",
                     OPEISBLOQUE = "N",
@@ -1285,7 +1285,7 @@ namespace PFE.Services
                     PCVID = (int?)pvl.PCVID,
                     PEVID = await getPIECEVENTEECHEANCE_PEVID() + 1 ,
                     PEVDATE = DateTime.Now,
-                    PEVMONTANT =  (int?)get_PCVMNTTTC(pvl.PCVID.ToString()).Result,
+                    PEVMONTANT =  (int?) get_PCVMNTTTC(pvl.PCVID.ToString()).Result,
                     PEVTAUX = 1,
                     RGTID = 2,
                     PEVISREGLE = "N",
@@ -1298,8 +1298,8 @@ namespace PFE.Services
                     CODETAXE = 10,
                     PTVBASETVA = pvl.PLVMNTNETHT,
                     PTVBASETVAESC = 0,
-                    PTVMNTTVA = (int?)sell.tva.TVATAUX * pvl.PLVMNTNETHT,
-                    PTVTAUXTVA = (int?)sell.tva.TVATAUX,
+                    PTVMNTTVA = (float?)sell.tva.TVATAUX * pvl.PLVMNTNETHT,
+                    PTVTAUXTVA = (float?)sell.tva.TVATAUX,
                     PTVBASETPF = 0,
                     PTVBASETPFESC = 0,
                     PTVMNTTPF = 0,
@@ -1822,6 +1822,8 @@ namespace PFE.Services
                     //opuint
 
                 };
+
+               
                 PIECEACHATECHEANCE pve = new PIECEACHATECHEANCE
                 {
                     PCAID = pvl.PCAID,
@@ -1840,8 +1842,8 @@ namespace PFE.Services
                    CODETAXE = 10,
                    PTABASETVA = pvl.PLAMNTNETHT,
                    PTABASETVAESC = 0,
-                   PTAMNTTVA = pvl.PLAMNTNETHT * (int?)buy.tva.TVATAUX,
-                   PTATAUXTVA = (int?)buy.tva.TVATAUX,
+                   PTAMNTTVA = (float?) pvl.PLAMNTNETHT * (int?)buy.tva.TVATAUX,
+                    PTATAUXTVA = (float?)buy.tva.TVATAUX,
                    PTABASETPF = 0,
                    PTABASETPFESC = 0,
                    PTAMNTTPF = 0,
