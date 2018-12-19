@@ -47,8 +47,8 @@
                         </Grid.ColumnDefinitions>
                            <Label BackgroundColor="#eceff1" Grid.Column="0" Text="Code " />
                            <Label BackgroundColor="#fafafa" Grid.Column="1" Text="Qté phy " />
-                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Prix unitaire " />
-                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Prix Total " />
+                           <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="Prix Total HT" />
+                           <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="Prix Total TTC" />
                         </Grid>
                  </ListView.Header>
                 
@@ -65,7 +65,7 @@
                             </Grid.ColumnDefinitions>
                                <Label BackgroundColor="#eceff1" Grid.Column="0" Text="{Binding articles.ARTID} " />
                                <Label BackgroundColor="#fafafa" Grid.Column="1" Text="{Binding LivredQuantity} " />
-                               <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="{Binding mutht}" />
+                               <Label BackgroundColor="#f5f5f5" Grid.Column="2" Text="{Binding mtht}" />
                                <Label BackgroundColor="#eeeeee" Grid.Column="3" Text="{Binding mttc}" />
                         </Grid>
                         </ViewCell>

@@ -1066,7 +1066,6 @@ namespace PFE.Services
                     PINCODE = sell.pIECE_NATURE.PINCODE,
                     EXEID = await getEXERCICE() + 1, // need to add exercice 
 
-
                     NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     //AFFID =  sell.affaire.AFFID,
                     //TRFID = sell.tiers != null ? int.Parse(sell.tiers.TRFID) : 0,
@@ -1108,9 +1107,6 @@ namespace PFE.Services
                     PCVCPTRELANCE = 0,
                     PCVCONDREGLEMENT = "Chèque à réception de facture",
                     //working
-
-
-
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
@@ -1141,8 +1137,7 @@ namespace PFE.Services
 
                     //working
 
-
-                   // PCVNBPTSCARTE = 0, //test
+                    // PCVNBPTSCARTE = 0, //test
                     //ANSID = 0, //test
                     //USRCREATE = Session.user.USRLOGIN,
                     //PCVISECOM = "N",
