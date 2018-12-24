@@ -83,7 +83,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#619ebe" EndColor="#6aa8c8" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter" IsVisible="{Binding isEnabled}" Command="{Binding save}" ></Button>
+                 <Button Image="save.png" TextColor="White"  BackgroundColor="Transparent" Text="Ajouter"  Command="{Binding save}" ></Button>
         </local:GradientButton>
         </Frame>
         
@@ -97,7 +97,7 @@
         Padding="0"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#665978" EndColor="#706482" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
-                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer" IsVisible="{Binding isEnabled}" Command="{Binding delete}" ></Button>
+                <Button Image="analyze.png" TextColor="White"  BackgroundColor="Transparent" Text="Supprimer"  Command="{Binding delete}" ></Button>
         </local:GradientButton>
         </Frame>
     </Grid>

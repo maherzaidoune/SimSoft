@@ -73,6 +73,7 @@ namespace PFE.Services
         Task<float> get_PCVMNTTTC(string PCVID);
         Task<float> get_PEAMONTANT(string PCAID);
         Task<depot> GetDepotbyARTdepot(int id);
+        Task<depot> getDepPrincipal();
         //Task<float> getPrix()
     }
 }

@@ -35,31 +35,42 @@ namespace PFE.PageModels
                     isEnabled = false;
                     isBusy = true;
                 });
-
-                foreach (Buyelement s in productList)
-                {
-                    if (!s.ligneUpdated)
+                try{
+                    foreach (Buyelement s in productList)
                     {
-                        productList.Remove(s);
-                    }
-                }
-                if(productList.Count>0){
-                    if (await _restservices.PostBuyElements(productList))
-                    {
-
-                        if (_dataService.RemoveBuyElements())
+                        if (!s.ligneUpdated)
                         {
-                            productList.Clear();
-                            _dialogService.ShowMessage("success", false);
+                            productList.Remove(s);
+                        }
+                    }
+                    if (productList.Count > 0)
+                    {
+                        if (await _restservices.PostBuyElements(productList))
+                        {
+
+                            if (_dataService.RemoveBuyElements())
+                            {
+                                productList.Clear();
+                                _dialogService.ShowMessage("success", false);
+                            }
+                            else
+                            {
+                                _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
+                            }
                         }
                         else
                         {
                             _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
                         }
-                    }else{
-                        _dialogService.ShowMessage("erreur , veuillez reessayer plus tard", true);
                     }
+                }catch{
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                 }
+
 
 
                 Device.BeginInvokeOnMainThread(() =>

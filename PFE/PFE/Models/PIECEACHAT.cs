@@ -33,11 +33,11 @@ namespace PFE.Models
         public int? PCANBPRINT { get; set; }
         public DateTime? PCADATEPRINT { get; set; }
         public int? MODID { get; set; }
-        public int? PCAMNTHT { get; set; }
-        public int? PCAMNTTTC { get; set; }
+        public float? PCAMNTHT { get; set; }
+        public float? PCAMNTTTC { get; set; }
         public int? PCAMNTAREGLER { get; set; }
         public int? PCAMNTACOMPTE { get; set; }
-        public int? PCAMNTTVA { get; set; }
+        public float? PCAMNTTVA { get; set; }
         public int? PCAMNTTPF { get; set; }
         public int? PCAMNTESCOMPTE { get; set; }
         public int? PCAMNTPORT { get; set; }

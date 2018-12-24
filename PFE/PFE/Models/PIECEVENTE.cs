@@ -37,11 +37,11 @@ namespace PFE.Models
         public int? PCVNBPRINT { get; set; }
         public DateTime?  PCVDATEPRint { get; set; }
         public int? MODID { get; set; }
-        public int? PCVMNTHT { get; set; }
-        public int? PCVMNTTTC { get; set; }
+        public float? PCVMNTHT { get; set; }
+        public float? PCVMNTTTC { get; set; }
         public int? PCVMNTAREGLER { get; set; }
         public int? PCVMNTACOMPTE { get; set; }
-        public int? PCVMNTTVA { get; set; }
+        public float? PCVMNTTVA { get; set; }
         public int? PCVMNTTPF { get; set; }
         public int? PCVMNTESCOMPTE { get; set; }
         public int? PCVMNTPORT { get; set; }

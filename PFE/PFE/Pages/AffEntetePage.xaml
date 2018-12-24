@@ -48,7 +48,6 @@
         CornerRadius="20"
         Margin="15"
         Padding="0"
-        IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#22bdaf" EndColor="#1db4a7" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
@@ -65,7 +64,6 @@
         CornerRadius="20"
         Margin="15"
         Padding="0"
-        IsVisible="{Binding isEnabled}"
         IsEnabled="{Binding isEnabled}"
         HorizontalOptions="Fill">
         <local:GradientButton  StartColor="#b71c1c" EndColor="#e52222" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">

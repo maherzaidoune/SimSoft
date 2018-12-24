@@ -15,7 +15,6 @@ namespace PFE.PageModels
     class SellLignePageModel : FreshMvvm.FreshBasePageModel
     {
         private IRestServices _restService;
-        public IList<depot> depo { get; set; }
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
         private depot _selectedDepo;
@@ -45,6 +44,11 @@ namespace PFE.PageModels
                         {
                             _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
                             storeQuantity = "0";
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                isBusy = false;
+                                isEnabled = true;
+                            });
                         }
                     }
                     Device.BeginInvokeOnMainThread(() =>
@@ -368,8 +372,7 @@ namespace PFE.PageModels
             {
                 try
                 {
-                    depo = await _restService.GetDepot("o");
-                    selectedDepot = depo[0];
+                    selectedDepot = await _restService.getDepPrincipal();
                 }
                 catch
                 {

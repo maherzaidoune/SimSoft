@@ -1035,37 +1035,27 @@ namespace PFE.Services
         {
             try
             {
+                float PCVMNTHT = 0;
+                float PCVMNTTC = 0;
+                float PCVMNTTVA = 0;
+                int q = 0;
                 foreach (SellElements s in sells)
                 {
-                    if(s.ligneUpdated == true){
-                        if (!await PostSellLigne(s, sells.Count))
-                            return false;
-                    }
+                    PCVMNTHT += s.mtht;
+                    PCVMNTTC += s.mttc;
+                    q += s.LivredQuantity;
                 }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                noInternetConnection(ex);
-                return false;
-            }
-        }
-
-        public async Task<bool> PostSellLigne(SellElements sell, int num)
-        {
-            try
-            {
-                PIECEVENTE pv = new PIECEVENTE
+                PCVMNTTVA = PCVMNTTC - PCVMNTHT;
+                var sell = sells[0];
+                PIECEVENTE pv = new PIECEVENTE   
                 {
                     PCVID = await getPieceVente() + 1,
                     PCVNUM = sell.numpiece, // a partir de piece nature 
-                    PCVNUMEXT =  sell.pIECE_NATURE.PINLIBELLE, // test 
+                    PCVNUMEXT = sell.pIECE_NATURE.PINLIBELLE, // test 
                     PITCODE = sell.pIECE_NATURE.PITCODE,
                     PINID = sell.pIECE_NATURE.PINID,
                     PINCODE = sell.pIECE_NATURE.PINCODE,
                     EXEID = await getEXERCICE() + 1, // need to add exercice 
-
                     NUMID = GetPIECE_PREF(sell.pIECE_NATURE.PINID.ToString()).Result.NUMID,
                     //AFFID =  sell.affaire.AFFID,
                     //TRFID = sell.tiers != null ? int.Parse(sell.tiers.TRFID) : 0,
@@ -1095,11 +1085,11 @@ namespace PFE.Services
                     PCVNBPRINT = 1,
                     PCVDATEPRint = DateTime.Now, // fix ?
                     MODID = 15, // fix ?
-                    PCVMNTHT = (int?)sell.mtht,
-                    PCVMNTTTC = (int?)sell.mttc,
+                    PCVMNTHT = PCVMNTHT,
+                    PCVMNTTTC = PCVMNTTC,
                     PCVMNTAREGLER = (int?)sell.mttc,
                     PCVMNTACOMPTE = 0,
-                    PCVMNTTVA = ((int?)(sell.mttc - sell.mtht)),
+                    PCVMNTTVA = PCVMNTTVA,
                     PCVMNTTPF = 0,
                     PCVMNTESCOMPTE = 0,
                     PCVMNTPORT = 0,
@@ -1110,7 +1100,7 @@ namespace PFE.Services
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = sell.tiers != null ?  sell.tiers.MEMOID : 0,
+                    MEMOID = sell.tiers != null ? sell.tiers.MEMOID : 0,
 
                     //working
                     PCVNBIMPRESSION = 0,
@@ -1127,7 +1117,7 @@ namespace PFE.Services
                     PCVDEBLIVRAISON = "t", //test
                     PCVDEBTRANSPORT = "t", //test
                     PCVCRITREGROUPE = "t", //test
-                    CAPID  = 0, //test
+                    CAPID = 0, //test
                     PCVVOLUME = 0,
                     PCVUNITEVOLUME = 1,
                     PCVISPIECEFRAIS = "N",
@@ -1146,12 +1136,97 @@ namespace PFE.Services
                     //"PCVOBJET": "string",
                     TIRID_CPT = sell.tiers != null ? sell.tiers.TIRID : 1
                 };
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = await getOperationStockNumber() + 1,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    //OPEINTITULE = sell.depot.DEPINTITULE,
+                    //USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = sell.articles.ARTID,
+                    DEPID = sell.depot.DEPID,
+                    //USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "V",
+                    PINID = pv.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = sell.type.Equals("SBR") ? q : -q,
+                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = pv.PCVID,
+                    PLID = await getPieceVenteLigne() + 1,
+                    CTMID = 0,
+                    TIRID = pv.TIRID,
+                    OPEREFPIECE = sell.numpiece,
+                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
+                    OPEPUNET = sell.mutht
+                    //opuint
+
+                };
+                PIECEVENTETAXES pvt = new PIECEVENTETAXES
+                {
+                    PCVID = pv.PCVID,
+                    CODETAXE = 10,
+                    PTVBASETVA = pv.PCVMNTTVA,
+                    PTVBASETVAESC = 0,
+                    PTVMNTTVA = (float?)sell.tva.TVATAUX * PCVMNTTVA,
+                    PTVTAUXTVA = (float?)sell.tva.TVATAUX,
+                    PTVBASETPF = 0,
+                    PTVBASETPFESC = 0,
+                    PTVMNTTPF = 0,
+                    PTVTAUXTPF = 0,
+                };
+                var reelQuantity = (float)GetARTDEPOTbyDepid(sell.articles.ARTID.ToString(), sell.depot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var Quantity = reelQuantity.ToString();
+                if (o.OPEQUANTITE < 0)
+                {
+                    if ((-1 * o.OPEQUANTITE) > int.Parse(Quantity))
+                    {
+                        DialogService d = new DialogService();
+                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
+                        return false;
+                    }
+                }
+                if (await PostPIECEVENTE(pv) && await PostPieceVenteTaxe(pvt)){
+                    if (!sell.type.Equals("SBC"))
+                    {
+                        await PostOperationStock(o);
+
+                    }
+                    foreach (SellElements s in sells)
+                    {
+                        if (s.ligneUpdated == true)
+                        {
+                            if (!await PostSellLigne(s, sells.Count))
+                                return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                noInternetConnection(ex);
+                return false;
+            }
+        }
+
+        public async Task<bool> PostSellLigne(SellElements sell, int num)
+        {
+            try
+            {
+
                 PRODUIT produit = await getProduitbyARTID(sell.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("2", "AFM");
                 PIECEVENTELIGNE pvl = new PIECEVENTELIGNE
                 {
                     PLVID = await getPieceVenteLigne() + 1, // to be verified
-                    PCVID = pv.PCVID,
+                    PCVID = await getPieceVente(),
                     PLVNUMLIGNE = sell.count, // just added
                     PLVTYPE = "L",
                     PLVDATE = DateTime.Now,
@@ -1244,62 +1319,20 @@ namespace PFE.Services
                     PLVISSTK = "O",
                     //"PLVCLF": "string"
                 };
-                OPERATIONSTOCK o = new OPERATIONSTOCK
-                {
-                    OPEID = await getOperationStockNumber() + 1,
-                    DATECREATE = DateTime.Now,
-                    DATEUPDATE = DateTime.Now,
-                    //OPEINTITULE = sell.depot.DEPINTITULE,
-                    //USRMODIF = "ADM",
-                    OPEDATE = DateTime.Now,
-                    ARTID = sell.articles.ARTID,
-                    DEPID = sell.depot.DEPID,
-                    //USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "V",
-                    PINID = pv.PINID,
-                    OPENATURESTOCK = "R",
-                    OPEQUANTITE = (sell.type.Equals("SBR") || sell.type.Equals("SFR") ) ? sell.LivredQuantity : -sell.LivredQuantity,
-                    OPESENS = (int) ((sell.type.Equals("SBR") || sell.type.Equals("SFR") ) ? 1 : -1),
-                    OPETYPE = "N",
-                    OPEISMAJPA = "O",
-                    OPEISBLOQUE = "N",
-                    SOCID = 1,
-                    OPEISCLOS = "N",
-                    PCID = pvl.PCVID,
-                    PLID = pvl.PLVID,
-                    CTMID = 0,
-                    TIRID = pv.TIRID,
-                    OPEREFPIECE = sell.numpiece,
-                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
-                    OPEPUNET = sell.mutht
-                    //opuint
 
-                };
                 PIECEVENTEECHEANCE pve = new PIECEVENTEECHEANCE
                 {
                     PCVID = (int?)pvl.PCVID,
                     PEVID = await getPIECEVENTEECHEANCE_PEVID() + 1 ,
                     PEVDATE = DateTime.Now,
-                    PEVMONTANT =  (int?) get_PCVMNTTTC(pvl.PCVID.ToString()).Result,
+                    PEVMONTANT =  sell.mttc ,  //(int?) get_PCVMNTTTC(pvl.PCVID.ToString()).Result,
                     PEVTAUX = 1,
                     RGTID = 2,
                     PEVISREGLE = "N",
                     PEVMNTREGLE = 0,
                     PITCODE = "F"
                 };
-                PIECEVENTETAXES pvt = new PIECEVENTETAXES
-                {
-                    PCVID = pvl.PCVID,
-                    CODETAXE = 10,
-                    PTVBASETVA = pvl.PLVMNTNETHT,
-                    PTVBASETVAESC = 0,
-                    PTVMNTTVA = (float?)sell.tva.TVATAUX * pvl.PLVMNTNETHT,
-                    PTVTAUXTVA = (float?)sell.tva.TVATAUX,
-                    PTVBASETPF = 0,
-                    PTVBASETPFESC = 0,
-                    PTVMNTTPF = 0,
-                    PTVTAUXTPF = 0,
-                };
+
                 REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
                 {
                     ECHID = await getREGLEMENTECHEANCE_ECHID() + 1,
@@ -1316,29 +1349,14 @@ namespace PFE.Services
                     ECHDATE = DateTime.Now,
                     PITCODE = "F"
                 };
-                var reelQuantity = (float)GetARTDEPOTbyDepid(sell.articles.ARTID.ToString(), sell.depot.DEPID.ToString()).Result.ARDSTOCKREEL;
-                var Quantity = reelQuantity.ToString();
-                if (o.OPEQUANTITE < 0)
-                {
-                    if ((-1 * o.OPEQUANTITE) > int.Parse(Quantity))
-                    {
-                        DialogService d = new DialogService();
-                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
-                        return false;
-                    }
-                }
 
-                if (await PostPIECEVENTE(pv)
-                            &&
+
+                if (
                     await PostPIECEVENTELIGNE(pvl))
                     {
                     await PostPieceVenteEcheace(pve);
-                    await PostPieceVenteTaxe(pvt);
+
                     await PostReglementEcheace(re);
-                    if (!sell.type.Equals("SBC")){
-                            await PostOperationStock(o);
-                            
-                        }
                         return true;
                     }else{
                     return false;
@@ -1627,10 +1645,25 @@ namespace PFE.Services
             return false;
         }
 
-        public async Task<bool> PostBuyElement(Buyelement buy, int num)
+       
+
+        public async Task<bool> PostBuyElements(IList<Buyelement> buys)
         {
             try
             {
+                float PCAMNTHT = 0;
+                float PCAMNTTC = 0;
+                float PCAMNTTVA = 0;
+                int q = 0;
+                foreach (Buyelement s in buys)
+                {
+                    PCAMNTHT += s.mtht;
+                    PCAMNTTC += s.mttc;
+                    q += s.LivredQuantity;
+                }
+                PCAMNTTVA = PCAMNTTC - PCAMNTHT;
+                var buy = buys[0];
+
                 PIECEACHAT pv = new PIECEACHAT
                 {
                     //working
@@ -1648,11 +1681,11 @@ namespace PFE.Services
                     PCAISPRINT = "N",// fix ?
                     PCANBPRINT = 1,
                     MODID = 15, // fix ?
-                    PCAMNTHT = (int?)buy.mtht,
-                    PCAMNTTTC = (int?)buy.mttc,
+                    PCAMNTHT = PCAMNTHT,
+                    PCAMNTTTC = PCAMNTTC,
                     PCAMNTAREGLER = (int?)buy.mttc,
                     PCAMNTACOMPTE = 0,
-                    PCAMNTTVA = ((int?)(buy.mttc - buy.mtht)),
+                    PCAMNTTVA = PCAMNTTVA,
                     PCAMNTTPF = 0,
                     PCAMNTESCOMPTE = 0,
                     PCAMNTPORT = 0,
@@ -1661,7 +1694,7 @@ namespace PFE.Services
                     //USRMODIF = Helper.Session.user.USRNOM,
                     DATEUPDATE = DateTime.Now,
                     DATECREATE = DateTime.Now,
-                    MEMOID = buy.tiers != null ? buy.tiers .MEMOID :  0,//sell.tiers.MEMOID,
+                    MEMOID = buy.tiers != null ? buy.tiers.MEMOID : 0,//sell.tiers.MEMOID,
                     PCANBIMPRESSION = 0,
                     SOCID = 67,
                     PCADATELIVRAISON = DateTime.Now,
@@ -1696,13 +1729,89 @@ namespace PFE.Services
                     PCAOBJET = "string",
                     TIRID_CPT = 0
                 };
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = await getOperationStockNumber() + 1,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = buy.articles.ARTID,
+                    DEPID = buy.depot.DEPID,
+                    //OPEINTITULE = buy.depot.DEPINTITULE,
+                    //USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "A",
+                    PINID = pv.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? q : -q,
+                    OPESENS = (int)(buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? 1 : -1),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = await getPieceAchat(),
+                    PLID = await getPieceAchatLigne() + 1,
+                    CTMID = 0,
+                    TIRID = pv.TIRID,
+                    OPEREFPIECE = buy.numpiece,
+                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
+                    OPEPUNET = buy.mutht
+                    //opuint
+
+                };
+                PIECEACHATTAXES pvt = new PIECEACHATTAXES
+                {
+                    PCAID = await getPieceAchat(),
+                    CODETAXE = 10,
+                    PTABASETVA = pv.PCAMNTTVA,
+                    PTABASETVAESC = 0,
+                    PTAMNTTVA = PCAMNTTVA * (float?)buy.tva.TVATAUX,
+                    PTATAUXTVA = (float?)buy.tva.TVATAUX,
+                    PTABASETPF = 0,
+                    PTABASETPFESC = 0,
+                    PTAMNTTPF = 0,
+                    PTATAUXTPF = 0
+                };
+
+                if (await PostPIECEACHAT(pv) && await PostPieceAchatTaxe(pvt))
+                {
+                    if (!buy.type.Equals("BBC"))
+                    {
+                        await PostOperationStock(o);
+
+                    }
+                    foreach (Buyelement s in buys)
+                    {
+                        if (s.ligneUpdated == true)
+                        {
+                            if (!await PostBuyElement(s, buys.Count))
+                                return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                noInternetConnection(ex);
+                return false;
+            }
+        }
+        public async Task<bool> PostBuyElement(Buyelement buy, int num)
+        {
+            try
+            {
+
                 PRODUIT produit = await getProduitbyARTID(buy.articles.ARTID.ToString(), "O");
                 ARTFAMILLES_CPT artfamilles = await GetARTFAMILLES_CPTbyARFID("2", "AFM");
                 PIECEACHATLIGNE pvl = new PIECEACHATLIGNE
                 {
 
                     PLAID = await getPieceAchatLigne() + 1, // to be verified
-                    PCAID = pv.PCAID,
+                    PCAID = await getPieceAchat(),
                     PLANUMLIGNE = 0, // just added
                     PLATYPE = "L",
                     PLADATE = DateTime.Now,
@@ -1745,10 +1854,10 @@ namespace PFE.Services
                     PLADENSITE = 0,
                     PIFID = 0,
 
-                                    
+
                     PLACOEFFUA = 0,
                     PLAIDORG = 0,
-                   
+
                     PLASTOTID = 0,
                     PLAPOIDS = 0,
                     PLAUNITEPOIDS = 0,
@@ -1756,8 +1865,8 @@ namespace PFE.Services
                     //PLACOMMENTAIRE = "string",
                     //PLANUMLOT = "string",
                     //PLANUMSERIE = "string",
-                    
-                    PLAFEFOFABRICATION = DateTime.Now    ,
+
+                    PLAFEFOFABRICATION = DateTime.Now,
                     PLAFEFOPEREMPTION = DateTime.Now,
                     PLAFEFODIVERS = "string",
                     TPFCODE1 = 0,
@@ -1778,7 +1887,7 @@ namespace PFE.Services
                     //"PLAD6": 0,
                     //"PLAD7": 0,
                     //"PLAD8": 0,
-                    
+
                     PLAFRAIS = 0,
                     PLAFRAISLG = 0,
                     PLAFRAISPC = 0,
@@ -1786,64 +1895,22 @@ namespace PFE.Services
                     //PLAFEFODIVERS2 = "string",
                     //PLAFEFODIVERS3 = "string",
                 };
-                OPERATIONSTOCK o = new OPERATIONSTOCK
-                {
-                    OPEID = await getOperationStockNumber() + 1,
-                    DATECREATE = DateTime.Now,
-                    DATEUPDATE = DateTime.Now,
-                    USRMODIF = "ADM",
-                    OPEDATE = DateTime.Now,
-                    ARTID = buy.articles.ARTID,
-                    DEPID = buy.depot.DEPID,
-                    //OPEINTITULE = buy.depot.DEPINTITULE,
-                    //USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "A",
-                    PINID = pv.PINID,
-                    OPENATURESTOCK = "R",
-                    OPEQUANTITE = buy.type.Equals("BBR") ? buy.LivredQuantity : -buy.LivredQuantity,
-                    OPESENS = (int)(buy.type.Equals("BBR") ? 1 : -1),
-                    OPETYPE = "N",
-                    OPEISMAJPA = "O",
-                    OPEISBLOQUE = "N",
-                    SOCID = 1,
-                    OPEISCLOS = "N",
-                    PCID = pvl.PCAID,
-                    PLID = pvl.PLAID,
-                    CTMID = 0,
-                    TIRID = pv.TIRID,
-                    OPEREFPIECE = buy.numpiece,
-                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
-                    OPEPUNET = buy.mutht
-                    //opuint
 
-                };
 
-               
+
                 PIECEACHATECHEANCE pve = new PIECEACHATECHEANCE
                 {
                     PCAID = pvl.PCAID,
                     PEAID = await getPIECEACHATECHEANCE_PEAID() + 1,
                     PEADATE = DateTime.Now,
-                    PEAMONTANT = await get_PEAMONTANT((pvl.PCAID).ToString()),
+                    PEAMONTANT = buy.mttc,  //await get_PEAMONTANT((pvl.PCAID).ToString()),
                     PEATAUX = 1,
                     RGTID = 2,
                     PEAISREGLE = "N",
                     PEAMNTREGLE = 0,
                     PITCODE = "F"
                 };
-                PIECEACHATTAXES pvt = new PIECEACHATTAXES
-                {
-                   PCAID = pvl.PCAID,
-                   CODETAXE = 10,
-                   PTABASETVA = pvl.PLAMNTNETHT,
-                   PTABASETVAESC = 0,
-                   PTAMNTTVA = (float?) pvl.PLAMNTNETHT * (int?)buy.tva.TVATAUX,
-                    PTATAUXTVA = (float?)buy.tva.TVATAUX,
-                   PTABASETPF = 0,
-                   PTABASETPFESC = 0,
-                   PTAMNTTPF = 0,
-                   PTATAUXTPF = 0
-                };
+
                 REGLEMENTECHEANCE re = new REGLEMENTECHEANCE
                 {
                     ECHID = await getREGLEMENTECHEANCE_ECHID() + 1,
@@ -1861,22 +1928,15 @@ namespace PFE.Services
                     PITCODE = "F"
                 };
 
-            if (await PostPIECEACHAT(pv)
-                            &&
-                await PostPIECEACHATLIGNE(pvl)
-               )
-            {
-                await PostPieceAchatEcheace(pve);
-                await PostPieceAchatTaxe(pvt);
-                await PostReglementEcheace(re);
-                    if (!buy.type.Equals("BBC"))
+                if (
+                    await PostPIECEACHATLIGNE(pvl)
+                   )
                 {
-                    await PostOperationStock(o);
-                    
+                    await PostPieceAchatEcheace(pve);
+                    await PostReglementEcheace(re);
+                    return true;
                 }
-                return true;
             }
-        }
             catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);
@@ -1885,28 +1945,6 @@ namespace PFE.Services
             }
             return false;
         }
-
-        public async Task<bool> PostBuyElements(IList<Buyelement> buy)
-        {
-            try
-            {
-                foreach (Buyelement s in buy)
-                {
-                    if(s.ligneUpdated == true){
-                        if (!await PostBuyElement(s, buy.Count))
-                            return false;
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                noInternetConnection(ex);
-                return false;
-            }
-        }
-
         public async Task<int> getPieceAchat()
         {
             try
@@ -2093,6 +2131,25 @@ namespace PFE.Services
                
                 return  (Constant.depot_url + "?filter[where][DEPID]=" + id).WithTimeout(20).GetJsonAsync<IList<depot>>().Result[0];
                
+            }
+            catch (FlurlHttpException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                noInternetConnection(e);
+            }
+            catch (Exception ex)
+            {
+                noInternetConnection(ex);
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public async  Task<depot> getDepPrincipal()
+        {
+            try
+            {
+                return (Constant.depot_url + "?filter[where][DEPISPRINCIPAL]=O").WithTimeout(20).GetJsonAsync<IList<depot>>().Result[0];
             }
             catch (FlurlHttpException e)
             {

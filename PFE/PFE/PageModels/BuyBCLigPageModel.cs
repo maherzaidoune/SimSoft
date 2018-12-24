@@ -23,11 +23,7 @@ namespace PFE.PageModels
             get;
             set;
         }
-        public IList<depot> depo
-        {
-            get;
-            set;
-        }
+     
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
         private depot _selectedDepo;
@@ -55,6 +51,9 @@ namespace PFE.PageModels
                         }
                         catch
                         {
+                            _selectedDepo = null;
+                            storeQuantity = "0";
+                            _dialogService.ShowMessage("ce produit n'existe pas dans ce depo", true);
                             Device.BeginInvokeOnMainThread(() =>
                             {
                                 isBusy = false;
@@ -383,12 +382,15 @@ namespace PFE.PageModels
                 //});
                 try
                 {
-                    depo = await _restService.GetDepot("o");
-                    selectedDepot = depo[0];
+                    selectedDepot = await _restService.getDepPrincipal();
                 }
                 catch
                 {
-
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    });
                 }
 
 
