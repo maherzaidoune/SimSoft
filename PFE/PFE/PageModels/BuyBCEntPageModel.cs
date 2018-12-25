@@ -172,7 +172,7 @@ namespace PFE.PageModels
 
         private void _validate(object obj)
         {
-            if(tiers == null){
+            if(Tiers == null){
                 _dialogService.ShowMessage("veuillez choisir un tiers ", true);
                 return;
             }

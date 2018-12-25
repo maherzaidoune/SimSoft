@@ -527,9 +527,11 @@ namespace PFE.Services
                 }
 
 
-                if(stocks.Count > 0){
+                if (stocks.Count > 0)
+                {
 
-                    if(stocks[0].ligneUpdated == false){
+                    if (stocks[0].ligneUpdated == false)
+                    {
                         stocks[0].depot = obj.depot;
                         stocks[0].tva = obj.tva;
                         stocks[0].articles = obj.articles;
@@ -542,7 +544,9 @@ namespace PFE.Services
                         stocks[0].ligneUpdated = obj.ligneUpdated;
                         stocks[0].remise = obj.remise;
                         stocks[0].numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count).ToString();
-                    }else{
+                    }
+                    else
+                    {
                         SellElements s = new SellElements();
                         s.pIECE_NATURE = stocks[0].pIECE_NATURE;
                         s.type = stocks[0].type;
@@ -563,7 +567,7 @@ namespace PFE.Services
                         s.mttc = obj.mttc;
                         s.artarifligne = obj.artarifligne;
                         s.ligneUpdated = obj.ligneUpdated;
-                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count + stocks.Count).ToString();
+                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks.Count).ToString();
                         stocks.Add(s);
                     }
 
@@ -743,10 +747,10 @@ namespace PFE.Services
                         s.mttc = obj.mttc;
                         s.artarifligne = obj.artarifligne;
                         s.ligneUpdated = obj.ligneUpdated;
-                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + (stocks[0].count + stocks.Count).ToString();
+                        s.numpiece = stocks[0].numauto.NUMSOUCHE + "000" + ( stocks.Count).ToString();
                         stocks.Add(s);
                     }
-                  
+
                 }
                 return addBuyElementsAsync(stocks);
             }

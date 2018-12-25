@@ -280,7 +280,7 @@ namespace PFE.PageModels
                         mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                         puttc = (float.Parse(puht) * (1 + tva.TVATAUX)).ToString();
                     }
-                    catch (Exception e)
+                    catch
                     {
                         _dialogService.ShowMessage("code a barre indisponible ", true);
                         //Console.WriteLine(e.StackTrace);

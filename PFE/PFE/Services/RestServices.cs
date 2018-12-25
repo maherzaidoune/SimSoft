@@ -1288,8 +1288,8 @@ namespace PFE.Services
                     PICCODE = "V",
                     PINID = sell.pIECE_NATURE.PINID,
                     OPENATURESTOCK = "R",
-                    OPEQUANTITE = sell.type.Equals("SBR") ? sell.LivredQuantity : -sell.LivredQuantity,
-                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
+                    OPEQUANTITE = sell.type.Equals("SBR") || sell.type.Equals("SFR") ? sell.LivredQuantity : -sell.LivredQuantity,
+                    OPESENS = (int)(sell.type.Equals("SBR") || sell.type.Equals("SFR") ? 1 : -1),
                     OPETYPE = "N",
                     OPEISMAJPA = "O",
                     OPEISBLOQUE = "N",
@@ -1732,7 +1732,7 @@ namespace PFE.Services
 
                 PIECEACHATTAXES pvt = new PIECEACHATTAXES
                 {
-                    PCAID = await getPieceAchat(),
+                    PCAID = await getPieceAchat() + 1,
                     CODETAXE = 10,
                     PTABASETVA = pv.PCAMNTTVA,
                     PTABASETVAESC = 0,
