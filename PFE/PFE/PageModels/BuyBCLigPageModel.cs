@@ -23,6 +23,12 @@ namespace PFE.PageModels
             get;
             set;
         }
+
+        public IList<depot> depo
+        {
+            get;
+            set;
+        }
      
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
@@ -276,7 +282,13 @@ namespace PFE.PageModels
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e.StackTrace);
+                        _dialogService.ShowMessage("code a barre indisponible ", true);
+                        //Console.WriteLine(e.StackTrace);
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            isBusy = false;
+                            isEnabled = true;
+                        });
                     }
                     Device.BeginInvokeOnMainThread(() =>
                     {
@@ -382,15 +394,14 @@ namespace PFE.PageModels
                 //});
                 try
                 {
-                    selectedDepot = await _restService.getDepPrincipal();
+                    var d = await _restService.getDepPrincipal();
+                    (depo = new List<depot>()).Add(d);
+                    selectedDepot = depo[0];
+
                 }
                 catch
                 {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        isBusy = false;
-                        isEnabled = true;
-                    });
+
                 }
 
 

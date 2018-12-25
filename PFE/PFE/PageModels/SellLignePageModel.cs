@@ -17,6 +17,11 @@ namespace PFE.PageModels
         private IRestServices _restService;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
+        public IList<depot> depo
+        {
+            get;
+            set;
+        }
         private depot _selectedDepo;
         public depot selectedDepot
         {
@@ -270,6 +275,7 @@ namespace PFE.PageModels
                     }
                     catch (Exception e)
                     {
+                        _dialogService.ShowMessage("code a barre indisponible ", true);
                         Console.WriteLine(e.StackTrace);
                         Device.BeginInvokeOnMainThread(() =>
                         {
@@ -318,6 +324,8 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
+                if (selectedDepot != null)
+                    storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
                 else if (int.Parse(LivredQuantity) > int.Parse(storeQuantity))
                 {
                     _dialogService.ShowMessage("quantite colise doit etre inferieur a celle du depot", true);
@@ -372,7 +380,9 @@ namespace PFE.PageModels
             {
                 try
                 {
-                    selectedDepot = await _restService.getDepPrincipal();
+                    var d = await _restService.getDepPrincipal();
+                    (depo = new List<depot>()).Add(d);
+                    selectedDepot = depo[0];
                 }
                 catch
                 {

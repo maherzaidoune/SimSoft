@@ -43,7 +43,18 @@
                     <Label Text="Désignation  " VerticalOptions="Center"/>
                     <Entry Placeholder="Désignation.." WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40"  Text="{Binding designation , Mode=TwoWay}"  />
                 </StackLayout>
-               
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="5">
+                    <Label Text="Dépôt  "  VerticalOptions="Center"/>
+                    <controls:CustomPicker HorizontalOptions="EndAndExpand"
+                     HeightRequest="40" 
+                     WidthRequest="200"
+                     ItemsSource="{Binding depo}"
+                     ItemDisplayBinding="{Binding DEPINTITULE}"
+                     SelectedItem="{Binding selectedDepot,Mode=TwoWay}"
+                     Image="down"
+                     Title="Dépôt">
+                    </controls:CustomPicker>
+                </StackLayout>
                 <StackLayout  Orientation="Horizontal" HorizontalOptions="Fill" Padding="5" IsEnabled="false">
                     <Label Text="Quantité en stock  " VerticalOptions="Center"/>
                     <Entry Placeholder="Quantité en stock" WidthRequest="195" PlaceholderColor="Gray" FontSize="18" HorizontalOptions="EndAndExpand" Margin="5" HeightRequest="40" Keyboard="Numeric" Text="{Binding storeQuantity , Mode=TwoWay}"  />

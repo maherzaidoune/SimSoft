@@ -1136,37 +1136,7 @@ namespace PFE.Services
                     //"PCVOBJET": "string",
                     TIRID_CPT = sell.tiers != null ? sell.tiers.TIRID : 1
                 };
-                OPERATIONSTOCK o = new OPERATIONSTOCK
-                {
-                    OPEID = await getOperationStockNumber() + 1,
-                    DATECREATE = DateTime.Now,
-                    DATEUPDATE = DateTime.Now,
-                    //OPEINTITULE = sell.depot.DEPINTITULE,
-                    //USRMODIF = "ADM",
-                    OPEDATE = DateTime.Now,
-                    ARTID = sell.articles.ARTID,
-                    DEPID = sell.depot.DEPID,
-                    //USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "V",
-                    PINID = pv.PINID,
-                    OPENATURESTOCK = "R",
-                    OPEQUANTITE = sell.type.Equals("SBR") ? q : -q,
-                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
-                    OPETYPE = "N",
-                    OPEISMAJPA = "O",
-                    OPEISBLOQUE = "N",
-                    SOCID = 1,
-                    OPEISCLOS = "N",
-                    PCID = pv.PCVID,
-                    PLID = await getPieceVenteLigne() + 1,
-                    CTMID = 0,
-                    TIRID = pv.TIRID,
-                    OPEREFPIECE = sell.numpiece,
-                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
-                    OPEPUNET = sell.mutht
-                    //opuint
 
-                };
                 PIECEVENTETAXES pvt = new PIECEVENTETAXES
                 {
                     PCVID = pv.PCVID,
@@ -1180,23 +1150,8 @@ namespace PFE.Services
                     PTVMNTTPF = 0,
                     PTVTAUXTPF = 0,
                 };
-                var reelQuantity = (float)GetARTDEPOTbyDepid(sell.articles.ARTID.ToString(), sell.depot.DEPID.ToString()).Result.ARDSTOCKREEL;
-                var Quantity = reelQuantity.ToString();
-                if (o.OPEQUANTITE < 0)
-                {
-                    if ((-1 * o.OPEQUANTITE) > int.Parse(Quantity))
-                    {
-                        DialogService d = new DialogService();
-                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
-                        return false;
-                    }
-                }
-                if (await PostPIECEVENTE(pv) && await PostPieceVenteTaxe(pvt)){
-                    if (!sell.type.Equals("SBC"))
-                    {
-                        await PostOperationStock(o);
 
-                    }
+                if (await PostPIECEVENTE(pv) && await PostPieceVenteTaxe(pvt)){
                     foreach (SellElements s in sells)
                     {
                         if (s.ligneUpdated == true)
@@ -1319,7 +1274,37 @@ namespace PFE.Services
                     PLVISSTK = "O",
                     //"PLVCLF": "string"
                 };
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = await getOperationStockNumber() + 1,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    //OPEINTITULE = sell.depot.DEPINTITULE,
+                    //USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = sell.articles.ARTID,
+                    DEPID = sell.depot.DEPID,
+                    //USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "V",
+                    PINID = sell.pIECE_NATURE.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = sell.type.Equals("SBR") ? sell.LivredQuantity : -sell.LivredQuantity,
+                    OPESENS = (int)(sell.type.Equals("SBR") ? 1 : -1),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = await getPieceVente(),
+                    PLID = await getPieceVenteLigne() ,
+                    CTMID = 0,
+                    TIRID = sell.tiers != null ? sell.tiers.TIRID : 1,
+                    OPEREFPIECE = sell.numpiece,
+                    OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
+                    OPEPUNET = sell.mutht
+                    //opuint
 
+                };
                 PIECEVENTEECHEANCE pve = new PIECEVENTEECHEANCE
                 {
                     PCVID = (int?)pvl.PCVID,
@@ -1349,11 +1334,26 @@ namespace PFE.Services
                     ECHDATE = DateTime.Now,
                     PITCODE = "F"
                 };
-
+                var reelQuantity = (float)GetARTDEPOTbyDepid(sell.articles.ARTID.ToString(), sell.depot.DEPID.ToString()).Result.ARDSTOCKREEL;
+                var Quantity = reelQuantity.ToString();
+                if (o.OPEQUANTITE < 0)
+                {
+                    if ((-1 * o.OPEQUANTITE) > int.Parse(Quantity))
+                    {
+                        DialogService d = new DialogService();
+                        d.ShowMessage("quantite doit etre inferieure a " + Quantity, true);
+                        return false;
+                    }
+                }
 
                 if (
                     await PostPIECEVENTELIGNE(pvl))
                     {
+                    if (!sell.type.Equals("SBC"))
+                    {
+                        await PostOperationStock(o);
+
+                    }
                     await PostPieceVenteEcheace(pve);
 
                     await PostReglementEcheace(re);
@@ -1709,7 +1709,7 @@ namespace PFE.Services
                     TYNCODE = "t", //test
                     PCAID = await getPieceAchat() + 1,
                     PCANUM = buy.numpiece.ToString(),
-                    PCANUMEXT = "string",
+                    PCANUMEXT = buy.pIECE_NATURE.PINLIBELLE,
                     PITCODE = buy.pIECE_NATURE.PITCODE,
                     PINID = buy.pIECE_NATURE.PINID,
                     PINCODE = buy.pIECE_NATURE.PINCODE,
@@ -1729,37 +1729,7 @@ namespace PFE.Services
                     PCAOBJET = "string",
                     TIRID_CPT = 0
                 };
-                OPERATIONSTOCK o = new OPERATIONSTOCK
-                {
-                    OPEID = await getOperationStockNumber() + 1,
-                    DATECREATE = DateTime.Now,
-                    DATEUPDATE = DateTime.Now,
-                    USRMODIF = "ADM",
-                    OPEDATE = DateTime.Now,
-                    ARTID = buy.articles.ARTID,
-                    DEPID = buy.depot.DEPID,
-                    //OPEINTITULE = buy.depot.DEPINTITULE,
-                    //USRMODIF = Helper.Session.user.USRNOM,
-                    PICCODE = "A",
-                    PINID = pv.PINID,
-                    OPENATURESTOCK = "R",
-                    OPEQUANTITE = buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? q : -q,
-                    OPESENS = (int)(buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? 1 : -1),
-                    OPETYPE = "N",
-                    OPEISMAJPA = "O",
-                    OPEISBLOQUE = "N",
-                    SOCID = 1,
-                    OPEISCLOS = "N",
-                    PCID = await getPieceAchat(),
-                    PLID = await getPieceAchatLigne() + 1,
-                    CTMID = 0,
-                    TIRID = pv.TIRID,
-                    OPEREFPIECE = buy.numpiece,
-                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
-                    OPEPUNET = buy.mutht
-                    //opuint
 
-                };
                 PIECEACHATTAXES pvt = new PIECEACHATTAXES
                 {
                     PCAID = await getPieceAchat(),
@@ -1776,11 +1746,7 @@ namespace PFE.Services
 
                 if (await PostPIECEACHAT(pv) && await PostPieceAchatTaxe(pvt))
                 {
-                    if (!buy.type.Equals("BBC"))
-                    {
-                        await PostOperationStock(o);
-
-                    }
+                  
                     foreach (Buyelement s in buys)
                     {
                         if (s.ligneUpdated == true)
@@ -1812,7 +1778,7 @@ namespace PFE.Services
 
                     PLAID = await getPieceAchatLigne() + 1, // to be verified
                     PCAID = await getPieceAchat(),
-                    PLANUMLIGNE = 0, // just added
+                    PLANUMLIGNE = buy.count, // just added
                     PLATYPE = "L",
                     PLADATE = DateTime.Now,
                     DEPID = buy.depot.DEPID,
@@ -1927,11 +1893,46 @@ namespace PFE.Services
                     ECHDATE = DateTime.Now,
                     PITCODE = "F"
                 };
+                OPERATIONSTOCK o = new OPERATIONSTOCK
+                {
+                    OPEID = await getOperationStockNumber() + 1,
+                    DATECREATE = DateTime.Now,
+                    DATEUPDATE = DateTime.Now,
+                    USRMODIF = "ADM",
+                    OPEDATE = DateTime.Now,
+                    ARTID = buy.articles.ARTID,
+                    DEPID = buy.depot.DEPID,
+                    //OPEINTITULE = buy.depot.DEPINTITULE,
+                    //USRMODIF = Helper.Session.user.USRNOM,
+                    PICCODE = "A",
+                    PINID = buy.pIECE_NATURE.PINID,
+                    OPENATURESTOCK = "R",
+                    OPEQUANTITE = buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? buy.LivredQuantity : -buy.LivredQuantity,
+                    OPESENS = (int)(buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? 1 : -1),
+                    OPETYPE = "N",
+                    OPEISMAJPA = "O",
+                    OPEISBLOQUE = "N",
+                    SOCID = 1,
+                    OPEISCLOS = "N",
+                    PCID = await getPieceAchat(),
+                    PLID = await getPieceAchatLigne() ,
+                    CTMID = 0,
+                    TIRID = buy.tiers != null ? buy.tiers.TIRID : 1,
+                    OPEREFPIECE = buy.numpiece,
+                    OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
+                    OPEPUNET = buy.mutht
+                    //opuint
 
+                };
                 if (
                     await PostPIECEACHATLIGNE(pvl)
                    )
                 {
+                    if (!buy.type.Equals("BBC"))
+                    {
+                        await PostOperationStock(o);
+
+                    }
                     await PostPieceAchatEcheace(pve);
                     await PostReglementEcheace(re);
                     return true;

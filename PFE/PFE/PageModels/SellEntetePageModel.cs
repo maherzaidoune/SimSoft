@@ -139,10 +139,14 @@ namespace PFE.PageModels
 
         private IDataServices _dataService;
         private IDialogService _dialogService;
-        private int numligne;
 
         private void _validate(object obj)
         {
+            if (Tiers == null)
+            {
+                _dialogService.ShowMessage("veuillez choisir un tiers ", true);
+                return;
+            }
             var comp = _restService.getPieceVente().Result;
             SellElements sell = new SellElements
             {
