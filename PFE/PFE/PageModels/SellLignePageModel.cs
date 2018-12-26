@@ -324,13 +324,18 @@ namespace PFE.PageModels
                     _dialogService.ShowMessage("quantite doit etre superieur a 0", true);
                     return;
                 }
-                if (selectedDepot != null)
+                if (selectedDepot != null){
                     storeQuantity = _restService.GetARTDEPOTbyDepid(article.ARTID.ToString(), _selectedDepo.DEPID.ToString()).Result.ARDSTOCKREEL.ToString();
-                else if (int.Parse(LivredQuantity) > int.Parse(storeQuantity))
-                {
-                    _dialogService.ShowMessage("quantite colise doit etre inferieur a celle du depot", true);
+                    if (int.Parse(LivredQuantity) > int.Parse(storeQuantity))
+                    {
+                        _dialogService.ShowMessage("quantite colise doit etre inferieur a celle du depot", true);
+                        return;
+                    }
+                }else{
+                    _dialogService.ShowMessage("depo invalid", true);
                     return;
                 }
+                    
                 mtht = ((int.Parse(LivredQuantity) * float.Parse(pht)) - float.Parse(remise)).ToString();
                 mtttc = (float.Parse(mtht) * (1 + tva.TVATAUX)).ToString();
                 SellElements sell = new SellElements

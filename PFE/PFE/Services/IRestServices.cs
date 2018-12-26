@@ -35,8 +35,8 @@ namespace PFE.Services
         Task<bool> PostToStock(IList<StockLigne> stocks);
         Task<bool> PostStockElement(StockLigne obj);
         Task<bool> PostSellLignes(IList<SellElements> sells);
-        Task<bool> PostSellLigne(SellElements sell, int num);
-        Task<bool> PostBuyElement(Buyelement buy,int num);
+        Task<bool> PostSellLigne(SellElements sell, int num,string numpiece);
+        Task<bool> PostBuyElement(Buyelement buy,int num,string numpiece);
         Task<bool> PostBuyElements(IList<Buyelement> buy);
         Task<bool> PostPIECEVENTELIGNE(PIECEVENTELIGNE pIECEVENTELIGNE);
         Task<bool> PostPIECEVENTE(PIECEVENTE pIECEVENTE);

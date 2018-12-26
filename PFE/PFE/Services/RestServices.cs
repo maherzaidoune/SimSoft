@@ -1156,7 +1156,7 @@ namespace PFE.Services
                     {
                         if (s.ligneUpdated == true)
                         {
-                            if (!await PostSellLigne(s, sells.Count))
+                            if (!await PostSellLigne(s, sells.Count,sell.numpiece))
                                 return false;
                         }
                     }
@@ -1171,7 +1171,7 @@ namespace PFE.Services
             }
         }
 
-        public async Task<bool> PostSellLigne(SellElements sell, int num)
+        public async Task<bool> PostSellLigne(SellElements sell, int num,string numpiece)
         {
             try
             {
@@ -1299,7 +1299,7 @@ namespace PFE.Services
                     PLID = await getPieceVenteLigne() ,
                     CTMID = 0,
                     TIRID = sell.tiers != null ? sell.tiers.TIRID : 1,
-                    OPEREFPIECE = sell.numpiece,
+                    OPEREFPIECE = numpiece,
                     OPEINTITULE = sell.tiers != null ? sell.tiers.TIRSOCIETE : "",
                     OPEPUNET = sell.mutht
                     //opuint
@@ -1751,7 +1751,7 @@ namespace PFE.Services
                     {
                         if (s.ligneUpdated == true)
                         {
-                            if (!await PostBuyElement(s, buys.Count))
+                            if (!await PostBuyElement(s, buys.Count,buy.numpiece))
                                 return false;
                         }
                     }
@@ -1766,7 +1766,7 @@ namespace PFE.Services
                 return false;
             }
         }
-        public async Task<bool> PostBuyElement(Buyelement buy, int num)
+        public async Task<bool> PostBuyElement(Buyelement buy, int num,string numpiece)
         {
             try
             {
@@ -1907,8 +1907,8 @@ namespace PFE.Services
                     PICCODE = "A",
                     PINID = buy.pIECE_NATURE.PINID,
                     OPENATURESTOCK = "R",
-                    OPEQUANTITE = buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? buy.LivredQuantity : -buy.LivredQuantity,
-                    OPESENS = (int)(buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") ? 1 : -1),
+                    OPEQUANTITE = buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") || buy.type.Equals("BRE") ? buy.LivredQuantity : -buy.LivredQuantity,
+                    OPESENS = (int)(buy.type.Equals("BBR") || buy.type.Equals("BBC") || buy.type.Equals("BFA") || buy.type.Equals("BFR") || buy.type.Equals("BRE") ? 1 : -1),
                     OPETYPE = "N",
                     OPEISMAJPA = "O",
                     OPEISBLOQUE = "N",
@@ -1918,7 +1918,7 @@ namespace PFE.Services
                     PLID = await getPieceAchatLigne() ,
                     CTMID = 0,
                     TIRID = buy.tiers != null ? buy.tiers.TIRID : 1,
-                    OPEREFPIECE = buy.numpiece,
+                    OPEREFPIECE = numpiece,
                     OPEINTITULE = buy.tiers != null ? buy.tiers.TIRSOCIETE : "",
                     OPEPUNET = buy.mutht
                     //opuint
